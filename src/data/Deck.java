@@ -6,8 +6,6 @@ import java.util.Random;
 public class Deck {
 
     private final ArrayList<Card> cards;
-    enum Value{two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace}
-    enum Suite{diamonds, hearts, spades, clubs}
 
     public Deck() {
         cards = new ArrayList<>();
@@ -28,6 +26,19 @@ public class Deck {
 
         Card card = cards.get(randomIndex);
         cards.remove(randomIndex);
+
+        return card;
+    }
+
+    public Card getCard(Suite suite, Value value) {
+        Card card = new Card();
+
+        for (Card c : cards) {
+            if (c.suite.equals(suite.name()) && c.valueAsString.equals(value.name())) {
+                card = c;
+                break;
+            }
+        }
 
         return card;
     }
