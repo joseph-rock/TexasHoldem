@@ -56,17 +56,6 @@ public class CardCollection {
     }
 
     /**
-     * Convert list of Card objects to list of Card.valueAsString objects
-     * */
-    public ArrayList<String> getValueStringList() {
-        ArrayList<String> valueStringList = new ArrayList<>();
-        for (Card card : cards) {
-            valueStringList.add(card.valueAsString);
-        }
-        return valueStringList;
-    }
-
-    /**
      * Convert list of Card objects to list of Card.value objects
      * */
     public ArrayList<Integer> getValueList() {
@@ -77,14 +66,28 @@ public class CardCollection {
         return valueList;
     }
 
-    public Map<Integer, Integer> pairValueCount() {
-        HashMap<Integer, Integer> countList = new HashMap<>();
-        for (int value : getValueList()) {
-            if (Collections.frequency(getValueList(), value) != 1) {
-                countList.put(value, Collections.frequency(getValueList(), value));
+    /**
+     * Convert list of Card objects to list of Card.valueAsString objects
+     * */
+    public ArrayList<String> getValueStringList() {
+        ArrayList<String> valueStringList = new ArrayList<>();
+        for (Card card : cards) {
+            valueStringList.add(card.valueAsString);
+        }
+        return valueStringList;
+    }
+
+    public Map<Integer, Integer> getValueFrequencyMap() {
+        HashMap<Integer, Integer> valueFrequencyMap = new HashMap<>();
+        ArrayList<Integer> valueList = getValueList();
+
+        for (int value : valueList) {
+            int frequency = Collections.frequency(valueList, value);
+            if (frequency != 1) {
+                valueFrequencyMap.put(value, frequency);
             }
         }
-        return countList;
+        return valueFrequencyMap;
     }
 
     public void removeSuitesExcept(String suite) {
@@ -96,8 +99,8 @@ public class CardCollection {
     }
 
     public void removeValueInRange(int min, int max) {
-        for (int i = min + 1; i < max; i++) {
-            removeValueEqualTo(i);
+        for (int value = min + 1; value < max; value++) {
+            removeValueEqualTo(value);
         }
     }
 
@@ -108,44 +111,36 @@ public class CardCollection {
         }
     }
 
-    public void removeLowCardsNot(int value) {
-        sortCollection();
-        int i = 0;
-        while (this.cards.size() > 5) {
-            if (cards.get(i).value != value) {
-                this.cards.remove(i);
-                continue;
-            }
-            i++;
-        }
-    }
-
     public void removeLowCardsNotIncludingPairs() {
         sortCollection();
-        Map<Integer, Integer> pairValues = pairValueCount();
+        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
 
-        for ( Card card : cards ) {
-            if ( this.cards.size() == 5 ) {
-                break;
-            }
-            if ( !pairValues.containsKey(card.value) ) {
-                this.cards.remove(card);
+        // Remove low non-pair
+        for ( int i = 0; i < cards.size(); i++ ) {
+            if ( !valueFrequency.containsKey(cards.get(i).value) && cards.size() > 5) {
+                this.cards.remove(cards.get(i));
+                i--;
             }
         }
 
-        if (Collections.frequency(pairValues.values(), 3) > 1) {
+        // if more than 5 cards, remove low pair
+        if (cards.size() > 5) {
+            for (int i = 0; i < cards.size(); i++) {
+                if (valueFrequency.get(cards.get(i).value) == 2 && cards.size() > 5) {
+                    this.cards.remove(cards.get(i));
+                    i--;
+                }
+            }
+        }
+
+        // if more than 5 cards, remove low 3 of a kind
+        if (cards.size() > 5) {
             removeLowCards();
-        }
-
-        for (int key : pairValues.keySet()) {
-            if (pairValues.get(key) == 3 ) {
-                removeLowCardsNot(key);
-                break;
-            }
         }
     }
 
     public void removeDuplicateValueCards() {
+        sortCollection();
         for (int i = cards.size() - 2; i >= 0; i--) {
             if ( cards.get(i).value == cards.get(i+1).value ) {
                 cards.remove(i+1);
