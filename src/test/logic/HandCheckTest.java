@@ -80,6 +80,20 @@ class HandCheckTest {
     }
 
     @org.junit.jupiter.api.Test
+    void checkStraightWithThreeOfAKind() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.ace) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.king) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.queen) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.jack) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.ten) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.ten) );
+        cards.addCard( deck.getCard(Suite.spades, Value.ten) );
+        HandCheck.check(cards);
+        assertEquals(4, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
     void checkFlush() {
         CardCollection cards = new CardCollection();
         cards.addCard( deck.getCard(Suite.hearts, Value.two) );
@@ -87,6 +101,34 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.four) );
         cards.addCard( deck.getCard(Suite.diamonds, Value.four) );
         cards.addCard( deck.getCard(Suite.hearts, Value.six) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
+        HandCheck.check(cards);
+        assertEquals(5, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkFlushWithThreeOfAKind() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.two) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.three) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.four) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.four) );
+        cards.addCard( deck.getCard(Suite.spades, Value.four) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
+        HandCheck.check(cards);
+        assertEquals(5, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkFlushWithStraightPresent() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.two) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.three) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.four) );
+        cards.addCard( deck.getCard(Suite.spades, Value.five) );
+        cards.addCard( deck.getCard(Suite.spades, Value.six) );
         cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
         HandCheck.check(cards);
