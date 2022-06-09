@@ -16,7 +16,7 @@ public class CardCollection {
         this.handScore = -1;
     }
 
-    public void addCardToCollection(Card card) {
+    public void addCard(Card card) {
         this.cards.add(card);
     }
 
@@ -30,6 +30,14 @@ public class CardCollection {
 
     public void sortCollection() {
         Collections.sort(this.cards);
+    }
+
+    public int getHandScore() {
+        return this.handScore;
+    }
+
+    public void setHandScore(int score) {
+        this.handScore = score;
     }
 
     public ArrayList<Card> getCards() {
@@ -69,7 +77,17 @@ public class CardCollection {
         return valueList;
     }
 
-    public void removeSuitesNotEqualTo(String suite) {
+    public Map<Integer, Integer> pairValueCount() {
+        HashMap<Integer, Integer> countList = new HashMap<>();
+        for (int value : getValueList()) {
+            if (Collections.frequency(getValueList(), value) != 1) {
+                countList.put(value, Collections.frequency(getValueList(), value));
+            }
+        }
+        return countList;
+    }
+
+    public void removeSuitesExcept(String suite) {
         this.cards.removeIf(card -> !Objects.equals(card.suite, suite));
     }
 
@@ -90,32 +108,41 @@ public class CardCollection {
         }
     }
 
-    public void removeLowCardsNotIncludingPairs() {
+    public void removeLowCardsNot(int value) {
         sortCollection();
-        Integer[] pairValues = findDuplicates().toArray(new Integer[0]);
-
         int i = 0;
-        while ( this.cards.size() > 5 ) {
-            if ( !Arrays.asList(pairValues).contains( this.cards.get(i).value ) ) {
+        while (this.cards.size() > 5) {
+            if (cards.get(i).value != value) {
                 this.cards.remove(i);
-                i--;
+                continue;
             }
             i++;
         }
     }
 
-    public Set<Integer> findDuplicates() {
+    public void removeLowCardsNotIncludingPairs() {
+        sortCollection();
+        Map<Integer, Integer> pairValues = pairValueCount();
 
-        Set<Integer> duplicates = new HashSet<>();
-        Set<Integer> uniques = new HashSet<>();
-
-        for(Integer value : getValueList()) {
-            if(!uniques.add(value)) {
-                duplicates.add(value);
+        for ( Card card : cards ) {
+            if ( this.cards.size() == 5 ) {
+                break;
+            }
+            if ( !pairValues.containsKey(card.value) ) {
+                this.cards.remove(card);
             }
         }
 
-        return duplicates;
+        if (Collections.frequency(pairValues.values(), 3) > 1) {
+            removeLowCards();
+        }
+
+        for (int key : pairValues.keySet()) {
+            if (pairValues.get(key) == 3 ) {
+                removeLowCardsNot(key);
+                break;
+            }
+        }
     }
 
     public void removeDuplicateValueCards() {
