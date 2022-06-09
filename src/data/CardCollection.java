@@ -1,9 +1,6 @@
 package data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class CardCollection {
     private ArrayList<Card> cards;
@@ -93,7 +90,34 @@ public class CardCollection {
         }
     }
 
-    // 0 1 2
+    public void removeLowCardsNotIncludingPairs() {
+        sortCollection();
+        Integer[] pairValues = findDuplicates().toArray(new Integer[0]);
+
+        int i = 0;
+        while ( this.cards.size() > 5 ) {
+            if ( !Arrays.asList(pairValues).contains( this.cards.get(i).value ) ) {
+                this.cards.remove(i);
+                i--;
+            }
+            i++;
+        }
+    }
+
+    public Set<Integer> findDuplicates() {
+
+        Set<Integer> duplicates = new HashSet<>();
+        Set<Integer> uniques = new HashSet<>();
+
+        for(Integer value : getValueList()) {
+            if(!uniques.add(value)) {
+                duplicates.add(value);
+            }
+        }
+
+        return duplicates;
+    }
+
     public void removeDuplicateValueCards() {
         for (int i = cards.size() - 2; i >= 0; i--) {
             if ( cards.get(i).value == cards.get(i+1).value ) {
