@@ -154,7 +154,7 @@ public class TexasHoldemGUI {
             case 3 -> riverBoard();
             case 4 -> {
                 revealBotCards();
-                printLog(game);
+                //printLog(game);
             }
             case 5 -> {
                 resetBoard();
@@ -165,18 +165,18 @@ public class TexasHoldemGUI {
         count++;
     }
 
-    public static void printLog(TexasHoldem game) {
-        ArrayList<Card> cardList;
-        for (Player player : game.getPlayers()) {
-            cardList = combineLists(player.getHand(), game.getCommunityCards());
-
-            System.out.println(player.getName());
-            System.out.printf("Is a straight: %b%n", HandCheck.isStraight(cardList));
-            System.out.printf("Is a flush: %b%n", HandCheck.isFlush(cardList));
-            System.out.printf("Has at least one pair: %b\n%n", HandCheck.isPair(cardList));
-        }
-        System.out.println();
-    }
+//    public static void printLog(TexasHoldem game) {
+//        ArrayList<Card> cardList;
+//        for (Player player : game.getPlayers()) {
+//            cardList = combineLists(player.getHand(), game.getCommunityCards());
+//
+//            System.out.println(player.getName());
+//            System.out.printf("Is a straight: %b%n", HandCheck.isStraight(cardList));
+//            System.out.printf("Is a flush: %b%n", HandCheck.isFlush(cardList));
+//            System.out.printf("Has at least one pair: %b\n%n", HandCheck.isPair(cardList));
+//        }
+//        System.out.println();
+//    }
 
     public static ArrayList<Card> combineLists(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
         ArrayList<Card> cardList = new ArrayList<>(playerCards);
