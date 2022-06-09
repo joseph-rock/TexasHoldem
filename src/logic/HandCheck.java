@@ -1,6 +1,7 @@
 package logic;
 
 import data.Card;
+import data.CardCollection;
 
 import java.util.*;
 
@@ -29,20 +30,41 @@ public class HandCheck {
      *  and determine the coresponding poker hand.
      */
     public static void check(ArrayList<Card> cardList) {
-        ArrayList<Card> checkList = new ArrayList<>(cardList);
-        Collections.sort(checkList);
+        //ArrayList<Card> checkList = new ArrayList<>(cardList);
+
+        CardCollection cards = new CardCollection(cardList);
+        cards.sortCollection();
 
         // Check for flush
-        isFlush(checkList);
+        if ( isFlush(cards) ) {
+            // Check for straight
+            if ( isStraight(cards) ) {
+                System.out.println("Straight Flush!");
+                cards.removeDuplicateValueCards();
+            } else {
+                System.out.println("Flush!");
+            }
+            cards.removeLowCards();
+            cards.printCards();
+            return;
+        }
 
         // check for straight
-        isStraight(checkList);
+        if ( isStraight(cards) ) {
+            cards.removeDuplicateValueCards();
+            cards.removeLowCards();
+            System.out.println("Straight!");
+            cards.printCards();
+            return;
+        }
 
         // Check 4 of a kind
 
         // Check full  house
 
         // Check flush
+
+        cards.printCards();
     }
 
     /** 
@@ -51,67 +73,57 @@ public class HandCheck {
      */
     public static void check(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
         ArrayList<Card> cardList = new ArrayList<>(playerCards);
-        cardList.addAll(communityCards);
+        cardList.addAll( new ArrayList<>(communityCards) );
         check(cardList);
     }
 
     /** */
-    public static Boolean isFlush(ArrayList<Card> checkList) {
+    public static Boolean isFlush(CardCollection cards) {
 
-        ArrayList<String> checkSuites = getSuiteList(checkList);
+        ArrayList<String> checkSuites = cards.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
 
         for (String suite : uniqueSuites) {
             if (Collections.frequency(checkSuites, suite) >= 5) {
-                bestFlushHand(checkList, suite);
+                cards.removeSuitesNotEqualTo(suite);
                 return true;
             }
         }
         return false;
     }
 
-    private static void bestFlushHand(ArrayList<Card> checkList, String suite) {
-        checkList.removeIf(card -> !Objects.equals(card.suite, suite));
-        while (checkList.size() > 5) {
-            checkList.remove(0);
-        }
-    }
-
     /** */
-    public static Boolean isStraight(ArrayList<Card> checkList) {
+    public static Boolean isStraight(CardCollection cards) {
 
         // Create HashSet with each Card.value
-        HashSet<Integer> valueSet = new HashSet<>(getValueList(checkList));
+        ArrayList<Integer> checkValues = cards.getValueList();
+        HashSet<Integer> uniqueValues = new HashSet<>(checkValues);
 
-        // Straight has to be 5 cards or more
-        if (valueSet.size() < 5) {
+        // Straight has to be 5 unique card values or more
+        if (uniqueValues.size() < 5) {
             return false;
         }
 
         // Manually check low straight (A, 2, 3, 4, 5)
-        if (valueSet.contains(12) && valueSet.contains(0) && valueSet.contains(1) && valueSet.contains(2) && valueSet.contains(3)) {
+        if (uniqueValues.contains(12) && uniqueValues.contains(0) && uniqueValues.contains(1) && uniqueValues.contains(2) && uniqueValues.contains(3)) {
+            cards.removeValueInRange(4, 12);
             return true;
         }
 
         // Actually disgusting
-        List<Integer> list = new ArrayList<>(valueSet);
-        Collections.sort(list);
-
-        for (int i = list.size() - 1; i >= 4; i--) {
-            if (       list.get(i)   - list.get(i-1) == 1 
-                    && list.get(i-1) - list.get(i-2) == 1
-                    && list.get(i-2) - list.get(i-3) == 1
-                    && list.get(i-3) - list.get(i-4) == 1) 
+        for (int i = checkValues.size() - 1; i >= 4; i--) {
+            if ( checkValues.get(i)   - checkValues.get(i-1) == 1
+                    && checkValues.get(i-1) - checkValues.get(i-2) == 1
+                    && checkValues.get(i-2) - checkValues.get(i-3) == 1
+                    && checkValues.get(i-3) - checkValues.get(i-4) == 1)
             {
+                cards.removeValueInRange(checkValues.get(i), 13);
+                cards.removeValueInRange(0, checkValues.get(i-4));
                 return true;
             }
         }
 
         return false;
-    }
-    
-    private static void bestStraightHand(ArrayList<Card> checkList, int value) {
-        // TODO: Make Work
     }
 
     public static Boolean isPair(ArrayList<Card> checkList) {
@@ -164,15 +176,6 @@ public class HandCheck {
         return false;
     }
 
-    /** Convert list of Card objects to list of Card.suite objects */
-    private static ArrayList<String> getSuiteList(ArrayList<Card> checkList) {
-        ArrayList<String> suiteList = new ArrayList<>();
-        for (Card card : checkList) {
-            suiteList.add(card.suite);
-        }
-        return suiteList;
-    }
-
     /** Convert list of Card objects to list of Card.valueAsString objects */
     private static ArrayList<String> getValueStringList(ArrayList<Card> checkList) {
         ArrayList<String> valueStringList = new ArrayList<>();
@@ -180,15 +183,6 @@ public class HandCheck {
             valueStringList.add(card.valueAsString);
         }
         return valueStringList;
-    }
-
-    /** Convert list of Card objects to list of Card.value objects */
-    private static ArrayList<Integer> getValueList(ArrayList<Card> checkList) {
-        ArrayList<Integer> suiteList = new ArrayList<>();
-        for (Card card : checkList) {
-            suiteList.add(card.value);
-        }
-        return suiteList;
     }
     
 }
