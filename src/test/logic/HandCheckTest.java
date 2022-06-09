@@ -1,10 +1,13 @@
-package logic;
+package test.logic;
 
 import data.*;
+import logic.HandCheck;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.testng.AssertJUnit.assertEquals;
 
 class HandCheckTest {
     Deck deck = new Deck();
@@ -19,6 +22,34 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.six) );
         cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
+        HandCheck.check(cards);
+        assertEquals(8, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkStraightFlushWithTwoPair() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.two) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.three) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.four) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.five) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.six) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.two) );
+        cards.addCard( deck.getCard(Suite.clubs, Value.three) );
+        HandCheck.check(cards);
+        assertEquals(8, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkStraightFlushWithThreeOfAKind() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.six) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.nine) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.ten) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.eight) );
+        cards.addCard( deck.getCard(Suite.clubs, Value.eight) );
         HandCheck.check(cards);
         assertEquals(8, cards.getHandScore());
     }
@@ -89,6 +120,20 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.diamonds, Value.ten) );
         cards.addCard( deck.getCard(Suite.hearts, Value.ten) );
         cards.addCard( deck.getCard(Suite.spades, Value.ten) );
+        HandCheck.check(cards);
+        assertEquals(4, cards.getHandScore());
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkStraightWithTwoPair() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.hearts, Value.seven) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.seven) );
+        cards.addCard( deck.getCard(Suite.diamonds, Value.eight) );
+        cards.addCard( deck.getCard(Suite.spades, Value.nine) );
+        cards.addCard( deck.getCard(Suite.spades, Value.ten) );
+        cards.addCard( deck.getCard(Suite.hearts, Value.jack) );
+        cards.addCard( deck.getCard(Suite.spades, Value.jack) );
         HandCheck.check(cards);
         assertEquals(4, cards.getHandScore());
     }
