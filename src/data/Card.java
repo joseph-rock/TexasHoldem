@@ -6,6 +6,12 @@ public class Card implements Comparable<Card>{
     final public String suite;
     final public String valueAsString;
 
+    public Card(){
+        this.value = -1;
+        this.suite = "";
+        this.valueAsString = "";
+    }
+
     public Card(int value, String suite, String valueAsString){
         this.value = value;
         this.suite = suite;
