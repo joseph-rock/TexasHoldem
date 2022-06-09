@@ -27,17 +27,15 @@ public class HandCheck {
 
     /** 
      *  Hand.check() will take a single ArrayList of 5 or more cards, 
-     *  and determine the coresponding poker hand.
+     *  and determine the corresponding poker hand.
      */
     public static void check(ArrayList<Card> cardList) {
-        //ArrayList<Card> checkList = new ArrayList<>(cardList);
-
         CardCollection cards = new CardCollection(cardList);
         cards.sortCollection();
 
         // Check for flush
         if ( isFlush(cards) ) {
-            // Check for straight
+            // Check for straight flush
             if ( isStraight(cards) ) {
                 System.out.println("Straight Flush!");
                 cards.removeDuplicateValueCards();
@@ -45,26 +43,25 @@ public class HandCheck {
                 System.out.println("Flush!");
             }
             cards.removeLowCards();
-            cards.printCards();
+            cards.printCards(); // TODO Remove
             return;
         }
 
         // check for straight
         if ( isStraight(cards) ) {
             cards.removeDuplicateValueCards();
-            cards.removeLowCards();
             System.out.println("Straight!");
-            cards.printCards();
+            cards.printCards(); // TODO Remove
             return;
         }
 
-        // Check 4 of a kind
+        // check for pairs
+        if ( isPair(cards) ) {
+            cards.removeLowCardsNotIncludingPairs();
+            cards.printCards(); // TODO Remove
+            return;
+        }
 
-        // Check full  house
-
-        // Check flush
-
-        cards.printCards();
     }
 
     /** 
@@ -105,7 +102,8 @@ public class HandCheck {
         }
 
         // Manually check low straight (A, 2, 3, 4, 5)
-        if (uniqueValues.contains(12) && uniqueValues.contains(0) && uniqueValues.contains(1) && uniqueValues.contains(2) && uniqueValues.contains(3)) {
+        if (uniqueValues.contains(12) && uniqueValues.contains(0) && uniqueValues.contains(1) &&
+                uniqueValues.contains(2) && uniqueValues.contains(3)) {
             cards.removeValueInRange(4, 12);
             return true;
         }
@@ -126,9 +124,9 @@ public class HandCheck {
         return false;
     }
 
-    public static Boolean isPair(ArrayList<Card> checkList) {
-        ArrayList<String> valueList = getValueStringList(checkList);
-        HashSet<String> valueSet = new HashSet<>(valueList);
+    public static Boolean isPair(CardCollection cards) {
+        ArrayList<Integer> valueList = cards.getValueList();
+        HashSet<Integer> valueSet = new HashSet<>(valueList);
 
         // No pairs
         if (valueSet.size() == 7) {
@@ -137,12 +135,13 @@ public class HandCheck {
 
         // Single pair
         if (valueSet.size() == 6) {
+            System.out.println("Pair");
             return true;
         }
         
         // List of pair frequency
         ArrayList<Integer> countList = new ArrayList<>();
-        for (String value : valueSet) {
+        for (int value : valueSet) {
             if (Collections.frequency(valueList, value) != 1) {
                 countList.add(Collections.frequency(valueList, value));
             }
@@ -174,15 +173,6 @@ public class HandCheck {
         }
         
         return false;
-    }
-
-    /** Convert list of Card objects to list of Card.valueAsString objects */
-    private static ArrayList<String> getValueStringList(ArrayList<Card> checkList) {
-        ArrayList<String> valueStringList = new ArrayList<>();
-        for (Card card : checkList) {
-            valueStringList.add(card.valueAsString);
-        }
-        return valueStringList;
     }
     
 }
