@@ -1,6 +1,5 @@
 package logic;
 
-import data.Card;
 import data.CardCollection;
 
 import java.util.*;
@@ -79,9 +78,8 @@ public class HandCheck {
 
     public static Boolean isStraight(CardCollection cards) {
 
-        // Create HashSet with each Card.value
-        ArrayList<Integer> checkValues = cards.getValueList();
-        HashSet<Integer> uniqueValues = new HashSet<>(checkValues);
+        // Create Set with each Card.value
+        Set<Integer> uniqueValues = new HashSet<>(cards.getValueList());
 
         // Straight has to be 5 unique card values or more
         if (uniqueValues.size() < 5) {
@@ -96,14 +94,15 @@ public class HandCheck {
         }
 
         // Actually disgusting
-        for (int i = checkValues.size() - 1; i >= 4; i--) {
-            if ( checkValues.get(i)   - checkValues.get(i-1) == 1
-                    && checkValues.get(i-1) - checkValues.get(i-2) == 1
-                    && checkValues.get(i-2) - checkValues.get(i-3) == 1
-                    && checkValues.get(i-3) - checkValues.get(i-4) == 1)
+        ArrayList<Integer> uniqueValueList = new ArrayList<>(uniqueValues);
+        for (int i = uniqueValueList.size() - 1; i >= 4; i--) {
+            if ( uniqueValueList.get(i)   - uniqueValueList.get(i-1) == 1
+                    && uniqueValueList.get(i-1) - uniqueValueList.get(i-2) == 1
+                    && uniqueValueList.get(i-2) - uniqueValueList.get(i-3) == 1
+                    && uniqueValueList.get(i-3) - uniqueValueList.get(i-4) == 1)
             {
-                cards.removeValueInRange(checkValues.get(i), 13);
-                cards.removeValueInRange(0, checkValues.get(i-4));
+                cards.removeValueInRange(uniqueValueList.get(i), 13);
+                cards.removeValueInRange(0, uniqueValueList.get(i-4));
                 return true;
             }
         }
@@ -112,7 +111,7 @@ public class HandCheck {
     }
 
     public static Boolean isPair(CardCollection cards) {
-        Map<Integer, Integer> countList = cards.pairValueCount();
+        Map<Integer, Integer> countList = cards.getValueFrequencyMap();
 
         // No pairs, check first to optimize
         if (countList.size() == 0) {
