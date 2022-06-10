@@ -31,6 +31,10 @@ public class CardCollection {
         this.cards.addAll(cards.getCards());
     }
 
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
     public void sortCollection() {
         Collections.sort(this.cards);
     }
@@ -118,32 +122,78 @@ public class CardCollection {
         }
     }
 
-    public void removeLowCardsNotIncludingPairs() {
-        sortCollection();
+    public void getBestHand() {
+        cards.sort(Collections.reverseOrder());
+
+        ArrayList<Card> bestHand = new ArrayList<>();
         Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
 
-        // Remove low non-pair
-        for ( int i = 0; i < cards.size(); i++ ) {
-            if ( !valueFrequency.containsKey(cards.get(i).value) && cards.size() > 5) {
-                this.cards.remove(cards.get(i));
-                i--;
+        // Creates best hand with 4 of a kind
+        if (valueFrequency.containsValue(4)) {
+            for ( Card card : cards ) {
+                if ( valueFrequency.getOrDefault(card.value, 0) == 4 ) {
+                    bestHand.add(card);
+                }
+            }
+
+            if (cards.get(0).value == bestHand.get(0).value) {
+                bestHand.add(cards.get(4));
+            }
+            else {
+                bestHand.add(cards.get(0));
             }
         }
 
-        // if more than 5 cards, remove low pair
-        if (cards.size() > 5) {
-            for (int i = 0; i < cards.size(); i++) {
-                if (valueFrequency.get(cards.get(i).value) == 2 && cards.size() > 5) {
-                    this.cards.remove(cards.get(i));
-                    i--;
+        // Build best hand with three of a kind present
+        else if ( valueFrequency.containsValue(3) ) {
+
+            // get highest three of a kind
+            for ( Card card : cards ) {
+                if ( valueFrequency.getOrDefault(card.value, 0) == 3 && bestHand.size() < 3 ) {
+                    bestHand.add(card);
+                }
+            }
+
+            // get highest pair or three of a kind converted to pair
+            for ( Card card : cards ) {
+                if ( valueFrequency.containsKey(card.value) && card.value != bestHand.get(0).value
+                        && bestHand.size() < 5 ) {
+                    bestHand.add(card);
+                }
+            }
+
+            // fill in with highest cards
+            if (bestHand.size() < 5) {
+                for (Card card : cards) {
+                    if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                        bestHand.add(card);
+                    }
                 }
             }
         }
 
-        // if more than 5 cards, remove low 3 of a kind
-        if (cards.size() > 5) {
-            removeLowCards();
+        // Build best hand with only pairs present
+        else if ( valueFrequency.containsValue(2) ) {
+            for ( Card card : cards ) {
+                if ( valueFrequency.getOrDefault(card.value, 0) == 2 && bestHand.size() < 4 ) {
+                    bestHand.add(card);
+                }
+            }
+            for (Card card : cards) {
+                if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                    bestHand.add(card);
+                }
+            }
         }
+
+        if (bestHand.size() != 0) {
+            setCards(bestHand);
+        }
+
+        // remove dupes or low cards
+        sortCollection();
+        removeDuplicateValueCards();
+        removeLowCards();
     }
 
     public void removeDuplicateValueCards() {
@@ -174,8 +224,9 @@ public class CardCollection {
 
     public void encodeTieBreakerWithPairs() {
         ArrayList<Integer> valueList = getValueList();
-        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
         valueList.sort(Collections.reverseOrder());
+
+        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
 
         int total = 0;
 
