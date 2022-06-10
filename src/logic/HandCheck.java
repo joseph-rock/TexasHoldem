@@ -33,7 +33,6 @@ public class HandCheck {
             if ( isStraight(cards) ) {
                 cards.setHandScore(8);
                 System.out.println("Straight Flush!");
-                cards.encodeTieBreakerNoPairs();
                 cards.removeDuplicateValueCards();
             } else {
                 cards.setHandScore(5);
@@ -54,6 +53,7 @@ public class HandCheck {
         // check for pairs
         else if ( isPair(cards) ) {
             cards.removeLowCardsNotIncludingPairs();
+            cards.encodeTieBreakerWithPairs();
         }
 
         // high card
