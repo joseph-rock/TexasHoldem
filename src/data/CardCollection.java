@@ -155,7 +155,6 @@ public class CardCollection {
         }
     }
 
-    //TODO encode edge cases correctly
     public void encodeTieBreakerNoPairs() {
         ArrayList<Integer> valueList = getValueList();
         valueList.sort(Collections.reverseOrder());
@@ -165,6 +164,7 @@ public class CardCollection {
             total = total * 10 + value;
         }
 
+        // Actually disgusting
         if (total == 145432) {
             total = 5432;
         }
@@ -175,12 +175,32 @@ public class CardCollection {
     public void encodeTieBreakerWithPairs() {
         ArrayList<Integer> valueList = getValueList();
         Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
-
         valueList.sort(Collections.reverseOrder());
 
         int total = 0;
+
         for (int value : valueList) {
-            total = total * 10 + value;
+            if ( valueFrequency.getOrDefault(value, 0) == 4 ) {
+                total = total * 10 + value;
+            }
+        }
+
+        for (int value : valueList) {
+            if ( valueFrequency.getOrDefault(value, 0) == 3 ) {
+                total = total * 10 + value;
+            }
+        }
+
+        for (int value : valueList) {
+            if ( valueFrequency.getOrDefault(value, 0) == 2 ) {
+                total = total * 10 + value;
+            }
+        }
+
+        for (int value : valueList) {
+            if ( !valueFrequency.containsKey(value) ) {
+                total = total * 10 + value;
+            }
         }
 
         this.handTieBreaker = total;
