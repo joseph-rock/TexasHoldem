@@ -80,7 +80,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
         HandCheck.check(cards);
         assertEquals(4, cards.getHandScore());
-        assertEquals(87654, cards.getHandScore());
+        assertEquals(87654, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test

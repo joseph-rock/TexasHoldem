@@ -106,7 +106,7 @@ public class CardCollection {
     }
 
     public void removeValueInRange(int min, int max) {
-        for (int value = min + 1; value < max; value++) {
+        for (int value = min; value < max; value++) {
             removeValueEqualTo(value);
         }
     }
@@ -160,13 +160,9 @@ public class CardCollection {
         ArrayList<Integer> valueList = getValueList();
         valueList.sort(Collections.reverseOrder());
 
-//        if (aceIsLow) {
-//            valueList.remove(0);
-//        }
-
         int total = 0;
         for (int value : valueList) {
-            total = total * 10 + (value + 2);
+            total = total * 10 + value;
         }
 
         if (total == 145432) {
@@ -184,7 +180,7 @@ public class CardCollection {
 
         int total = 0;
         for (int value : valueList) {
-            total = total * 10 + (value + 2);
+            total = total * 10 + value;
         }
 
         this.handTieBreaker = total;

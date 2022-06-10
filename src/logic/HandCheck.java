@@ -91,9 +91,9 @@ public class HandCheck {
         }
 
         // Manually check low straight (A, 2, 3, 4, 5)
-        if (uniqueValues.contains(12) && uniqueValues.contains(0) && uniqueValues.contains(1) &&
-                uniqueValues.contains(2) && uniqueValues.contains(3)) {
-            cards.removeValueInRange(4, 12);
+        if (uniqueValues.contains(14) && uniqueValues.contains(2) && uniqueValues.contains(3) &&
+                uniqueValues.contains(4) && uniqueValues.contains(5)) {
+            cards.removeValueInRange(6, 14);
             cards.removeDuplicateValueCards();
             return true;
         }
@@ -106,8 +106,8 @@ public class HandCheck {
                     && uniqueValueList.get(i-2) - uniqueValueList.get(i-3) == 1
                     && uniqueValueList.get(i-3) - uniqueValueList.get(i-4) == 1)
             {
-                cards.removeValueInRange(uniqueValueList.get(i), 13);
-                cards.removeValueInRange(0, uniqueValueList.get(i-4));
+                cards.removeValueInRange(uniqueValueList.get(i) + 1, 15);
+                cards.removeValueInRange(2, uniqueValueList.get(i-4));
                 cards.removeDuplicateValueCards();
                 return true;
             }
