@@ -2,11 +2,7 @@ package test.logic;
 
 import data.*;
 import logic.HandCheck;
-import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.testng.AssertJUnit.assertEquals;
 
 class HandCheckTest {
@@ -24,6 +20,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
         HandCheck.check(cards);
         assertEquals(8, cards.getHandScore());
+        assertEquals(87654, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test
@@ -38,6 +35,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.clubs, Value.three) );
         HandCheck.check(cards);
         assertEquals(8, cards.getHandScore());
+        assertEquals(65432, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test
@@ -52,6 +50,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.clubs, Value.eight) );
         HandCheck.check(cards);
         assertEquals(8, cards.getHandScore());
+        assertEquals(109876, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test
@@ -66,6 +65,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.diamonds, Value.eight) );
         HandCheck.check(cards);
         assertEquals(8, cards.getHandScore());
+        assertEquals(154320, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test
@@ -80,6 +80,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
         HandCheck.check(cards);
         assertEquals(4, cards.getHandScore());
+        assertEquals(87654, cards.getHandScore());
     }
 
     @org.junit.jupiter.api.Test
@@ -94,6 +95,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.hearts, Value.eight) );
         HandCheck.check(cards);
         assertEquals(4, cards.getHandScore());
+        assertEquals(5432, cards.getHandTieBreaker());
     }
 
     @org.junit.jupiter.api.Test
