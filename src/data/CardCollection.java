@@ -115,7 +115,7 @@ public class CardCollection {
         }
     }
 
-    public void removeLowCards() {
+    private void removeLowCards() {
         sortCollection();
         while (this.cards.size() > 5) {
             this.cards.remove(0);
@@ -188,12 +188,13 @@ public class CardCollection {
 
         if (bestHand.size() != 0) {
             setCards(bestHand);
+            sortCollection();
+        } else {
+            // remove dupes or low cards
+            sortCollection();
+            removeDuplicateValueCards();
+            removeLowCards();
         }
-
-        // remove dupes or low cards
-        sortCollection();
-        removeDuplicateValueCards();
-        removeLowCards();
     }
 
     public void removeDuplicateValueCards() {
