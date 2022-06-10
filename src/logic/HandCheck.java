@@ -33,32 +33,31 @@ public class HandCheck {
             if ( isStraight(cards) ) {
                 cards.setHandScore(8);
                 System.out.println("Straight Flush!");
-                cards.removeDuplicateValueCards();
             } else {
                 cards.setHandScore(5);
                 System.out.println("Flush!");
             }
-            cards.removeLowCards();
+            cards.getBestHand();
             cards.encodeTieBreakerNoPairs();
         }
 
         // check for straight
         else if ( isStraight(cards) ) {
-            cards.removeDuplicateValueCards();
             cards.setHandScore(4);
+            cards.getBestHand();
             cards.encodeTieBreakerNoPairs();
             System.out.println("Straight!");
         }
 
         // check for pairs
         else if ( isPair(cards) ) {
-            cards.removeLowCardsNotIncludingPairs();
+            cards.getBestHand();
             cards.encodeTieBreakerWithPairs();
         }
 
         // high card
         else {
-            cards.removeLowCards();
+            cards.getBestHand();
             cards.setHandScore(0);
             cards.encodeTieBreakerNoPairs();
             System.out.println("High Card");
