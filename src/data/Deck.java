@@ -15,7 +15,7 @@ public class Deck {
     private void makeDeck() {
         for (Suite suite : Suite.values()){
             for (Value value : Value.values()) {
-                cards.add( new Card(value.ordinal(), suite.name(), value.name()) );
+                cards.add( new Card(value.ordinal() + 2, suite.name(), value.name()) );
             }
         } 
     }
