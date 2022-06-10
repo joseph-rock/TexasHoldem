@@ -33,18 +33,21 @@ public class HandCheck {
             if ( isStraight(cards) ) {
                 cards.setHandScore(8);
                 System.out.println("Straight Flush!");
+                cards.encodeTieBreakerNoPairs();
                 cards.removeDuplicateValueCards();
             } else {
                 cards.setHandScore(5);
                 System.out.println("Flush!");
             }
             cards.removeLowCards();
+            cards.encodeTieBreakerNoPairs();
         }
 
         // check for straight
         else if ( isStraight(cards) ) {
             cards.removeDuplicateValueCards();
             cards.setHandScore(4);
+            cards.encodeTieBreakerNoPairs();
             System.out.println("Straight!");
         }
 
@@ -57,6 +60,7 @@ public class HandCheck {
         else {
             cards.removeLowCards();
             cards.setHandScore(0);
+            cards.encodeTieBreakerNoPairs();
             System.out.println("High Card");
         }
         cards.printCards(); // TODO Remove
@@ -90,6 +94,7 @@ public class HandCheck {
         if (uniqueValues.contains(12) && uniqueValues.contains(0) && uniqueValues.contains(1) &&
                 uniqueValues.contains(2) && uniqueValues.contains(3)) {
             cards.removeValueInRange(4, 12);
+            cards.removeDuplicateValueCards();
             return true;
         }
 
@@ -103,6 +108,7 @@ public class HandCheck {
             {
                 cards.removeValueInRange(uniqueValueList.get(i), 13);
                 cards.removeValueInRange(0, uniqueValueList.get(i-4));
+                cards.removeDuplicateValueCards();
                 return true;
             }
         }
