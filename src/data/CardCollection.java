@@ -5,15 +5,18 @@ import java.util.*;
 public class CardCollection {
     private ArrayList<Card> cards;
     private int handScore;
+    private int handTieBreaker;
 
     public CardCollection() {
         this.cards = new ArrayList<>();
         this.handScore = -1;
+        this.handTieBreaker = -1;
     }
 
     public CardCollection(ArrayList<Card> cardList) {
         this.cards = new ArrayList<>(cardList);
         this.handScore = -1;
+        this.handTieBreaker = -1;
     }
 
     public void addCard(Card card) {
@@ -34,6 +37,10 @@ public class CardCollection {
 
     public int getHandScore() {
         return this.handScore;
+    }
+
+    public int getHandTieBreaker() {
+        return this.handTieBreaker;
     }
 
     public void setHandScore(int score) {
@@ -146,6 +153,41 @@ public class CardCollection {
                 cards.remove(i+1);
             }
         }
+    }
+
+    //TODO encode edge cases correctly
+    public void encodeTieBreakerNoPairs() {
+        ArrayList<Integer> valueList = getValueList();
+        valueList.sort(Collections.reverseOrder());
+
+//        if (aceIsLow) {
+//            valueList.remove(0);
+//        }
+
+        int total = 0;
+        for (int value : valueList) {
+            total = total * 10 + (value + 2);
+        }
+
+        if (total == 145432) {
+            total = 5432;
+        }
+
+        this.handTieBreaker = total;
+    }
+
+    public void encodeTieBreakerWithPairs() {
+        ArrayList<Integer> valueList = getValueList();
+        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
+
+        valueList.sort(Collections.reverseOrder());
+
+        int total = 0;
+        for (int value : valueList) {
+            total = total * 10 + (value + 2);
+        }
+
+        this.handTieBreaker = total;
     }
 
     public void printCards() {
