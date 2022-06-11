@@ -73,7 +73,7 @@ public class TexasHoldemGUI {
         frame.add(playerPanelList.get(5), getGBC(3, 3, 1, 1));
 
         // community cards
-        communityPanel.displayCards(game.communityCards);
+        communityPanel.displayCards(game.communityCards.getCards());
         frame.add(communityPanel, getGBC(1, 1, 2, 2));
         
         frame.revalidate();
@@ -106,8 +106,8 @@ public class TexasHoldemGUI {
     public void dealBoard() {
         game.dealPlayers();
         Player human = game.getPlayer(0);
-        Card c1 = human.getHand().get(0);
-        Card c2 = human.getHand().get(1);
+        Card c1 = human.getHand().getCard(0);
+        Card c2 = human.getHand().getCard(1);
         playerPanelList.get(0).displayCards(c1, c2);
 
         for (int i = 1; i < game.numberOfPlayers(); i++) {
@@ -140,8 +140,8 @@ public class TexasHoldemGUI {
     public void revealBotCards() {
         for (int i = 1; i < game.numberOfPlayers(); i++) {
             Player bot = game.getPlayer(i);
-            Card c1 = bot.getHand().get(0);
-            Card c2 = bot.getHand().get(1);
+            Card c1 = bot.getHand().getCard(0);
+            Card c2 = bot.getHand().getCard(1);
             playerPanelList.get(i).displayCards(c1, c2);
         }
     }
@@ -154,6 +154,7 @@ public class TexasHoldemGUI {
             case 3 -> riverBoard();
             case 4 -> {
                 revealBotCards();
+                game.getWinner();
                 //printLog(game);
             }
             case 5 -> {
