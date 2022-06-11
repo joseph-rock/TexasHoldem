@@ -8,23 +8,23 @@ public class Player {
 
     private String name;
     private int chipCount;
-    private ArrayList<Card> hand;
+    private CardCollection hand;
 
     public Player() {
         this.name = RandomName.getName();
         this.chipCount = 500;
-        this.hand  = new ArrayList<>();
+        this.hand  = new CardCollection();
     }
 
     public void addCard(Card card) {
-        hand.add(card);
+        hand.addCard(card);
     }
 
     public void resetHand() {
-        this.hand = new ArrayList<>();
+        this.hand = new CardCollection();
     }
     
-    public ArrayList<Card> getHand() {
+    public CardCollection getHand() {
         return hand;
     }
 
