@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class TexasHoldem {
 
     public ArrayList<Player> players;
-    public ArrayList<Card> communityCards;
+    public CardCollection communityCards;
     public Deck deck;
 
     public TexasHoldem(int numPlayers) {
         this.players = new ArrayList<>();
-        this.communityCards = new ArrayList<>();
+        this.communityCards = new CardCollection();
         this.deck = new Deck();
         addPlayers(numPlayers);
         getPlayer(0).setName("Player");
@@ -37,7 +37,7 @@ public class TexasHoldem {
     }
 
     public ArrayList<Card> getCommunityCards() {
-        return communityCards;
+        return communityCards.getCards();
     }
 
     public void dealPlayers() {
@@ -49,7 +49,7 @@ public class TexasHoldem {
 
     private void dealCommunity(int numCards) {
         for (int i = 0; i < numCards; i++) {
-            communityCards.add(deck.dealCard());
+            communityCards.addCard(deck.dealCard());
         }
     }
 
@@ -65,12 +65,37 @@ public class TexasHoldem {
         dealCommunity(1);
     }
 
+    public void getWinner() {
+        ArrayList<Player> winners = new ArrayList<>();
+
+        CardCollection bestHand = new CardCollection();
+
+        for (Player player : players) {
+            CardCollection playerHand = player.getHand();
+            playerHand.addCollection(communityCards);
+            HandCheck.check(playerHand);
+
+            if (playerHand.isBetterHand(bestHand)) {
+                bestHand = playerHand;
+                winners = new ArrayList<>();
+                winners.add(player);
+            } else if (playerHand.isDraw(bestHand)) {
+                winners.add(player);
+            }
+        }
+
+        for (Player winner : winners) {
+            System.out.println(winner.getName());
+            winner.getHand().printCards();
+        }
+    }
+
     /** Reset all player hands, reset community cards, create new deck. */
     public void resetRound() {
         for (Player player : players) {
             player.resetHand();
         }
-        this.communityCards = new ArrayList<>();
+        this.communityCards = new CardCollection();
         this.deck = new Deck();
     }
 
