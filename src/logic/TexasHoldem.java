@@ -67,7 +67,6 @@ public class TexasHoldem {
 
     public void getWinner() {
         ArrayList<Player> winners = new ArrayList<>();
-
         CardCollection bestHand = new CardCollection();
 
         for (Player player : players) {
