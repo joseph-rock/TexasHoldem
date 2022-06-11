@@ -38,28 +38,28 @@ public class HandCheck {
                 System.out.println("Flush!");
             }
             cards.getBestHand();
-            cards.encodeTieBreakerNoPairs();
+            cards.encodeHand();
         }
 
         // check for straight
         else if ( isStraight(cards) ) {
             cards.setHandScore(4);
             cards.getBestHand();
-            cards.encodeTieBreakerNoPairs();
+            cards.encodeHand();
             System.out.println("Straight!");
         }
 
         // check for pairs
         else if ( isPair(cards) ) {
             cards.getBestHand();
-            cards.encodeTieBreakerWithPairs();
+            cards.encodeHand();
         }
 
         // high card
         else {
             cards.getBestHand();
             cards.setHandScore(0);
-            cards.encodeTieBreakerNoPairs();
+            cards.encodeHand();
             System.out.println("High Card");
         }
         cards.printCards(); // TODO Remove
