@@ -5,18 +5,18 @@ import java.util.*;
 public class CardCollection {
     private ArrayList<Card> cards;
     private int handScore;
-    private int handTieBreaker;
+    private String handTieBreaker;
 
     public CardCollection() {
         this.cards = new ArrayList<>();
         this.handScore = -1;
-        this.handTieBreaker = -1;
+        this.handTieBreaker = "";
     }
 
     public CardCollection(ArrayList<Card> cardList) {
         this.cards = new ArrayList<>(cardList);
         this.handScore = -1;
-        this.handTieBreaker = -1;
+        this.handTieBreaker = "";
     }
 
     public void addCard(Card card) {
@@ -43,7 +43,7 @@ public class CardCollection {
         return this.handScore;
     }
 
-    public int getHandTieBreaker() {
+    public String getHandTieBreaker() {
         return this.handTieBreaker;
     }
 
@@ -206,56 +206,64 @@ public class CardCollection {
         }
     }
 
-    public void encodeTieBreakerNoPairs() {
-        ArrayList<Integer> valueList = getValueList();
-        valueList.sort(Collections.reverseOrder());
-
-        int total = 0;
-        for (int value : valueList) {
-            total = total * 10 + value;
-        }
-
-        // Actually disgusting
-        if (total == 145432) {
-            total = 5432;
-        }
-
-        this.handTieBreaker = total;
-    }
-
-    public void encodeTieBreakerWithPairs() {
+    public void encodeHand() {
         ArrayList<Integer> valueList = getValueList();
         valueList.sort(Collections.reverseOrder());
 
         Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
+        StringBuilder encodedHand = new StringBuilder();
 
-        int total = 0;
+        // Encodes pairs
+        if (valueFrequency.size() != 0) {
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 4) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
 
-        for (int value : valueList) {
-            if ( valueFrequency.getOrDefault(value, 0) == 4 ) {
-                total = total * 10 + value;
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 3) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 2) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+
+            for (int value : valueList) {
+                if (!valueFrequency.containsKey(value)) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
             }
         }
 
-        for (int value : valueList) {
-            if ( valueFrequency.getOrDefault(value, 0) == 3 ) {
-                total = total * 10 + value;
+        // No pairs present
+        else {
+            for (int value : valueList) {
+                encodedHand.append(Integer.toHexString(value));
             }
         }
 
-        for (int value : valueList) {
-            if ( valueFrequency.getOrDefault(value, 0) == 2 ) {
-                total = total * 10 + value;
-            }
+        this.handTieBreaker = String.valueOf(encodedHand);
+        // Checks for A-5 straight, A becomes low card
+        if (getHandTieBreaker().equals("e5432")) {
+            this.handTieBreaker = "5432e";
         }
+    }
 
-        for (int value : valueList) {
-            if ( !valueFrequency.containsKey(value) ) {
-                total = total * 10 + value;
-            }
+    public boolean isBetterHand(CardCollection opponentCards) {
+        if (getHandScore() == opponentCards.getHandScore()) {
+            return getHandTieBreaker().compareToIgnoreCase(opponentCards.getHandTieBreaker()) > 0 ;
         }
+        return getHandScore() > opponentCards.getHandScore();
+    }
 
-        this.handTieBreaker = total;
+    public boolean isDraw(CardCollection opponentCards) {
+        return getHandScore() == opponentCards.getHandScore()
+                && getHandTieBreaker().equals(opponentCards.getHandTieBreaker());
     }
 
     public void printCards() {
