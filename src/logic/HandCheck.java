@@ -32,10 +32,10 @@ public class HandCheck {
             // Check for straight flush
             if ( isStraight(cards) ) {
                 cards.setHandScore(8);
-                System.out.println("Straight Flush!");
+                //System.out.println("Straight Flush!");
             } else {
                 cards.setHandScore(5);
-                System.out.println("Flush!");
+                //System.out.println("Flush!");
             }
             cards.getBestHand();
             cards.encodeHand();
@@ -46,7 +46,7 @@ public class HandCheck {
             cards.setHandScore(4);
             cards.getBestHand();
             cards.encodeHand();
-            System.out.println("Straight!");
+            //System.out.println("Straight!");
         }
 
         // check for pairs
@@ -60,9 +60,9 @@ public class HandCheck {
             cards.getBestHand();
             cards.setHandScore(0);
             cards.encodeHand();
-            System.out.println("High Card");
+            //System.out.println("High Card");
         }
-        cards.printCards(); // TODO Remove
+        //cards.printCards(); // TODO Remove
     }
 
     public static Boolean isFlush(CardCollection cards) {
@@ -126,13 +126,13 @@ public class HandCheck {
         // Single pair
         if (countList.size() == 1 && countList.containsValue(2)) {
             cards.setHandScore(1);
-            System.out.println("Pair");
+            //System.out.println("Pair");
             return true;
         }
 
         // Three of a kind
         if (countList.size() == 1 && countList.containsValue(3)) {
-            System.out.println("three of a kind");
+            //System.out.println("three of a kind");
             cards.setHandScore(3);
             return true;
         }
@@ -140,21 +140,21 @@ public class HandCheck {
         // Four of a kind
         if (countList.containsValue(4)) {
             cards.setHandScore(7);
-            System.out.println("Four of a kind");
+            //System.out.println("Four of a kind");
             return true;
         }
 
         // Full house
         if (countList.containsValue(3)) {
             cards.setHandScore(6);
-            System.out.println("Full house");
+            //System.out.println("Full house");
             return true;
         }
 
         // Two pair
         if (countList.containsValue(2)) {
             cards.setHandScore(2);
-            System.out.println("Two pair");
+            //System.out.println("Two pair");
             return true;
         }
         
