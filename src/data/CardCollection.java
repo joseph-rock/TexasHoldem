@@ -55,6 +55,10 @@ public class CardCollection {
         return cards;
     }
 
+    public Card getCard(int index) {
+        return cards.get(index);
+    }
+
     /**
      * Convert list of Card objects to list of Card.suite objects
      * */
