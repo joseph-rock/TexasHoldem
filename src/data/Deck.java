@@ -34,7 +34,7 @@ public class Deck {
         Card card = new Card();
 
         for (Card c : cards) {
-            if (c.suite.equals(suite.name()) && c.valueAsString.equals(value.name())) {
+            if (c.getSuite().equals(suite.name()) && c.getValueAsString().equals(value.name())) {
                 card = c;
                 break;
             }

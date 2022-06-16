@@ -65,7 +65,7 @@ public class CardCollection {
     public ArrayList<String> getSuiteList() {
         ArrayList<String> suiteList = new ArrayList<>();
         for (Card card : cards) {
-            suiteList.add(card.suite);
+            suiteList.add(card.getSuite());
         }
         return suiteList;
     }
@@ -76,7 +76,7 @@ public class CardCollection {
     public ArrayList<Integer> getValueList() {
         ArrayList<Integer> valueList = new ArrayList<>();
         for (Card card : cards) {
-            valueList.add(card.value);
+            valueList.add(card.getValue());
         }
         return valueList;
     }
@@ -87,7 +87,7 @@ public class CardCollection {
     public ArrayList<String> getValueStringList() {
         ArrayList<String> valueStringList = new ArrayList<>();
         for (Card card : cards) {
-            valueStringList.add(card.valueAsString);
+            valueStringList.add(card.getValueAsString());
         }
         return valueStringList;
     }
@@ -106,11 +106,11 @@ public class CardCollection {
     }
 
     public void removeSuitesExcept(String suite) {
-        this.cards.removeIf(card -> !Objects.equals(card.suite, suite));
+        this.cards.removeIf(card -> !Objects.equals(card.getSuite(), suite));
     }
 
     private void removeValueEqualTo(int value) {
-        this.cards.removeIf(card -> Objects.equals(card.value, value));
+        this.cards.removeIf(card -> Objects.equals(card.getValue(), value));
     }
 
     public void removeValueInRange(int min, int max) {
@@ -135,12 +135,12 @@ public class CardCollection {
         // Creates best hand with 4 of a kind
         if (valueFrequency.containsValue(4)) {
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.value, 0) == 4 ) {
+                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 4 ) {
                     bestHand.add(card);
                 }
             }
 
-            if (cards.get(0).value == bestHand.get(0).value) {
+            if (cards.get(0).getValue() == bestHand.get(0).getValue()) {
                 bestHand.add(cards.get(4));
             }
             else {
@@ -153,14 +153,14 @@ public class CardCollection {
 
             // get highest three of a kind
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.value, 0) == 3 && bestHand.size() < 3 ) {
+                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 3 && bestHand.size() < 3 ) {
                     bestHand.add(card);
                 }
             }
 
             // get highest pair or three of a kind converted to pair
             for ( Card card : cards ) {
-                if ( valueFrequency.containsKey(card.value) && card.value != bestHand.get(0).value
+                if ( valueFrequency.containsKey(card.getValue()) && card.getValue() != bestHand.get(0).getValue()
                         && bestHand.size() < 5 ) {
                     bestHand.add(card);
                 }
@@ -179,7 +179,7 @@ public class CardCollection {
         // Build best hand with only pairs present
         else if ( valueFrequency.containsValue(2) ) {
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.value, 0) == 2 && bestHand.size() < 4 ) {
+                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 2 && bestHand.size() < 4 ) {
                     bestHand.add(card);
                 }
             }
@@ -204,7 +204,7 @@ public class CardCollection {
     public void removeDuplicateValueCards() {
         sortCollection();
         for (int i = cards.size() - 2; i >= 0; i--) {
-            if ( cards.get(i).value == cards.get(i+1).value ) {
+            if ( cards.get(i).getValue() == cards.get(i + 1).getValue()) {
                 cards.remove(i+1);
             }
         }
@@ -272,7 +272,7 @@ public class CardCollection {
 
     public void printCards() {
         for (Card card : cards) {
-            System.out.println(card.valueAsString + " " + card.suite);
+            System.out.println(card.getValueAsString() + " " + card.getSuite());
         }
         System.out.println();
     }
