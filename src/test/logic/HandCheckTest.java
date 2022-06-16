@@ -1,6 +1,7 @@
 package test.logic;
 
 import data.*;
+import logic.CardCollection;
 import logic.HandCheck;
 
 import static org.junit.jupiter.api.Assertions.*;

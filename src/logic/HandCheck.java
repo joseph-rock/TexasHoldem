@@ -1,7 +1,5 @@
 package logic;
 
-import data.CardCollection;
-
 import java.util.*;
 
 /** Poker hands in order from best to worst:

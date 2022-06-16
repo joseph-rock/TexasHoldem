@@ -1,4 +1,6 @@
-package data;
+package logic;
+
+import data.Card;
 
 import java.util.*;
 
