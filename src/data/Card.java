@@ -2,9 +2,9 @@ package data;
 
 public class Card implements Comparable<Card>{
 
-    final public int value;
-    final public String suite;
-    final public String valueAsString;
+    private final int value;
+    private final String suite;
+    private final String valueAsString;
 
     public Card(){
         this.value = -1;
@@ -18,12 +18,24 @@ public class Card implements Comparable<Card>{
         this.valueAsString = valueAsString;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public String getSuite() {
+        return suite;
+    }
+
+    public String getValueAsString() {
+        return valueAsString;
+    }
+
     /** Generate image filename as "suite_value.png" */
     public String getCardPath(){
         return suite + "_" + valueAsString + ".png";
     }
 
     @Override public int compareTo(Card o) {
-        return Integer.compare(this.value, o.value);
+        return Integer.compare(this.value, o.getValue());
     }   
 }
