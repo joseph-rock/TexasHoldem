@@ -12,10 +12,6 @@ public enum Suite {
         this.displayString = displayString;
     }
 
-    public String displayString() {
-        return displayString;
-    }
-
     @Override
     public String toString() {
         return displayString;

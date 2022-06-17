@@ -15,10 +15,6 @@ public enum PlayerStatus {
         this.displayString = displayString;
     }
 
-    public String print() {
-        return displayString;
-    }
-
     @Override
     public String toString() {
         return displayString;
