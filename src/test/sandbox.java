@@ -1,4 +1,4 @@
-package test.logic;
+package test;
 
 import data.Card;
 import data.Deck;
