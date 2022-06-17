@@ -65,7 +65,7 @@ public class TexasHoldem {
         dealCommunity(1);
     }
 
-    public void getWinner() {
+    public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
         CardCollection bestHand = new CardCollection();
 
@@ -87,6 +87,8 @@ public class TexasHoldem {
             System.out.println(winner.getName());
             winner.getHand().printCards();
         }
+
+        return winners;
     }
 
     /** Reset all player hands, reset community cards, create new deck. */
