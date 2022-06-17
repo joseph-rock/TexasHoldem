@@ -5,7 +5,7 @@ import data.Card;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class CardJLabel extends JLabel{
+public class CardLabel extends JLabel{
     private static final String PATH_HEAD = "src/presentation/images/";
     private static final String NO_PLAYER_PATH = PATH_HEAD + "card_noplayer.png";
     private static final String PLACEHOLDER_PATH = PATH_HEAD + "card_placeholder.png";
@@ -13,7 +13,7 @@ public class CardJLabel extends JLabel{
 
     private ImageIcon cardPNG;
 
-    public CardJLabel(boolean display) {
+    public CardLabel(boolean display) {
         if (display) {
             cardPNG = new ImageIcon(PLACEHOLDER_PATH);
         } else {

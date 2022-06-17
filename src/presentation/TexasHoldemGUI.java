@@ -3,7 +3,8 @@ package presentation;
 import data.Card;
 import data.Player;
 import logic.TexasHoldem;
-import presentation.components.CommunityJPanel;
+import presentation.components.CommunityCardsPanel;
+import presentation.components.PlayerPanel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class TexasHoldemGUI {
     int count = 0;
 
     ArrayList<PlayerPanel> playerPanelList = new ArrayList<>();
-    CommunityJPanel communityPanel = new CommunityJPanel();
+    CommunityCardsPanel communityPanel = new CommunityCardsPanel();
 
     JPanel buttonPanel = new JPanel();
     JButton start = new JButton("Start");
@@ -73,15 +74,15 @@ public class TexasHoldemGUI {
 
         // community cards
         communityPanel.displayCards(game.communityCards.getCards());
-        frame.add(communityPanel, getGBC(1, 1, 2, 2));
+        frame.add(communityPanel.getRootPanel(), getGBC(1, 1, 2, 2));
         
         frame.revalidate();
     }
 
     public void initBoard() {
-        // Set fresh CommunityPanel
+        // Set fresh CommunityCardsPanel
         playerPanelList = new ArrayList<>();
-        communityPanel = new CommunityJPanel();
+        communityPanel = new CommunityCardsPanel();
 
         // Set fresh PlayerPanels
         for (int i = 0; i < 8; i++) {
@@ -94,7 +95,7 @@ public class TexasHoldemGUI {
     }
 
     public void resetBoard(){
-        communityPanel.removeAll();
+        communityPanel.getRootPanel().removeAll();
         for ( PlayerPanel panel : playerPanelList ) {
             panel.getRootPanel().removeAll();
         }

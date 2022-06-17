@@ -1,9 +1,9 @@
-package presentation;
+package presentation.components;
 
 import data.Card;
 import data.Player;
 import enums.PlayerStatus;
-import presentation.components.CardJLabel;
+import presentation.components.CardLabel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +18,8 @@ public class PlayerPanel {
     private JLabel statusDisplay;
     private JPanel mainPanel;
 
-    CardJLabel leftCard;
-    CardJLabel rightCard;
+    CardLabel leftCard;
+    CardLabel rightCard;
 
     public PlayerPanel() {
         statusDisplay.setText("");
@@ -29,8 +29,8 @@ public class PlayerPanel {
 
     private void createUIComponents() {
         cardPanel = new JPanel();
-        leftCard = new CardJLabel(false);
-        rightCard = new CardJLabel(false);
+        leftCard = new CardLabel(false);
+        rightCard = new CardLabel(false);
         cardPanel.add(leftCard, Component.CENTER_ALIGNMENT);
         cardPanel.add(rightCard, Component.CENTER_ALIGNMENT);
     }
