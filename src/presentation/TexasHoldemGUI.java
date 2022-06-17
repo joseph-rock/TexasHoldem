@@ -32,7 +32,8 @@ public class TexasHoldemGUI {
 
         // Configure Frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(1280,720));
+        frame.setMinimumSize(new Dimension(1280,1000));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLayout(new GridBagLayout());
         frame.pack();
         frame.setLocationRelativeTo(null);
