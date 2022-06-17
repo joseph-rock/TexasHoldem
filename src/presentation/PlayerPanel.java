@@ -78,6 +78,11 @@ public class PlayerPanel {
         printChipCount(player.getChipCount());
     }
 
+    public void displayCall(Player player, int amount) {
+        statusDisplay.setText( String.format("%s %d", PlayerStatus.CALL.print(), amount) );
+        printChipCount(player.getChipCount());
+    }
+
     public void displayAllIn(int amount) {
         statusDisplay.setText( String.format("%s %d", PlayerStatus.BET.print(), amount) );
         chipCountLabel.setText(PlayerStatus.ALL_IN.print());
