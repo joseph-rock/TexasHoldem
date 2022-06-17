@@ -34,10 +34,14 @@ public class sandbox {
 
         PlayerPanel panel = new PlayerPanel();
         panel.initActivePlayerDisplay(new Player());
-//        panel.displayWinner();
-//        panel.displayFold();
-        panel.displayAllIn(150);
         panel.displayCardBack();
+        panel.displayBet(player, 40);
+        panel.displayAllIn(150);
+        panel.displayCards(c1, c2);
+        panel.displayWinner(player);
+//        panel.displayFold();
+//        panel.displayAllIn(150);
+
 
         main.add(panel.getRootPanel());
 
