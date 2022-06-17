@@ -68,7 +68,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHand());
+        assertEquals(PokerHand.ROYAL_FLUSH, cards.getHand());
         assertEquals("edcba", cards.getEncodedCards());
     }
 
