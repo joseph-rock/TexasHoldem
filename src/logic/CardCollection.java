@@ -255,9 +255,13 @@ public class CardCollection {
         }
 
         this.encodedCards = String.valueOf(encodedHand);
+
         // Checks for A-5 straight, A becomes low card
         if (getEncodedCards().equals("e5432")) {
             this.encodedCards = "5432e";
+        }
+        if (getEncodedCards().equals("edcba") && getHand() == PokerHand.STRAIGHT_FLUSH) {
+            this.hand = PokerHand.ROYAL_FLUSH;
         }
     }
 
