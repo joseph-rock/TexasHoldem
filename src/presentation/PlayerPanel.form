@@ -46,13 +46,13 @@
                   <text value="Name"/>
                 </properties>
               </component>
-              <component id="1ee1f" class="javax.swing.JLabel" binding="winMessageLabel">
+              <component id="1ee1f" class="javax.swing.JLabel" binding="statusDisplay">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="14"/>
-                  <text value="Winner!"/>
+                  <text value="Status"/>
                 </properties>
               </component>
             </children>
@@ -84,7 +84,7 @@
                 </constraints>
                 <properties>
                   <font size="14"/>
-                  <text value="Chips: 999"/>
+                  <text value="Chip Count"/>
                 </properties>
               </component>
             </children>
