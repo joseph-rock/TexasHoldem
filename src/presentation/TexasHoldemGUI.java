@@ -2,10 +2,8 @@ package presentation;
 
 import data.Card;
 import data.Player;
-import logic.HandCheck;
 import logic.TexasHoldem;
 import presentation.components.CommunityJPanel;
-import presentation.components.PlayerJPanel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class TexasHoldemGUI {
     TexasHoldem game;
     int count = 0;
 
-    ArrayList<PlayerJPanel> playerPanelList = new ArrayList<>();
+    ArrayList<PlayerPanel> playerPanelList = new ArrayList<>();
     CommunityJPanel communityPanel = new CommunityJPanel();
 
     JPanel buttonPanel = new JPanel();
@@ -59,18 +57,18 @@ public class TexasHoldemGUI {
 
     public void drawBoard() {
         // ** TOP ROW **
-        frame.add(playerPanelList.get(7), getGBC(0, 0, 1, 1));
-        frame.add(playerPanelList.get(1), getGBC(1, 0, 1, 2));
-        frame.add(playerPanelList.get(4), getGBC(3, 0, 1, 1));
+        frame.add(playerPanelList.get(7).getRootPanel(), getGBC(0, 0, 1, 1));
+        frame.add(playerPanelList.get(1).getRootPanel(), getGBC(1, 0, 1, 2));
+        frame.add(playerPanelList.get(4).getRootPanel(), getGBC(3, 0, 1, 1));
 
         // ** MIDDLE ROW **
-        frame.add(playerPanelList.get(3), getGBC(0, 1, 2, 1));
-        frame.add(playerPanelList.get(2), getGBC(3, 1, 2, 1));
+        frame.add(playerPanelList.get(3).getRootPanel(), getGBC(0, 1, 2, 1));
+        frame.add(playerPanelList.get(2).getRootPanel(), getGBC(3, 1, 2, 1));
 
         // ** BOTTOM ROW **
-        frame.add(playerPanelList.get(6), getGBC(0, 3, 1, 1));
-        frame.add(playerPanelList.get(0), getGBC(0, 4, 1, 4));
-        frame.add(playerPanelList.get(5), getGBC(3, 3, 1, 1));
+        frame.add(playerPanelList.get(6).getRootPanel(), getGBC(0, 3, 1, 1));
+        frame.add(playerPanelList.get(0).getRootPanel(), getGBC(0, 4, 1, 4));
+        frame.add(playerPanelList.get(5).getRootPanel(), getGBC(3, 3, 1, 1));
 
         // community cards
         communityPanel.displayCards(game.communityCards.getCards());
@@ -86,7 +84,7 @@ public class TexasHoldemGUI {
 
         // Set fresh PlayerPanels
         for (int i = 0; i < 8; i++) {
-            playerPanelList.add( new PlayerJPanel() );
+            playerPanelList.add( new PlayerPanel() );
 
             if (i < game.numberOfPlayers()) {
                 playerPanelList.get(i).initActivePlayerDisplay(game.getPlayer(i));
@@ -96,8 +94,8 @@ public class TexasHoldemGUI {
 
     public void resetBoard(){
         communityPanel.removeAll();
-        for ( PlayerJPanel panel : playerPanelList ) {
-            panel.removeAll();
+        for ( PlayerPanel panel : playerPanelList ) {
+            panel.getRootPanel().removeAll();
         }
         game.resetRound();
         initBoard();
@@ -117,7 +115,7 @@ public class TexasHoldemGUI {
 
     public GridBagConstraints getGBC(int xpos, int ypos, int height, int width) {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20,20,20,20);
+        //gbc.insets = new Insets(20,20,20,20);
         gbc.gridx = xpos;
         gbc.gridy = ypos;
         gbc.gridheight = height;
@@ -137,6 +135,20 @@ public class TexasHoldemGUI {
         game.river();
     }
 
+    public void endOfRoundBoard() {
+        revealBotCards();
+        ArrayList<Player> winners = game.getWinners();
+
+        for (PlayerPanel playerPanel : playerPanelList) {
+            for (Player winner : winners) {
+                if (winner.getName().equals(playerPanel.getName())) {
+                    playerPanel.displayWinner(winner);
+                }
+            }
+        }
+
+    }
+
     public void revealBotCards() {
         for (int i = 1; i < game.numberOfPlayers(); i++) {
             Player bot = game.getPlayer(i);
@@ -152,11 +164,7 @@ public class TexasHoldemGUI {
             case 1 -> flopBoard();
             case 2 -> turnBoard();
             case 3 -> riverBoard();
-            case 4 -> {
-                revealBotCards();
-                game.getWinner();
-                //printLog(game);
-            }
+            case 4 -> endOfRoundBoard();
             case 5 -> {
                 resetBoard();
                 count = -1;
