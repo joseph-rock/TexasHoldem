@@ -5,6 +5,7 @@ public enum PlayerStatus {
     BIG_BLIND("Big Blind:"),
     SMALL_BLIND("Small Blind:"),
     BET("Bet:"),
+    CALL("Call:"),
     ALL_IN("All In"),
     WINNER("Winner!");
 
