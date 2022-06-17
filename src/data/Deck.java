@@ -1,5 +1,8 @@
 package data;
 
+import data.enums.Suite;
+import data.enums.Value;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,7 +18,7 @@ public class Deck {
     private void makeDeck() {
         for (Suite suite : Suite.values()){
             for (Value value : Value.values()) {
-                cards.add( new Card(value.ordinal() + 2, suite.name(), value.name()) );
+                cards.add( new Card(value.ordinal() + 2, suite.toString(), value.toString()) );
             }
         } 
     }
@@ -34,7 +37,7 @@ public class Deck {
         Card card = new Card();
 
         for (Card c : cards) {
-            if (c.getSuite().equals(suite.name()) && c.getValueAsString().equals(value.name())) {
+            if (c.getSuite().equals(suite.toString()) && c.getValueAsString().equals(value.toString())) {
                 card = c;
                 break;
             }
