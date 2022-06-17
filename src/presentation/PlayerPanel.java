@@ -83,15 +83,20 @@ public class PlayerPanel {
         chipCountLabel.setText(PlayerStatus.ALL_IN.print());
     }
 
-    public void displayWinner() {
+    public void displayWinner(Player player) {
         statusDisplay.setText(PlayerStatus.WINNER.print());
+        printChipCount(player.getChipCount());
     }
 
     private void printChipCount(int chips) {
         chipCountLabel.setText(String.format( "Chips: %d", chips) );
     }
 
-    public JPanel getRootPanel(){
+    public String getName() {
+        return nameLabel.getText();
+    }
+
+    public JPanel getRootPanel() {
         return this.rootPanel;
     }
 }
