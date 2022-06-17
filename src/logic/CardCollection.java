@@ -1,24 +1,25 @@
 package logic;
 
 import data.Card;
+import data.enums.PokerHand;
 
 import java.util.*;
 
 public class CardCollection {
     private ArrayList<Card> cards;
-    private int handScore;
-    private String handTieBreaker;
+    private PokerHand hand;
+    private String encodedCards;
 
     public CardCollection() {
         this.cards = new ArrayList<>();
-        this.handScore = -1;
-        this.handTieBreaker = "";
+        this.hand = PokerHand.INIT;
+        this.encodedCards = "";
     }
 
     public CardCollection(ArrayList<Card> cardList) {
         this.cards = new ArrayList<>(cardList);
-        this.handScore = -1;
-        this.handTieBreaker = "";
+        this.hand = PokerHand.INIT;
+        this.encodedCards = "";
     }
 
     public void addCard(Card card) {
@@ -41,16 +42,16 @@ public class CardCollection {
         Collections.sort(this.cards);
     }
 
-    public int getHandScore() {
-        return this.handScore;
+    public PokerHand getHand() {
+        return this.hand;
     }
 
-    public String getHandTieBreaker() {
-        return this.handTieBreaker;
+    public String getEncodedCards() {
+        return this.encodedCards;
     }
 
-    public void setHandScore(int score) {
-        this.handScore = score;
+    public void setHand(PokerHand hand) {
+        this.hand = hand;
     }
 
     public ArrayList<Card> getCards() {
@@ -253,23 +254,23 @@ public class CardCollection {
             }
         }
 
-        this.handTieBreaker = String.valueOf(encodedHand);
+        this.encodedCards = String.valueOf(encodedHand);
         // Checks for A-5 straight, A becomes low card
-        if (getHandTieBreaker().equals("e5432")) {
-            this.handTieBreaker = "5432e";
+        if (getEncodedCards().equals("e5432")) {
+            this.encodedCards = "5432e";
         }
     }
 
     public boolean isBetterHand(CardCollection opponentCards) {
-        if (getHandScore() == opponentCards.getHandScore()) {
-            return getHandTieBreaker().compareToIgnoreCase(opponentCards.getHandTieBreaker()) > 0 ;
+        if (getHand() == opponentCards.getHand()) {
+            return getEncodedCards().compareToIgnoreCase(opponentCards.getEncodedCards()) > 0 ;
         }
-        return getHandScore() > opponentCards.getHandScore();
+        return getHand().getScore() > opponentCards.getHand().getScore();
     }
 
     public boolean isDraw(CardCollection opponentCards) {
-        return getHandScore() == opponentCards.getHandScore()
-                && getHandTieBreaker().equals(opponentCards.getHandTieBreaker());
+        return getHand() == opponentCards.getHand()
+                && getEncodedCards().equals(opponentCards.getEncodedCards());
     }
 
     public void printCards() {

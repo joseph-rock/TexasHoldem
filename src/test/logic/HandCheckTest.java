@@ -1,6 +1,7 @@
 package test.logic;
 
 import data.*;
+import data.enums.PokerHand;
 import data.enums.Suite;
 import data.enums.Value;
 import logic.CardCollection;
@@ -22,8 +23,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(8, cards.getHandScore());
-        assertEquals("87654", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHand());
+        assertEquals("87654", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -37,8 +38,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.TWO) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.THREE) );
         HandCheck.check(cards);
-        assertEquals(8, cards.getHandScore());
-        assertEquals("65432", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHand());
+        assertEquals("65432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -52,8 +53,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.EIGHT) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(8, cards.getHandScore());
-        assertEquals("a9876", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHand());
+        assertEquals("a9876", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -67,8 +68,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(8, cards.getHandScore());
-        assertEquals("edcba", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -82,8 +83,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(4, cards.getHandScore());
-        assertEquals("87654", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT, cards.getHand());
+        assertEquals("87654", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -97,8 +98,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(4, cards.getHandScore());
-        assertEquals("5432e", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT, cards.getHand());
+        assertEquals("5432e", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -112,8 +113,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(4, cards.getHandScore());
-        assertEquals("edcba", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT, cards.getHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -127,8 +128,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.TEN) );
         cards.addCard( deck.getCard(Suite.SPADES, Value.TEN) );
         HandCheck.check(cards);
-        assertEquals(4, cards.getHandScore());
-        assertEquals("edcba", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT, cards.getHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -142,8 +143,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.JACK) );
         cards.addCard( deck.getCard(Suite.SPADES, Value.JACK) );
         HandCheck.check(cards);
-        assertEquals(4, cards.getHandScore());
-        assertEquals("ba987", cards.getHandTieBreaker());
+        assertEquals(PokerHand.STRAIGHT, cards.getHand());
+        assertEquals("ba987", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -157,8 +158,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(5, cards.getHandScore());
-        assertEquals("87643", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FLUSH, cards.getHand());
+        assertEquals("87643", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -172,8 +173,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(5, cards.getHandScore());
-        assertEquals("87432", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FLUSH, cards.getHand());
+        assertEquals("87432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -187,8 +188,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.HEARTS, Value.EIGHT) );
         HandCheck.check(cards);
-        assertEquals(5, cards.getHandScore());
-        assertEquals("87432", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FLUSH, cards.getHand());
+        assertEquals("87432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -202,8 +203,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.NINE) );
         HandCheck.check(cards);
-        assertEquals(1, cards.getHandScore());
-        assertEquals("44976", cards.getHandTieBreaker());
+        assertEquals(PokerHand.PAIR, cards.getHand());
+        assertEquals("44976", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -217,8 +218,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.HEARTS, Value.SEVEN) );
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.NINE) );
         HandCheck.check(cards);
-        assertEquals(2, cards.getHandScore());
-        assertEquals("44229", cards.getHandTieBreaker());
+        assertEquals(PokerHand.TWO_PAIR, cards.getHand());
+        assertEquals("44229", cards.getEncodedCards());
     }
 
     // Fuck
@@ -233,8 +234,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.SIX) );
         cards.addCard( deck.getCard(Suite.DIAMONDS, Value.NINE) );
         HandCheck.check(cards);
-        assertEquals(2, cards.getHandScore());
-        assertEquals("66449", cards.getHandTieBreaker());
+        assertEquals(PokerHand.TWO_PAIR, cards.getHand());
+        assertEquals("66449", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -248,8 +249,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.EIGHT) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.TEN) );
         HandCheck.check(cards);
-        assertEquals(3, cards.getHandScore());
-        assertEquals("222a8", cards.getHandTieBreaker());
+        assertEquals(PokerHand.THREE_OF_A_KIND, cards.getHand());
+        assertEquals("222a8", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -263,8 +264,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.EIGHT) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.TEN) );
         HandCheck.check(cards);
-        assertEquals(6, cards.getHandScore());
-        assertEquals("22255", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getHand());
+        assertEquals("22255", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -278,8 +279,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.FIVE) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.TEN) );
         HandCheck.check(cards);
-        assertEquals(6, cards.getHandScore());
-        assertEquals("55522", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getHand());
+        assertEquals("55522", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -293,8 +294,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.SIX) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.SIX) );
         HandCheck.check(cards);
-        assertEquals(6, cards.getHandScore());
-        assertEquals("22266", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getHand());
+        assertEquals("22266", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -308,8 +309,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.EIGHT) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.TEN) );
         HandCheck.check(cards);
-        assertEquals(7, cards.getHandScore());
-        assertEquals("2222a", cards.getHandTieBreaker());
+        assertEquals(PokerHand.FOUR_OF_A_KIND, cards.getHand());
+        assertEquals("2222a", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -323,8 +324,8 @@ class HandCheckTest {
         cards.addCard( deck.getCard(Suite.CLUBS, Value.TEN) );
         cards.addCard( deck.getCard(Suite.CLUBS, Value.ACE) );
         HandCheck.check(cards);
-        assertEquals(0, cards.getHandScore());
-        assertEquals("ea986", cards.getHandTieBreaker());
+        assertEquals(PokerHand.HIGH_CARD, cards.getHand());
+        assertEquals("ea986", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -417,7 +418,7 @@ class HandCheckTest {
         p1.addCollection(cards);
         HandCheck.check(p1);
         p1.printCards();
-        System.out.println(p1.getHandScore());
+        System.out.println(p1.getHand());
 
         CardCollection p2 = new CardCollection();
         p2.addCard( deck.getCard(Suite.SPADES, Value.ACE) );
@@ -425,7 +426,7 @@ class HandCheckTest {
         p2.addCollection(cards);
         HandCheck.check(p2);
         p2.printCards();
-        System.out.println(p2.getHandScore());
+        System.out.println(p2.getHand());
 
         CardCollection p3 = new CardCollection();
         p3.addCard( deck.getCard(Suite.HEARTS, Value.FOUR) );

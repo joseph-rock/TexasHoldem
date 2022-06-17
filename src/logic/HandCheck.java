@@ -1,5 +1,7 @@
 package logic;
 
+import data.enums.PokerHand;
+
 import java.util.*;
 
 /** Poker hands in order from best to worst:
@@ -29,11 +31,9 @@ public class HandCheck {
         if ( isFlush(cards) ) {
             // Check for straight flush
             if ( isStraight(cards) ) {
-                cards.setHandScore(8);
-                //System.out.println("Straight Flush!");
+                cards.setHand(PokerHand.STRAIGHT_FLUSH);
             } else {
-                cards.setHandScore(5);
-                //System.out.println("Flush!");
+                cards.setHand(PokerHand.FLUSH);
             }
             cards.getBestHand();
             cards.encodeHand();
@@ -41,10 +41,9 @@ public class HandCheck {
 
         // check for straight
         else if ( isStraight(cards) ) {
-            cards.setHandScore(4);
+            cards.setHand(PokerHand.STRAIGHT);
             cards.getBestHand();
             cards.encodeHand();
-            //System.out.println("Straight!");
         }
 
         // check for pairs
@@ -56,11 +55,9 @@ public class HandCheck {
         // high card
         else {
             cards.getBestHand();
-            cards.setHandScore(0);
+            cards.setHand(PokerHand.HIGH_CARD);
             cards.encodeHand();
-            //System.out.println("High Card");
         }
-        //cards.printCards(); // TODO Remove
     }
 
     public static Boolean isFlush(CardCollection cards) {
@@ -109,7 +106,6 @@ public class HandCheck {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -123,36 +119,31 @@ public class HandCheck {
 
         // Single pair
         if (countList.size() == 1 && countList.containsValue(2)) {
-            cards.setHandScore(1);
-            //System.out.println("Pair");
+            cards.setHand(PokerHand.PAIR);
             return true;
         }
 
         // Three of a kind
         if (countList.size() == 1 && countList.containsValue(3)) {
-            //System.out.println("three of a kind");
-            cards.setHandScore(3);
+            cards.setHand(PokerHand.THREE_OF_A_KIND);
             return true;
         }
 
         // Four of a kind
         if (countList.containsValue(4)) {
-            cards.setHandScore(7);
-            //System.out.println("Four of a kind");
+            cards.setHand(PokerHand.FOUR_OF_A_KIND);
             return true;
         }
 
         // Full house
         if (countList.containsValue(3)) {
-            cards.setHandScore(6);
-            //System.out.println("Full house");
+            cards.setHand(PokerHand.FULL_HOUSE);
             return true;
         }
 
         // Two pair
         if (countList.containsValue(2)) {
-            cards.setHandScore(2);
-            //System.out.println("Two pair");
+            cards.setHand(PokerHand.TWO_PAIR);
             return true;
         }
         
