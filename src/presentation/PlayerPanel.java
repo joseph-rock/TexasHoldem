@@ -29,8 +29,8 @@ public class PlayerPanel {
 
     private void createUIComponents() {
         cardPanel = new JPanel();
-        leftCard = new CardJLabel();
-        rightCard = new CardJLabel();
+        leftCard = new CardJLabel(false);
+        rightCard = new CardJLabel(false);
         cardPanel.add(leftCard, Component.CENTER_ALIGNMENT);
         cardPanel.add(rightCard, Component.CENTER_ALIGNMENT);
     }

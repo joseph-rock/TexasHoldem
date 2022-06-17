@@ -13,8 +13,12 @@ public class CardJLabel extends JLabel{
 
     private ImageIcon cardPNG;
 
-    public CardJLabel() {
-        cardPNG = new ImageIcon(NO_PLAYER_PATH);
+    public CardJLabel(boolean display) {
+        if (display) {
+            cardPNG = new ImageIcon(PLACEHOLDER_PATH);
+        } else {
+            cardPNG = new ImageIcon(NO_PLAYER_PATH);
+        }
         this.setIcon(cardPNG);
     }
 

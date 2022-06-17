@@ -27,7 +27,7 @@ public class CommunityJPanel extends JPanel {
 
         cardJLabelList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            cardJLabelList.add( new CardJLabel() );
+            cardJLabelList.add( new CardJLabel(false) );
             cardJLabelList.get(i).setPlaceHolder();
 
             gbc.gridx = i;

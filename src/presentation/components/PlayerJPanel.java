@@ -24,8 +24,8 @@ public class PlayerJPanel extends JPanel {
         this.setOpaque(false);
         this.setLayout(new GridBagLayout());
 
-        card1 = new CardJLabel();
-        card2 = new CardJLabel();
+        card1 = new CardJLabel(false);
+        card2 = new CardJLabel(false);
 
         nameLabel = new JLabel(name);
         nameLabel.setFont(new Font("Helvetica", Font.BOLD, 14));
