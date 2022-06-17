@@ -1,9 +1,9 @@
 package test.logic;
 
 import data.*;
-import data.enums.PokerHand;
-import data.enums.Suite;
-import data.enums.Value;
+import enums.PokerHand;
+import enums.Suite;
+import enums.Value;
 import logic.CardCollection;
 import logic.HandCheck;
 

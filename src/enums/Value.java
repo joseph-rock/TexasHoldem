@@ -1,4 +1,4 @@
-package data.enums;
+package enums;
 
 public enum Value {
     TWO("two"),

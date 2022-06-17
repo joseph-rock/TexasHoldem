@@ -1,6 +1,6 @@
 package logic;
 
-import data.enums.PokerHand;
+import enums.PokerHand;
 
 import java.util.*;
 

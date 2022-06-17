@@ -3,9 +3,8 @@ package test.logic;
 import data.Card;
 import data.Deck;
 import data.Player;
-import data.enums.Suite;
-import data.enums.Value;
-import logic.TexasHoldem;
+import enums.Suite;
+import enums.Value;
 import presentation.PlayerPanel;
 
 import javax.swing.*;

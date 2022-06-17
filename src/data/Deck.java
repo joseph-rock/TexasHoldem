@@ -1,7 +1,7 @@
 package data;
 
-import data.enums.Suite;
-import data.enums.Value;
+import enums.Suite;
+import enums.Value;
 
 import java.util.ArrayList;
 import java.util.Random;

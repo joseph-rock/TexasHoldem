@@ -2,7 +2,7 @@ package presentation;
 
 import data.Card;
 import data.Player;
-import data.enums.PlayerStatus;
+import enums.PlayerStatus;
 import presentation.components.CardJLabel;
 
 import javax.swing.*;

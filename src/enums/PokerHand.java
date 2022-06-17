@@ -1,4 +1,4 @@
-package data.enums;
+package enums;
 
 public enum PokerHand {
     ROYAL_FLUSH(9, "Royal Flush"),
