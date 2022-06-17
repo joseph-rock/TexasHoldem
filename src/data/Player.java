@@ -15,6 +15,12 @@ public class Player {
         this.hand  = new CardCollection();
     }
 
+    public Player(String name) {
+        this.name = name;
+        this.chipCount = 500;
+        this.hand  = new CardCollection();
+    }
+
     public void addCard(Card card) {
         hand.addCard(card);
     }
@@ -22,7 +28,7 @@ public class Player {
     public void resetHand() {
         this.hand = new CardCollection();
     }
-    
+
     public CardCollection getHand() {
         return hand;
     }
@@ -33,6 +39,14 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addChips(int num) {
+        this.chipCount += num;
+    }
+
+    public void removeChips(int num) {
+        this.chipCount -= num;
     }
 
     public int getChipCount() {
