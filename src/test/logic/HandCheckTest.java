@@ -401,4 +401,41 @@ class HandCheckTest {
 
         assertTrue(highPair.isBetterHand(lowPair));
     }
+
+    @org.junit.jupiter.api.Test
+    void checkBug() {
+        CardCollection cards = new CardCollection();
+        cards.addCard( deck.getCard(Suite.DIAMONDS, Value.FOUR) );
+        cards.addCard( deck.getCard(Suite.SPADES, Value.FIVE) );
+        cards.addCard( deck.getCard(Suite.SPADES, Value.SIX) );
+        cards.addCard( deck.getCard(Suite.SPADES, Value.FOUR) );
+        cards.addCard( deck.getCard(Suite.HEARTS, Value.FIVE) );
+
+        CardCollection p1 = new CardCollection();
+        p1.addCard( deck.getCard(Suite.CLUBS, Value.TWO) );
+        p1.addCard( deck.getCard(Suite.SPADES, Value.THREE) );
+        p1.addCollection(cards);
+        HandCheck.check(p1);
+        p1.printCards();
+        System.out.println(p1.getHandScore());
+
+        CardCollection p2 = new CardCollection();
+        p2.addCard( deck.getCard(Suite.SPADES, Value.ACE) );
+        p2.addCard( deck.getCard(Suite.CLUBS, Value.FOUR) );
+        p2.addCollection(cards);
+        HandCheck.check(p2);
+        p2.printCards();
+        System.out.println(p2.getHandScore());
+
+        CardCollection p3 = new CardCollection();
+        p3.addCard( deck.getCard(Suite.HEARTS, Value.FOUR) );
+        p3.addCard( deck.getCard(Suite.CLUBS, Value.SEVEN) );
+        p3.addCollection(cards);
+        HandCheck.check(p3);
+        p3.printCards();
+
+        assertTrue(p2.isBetterHand(p1));
+        assertTrue(p3.isBetterHand(p1));
+        assertTrue(p2.isDraw(p3));
+    }
 }
