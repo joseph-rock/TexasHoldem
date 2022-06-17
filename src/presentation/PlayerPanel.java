@@ -2,6 +2,7 @@ package presentation;
 
 import data.Card;
 import data.Player;
+import data.enums.PlayerStatus;
 import presentation.components.CardJLabel;
 
 import javax.swing.*;
@@ -14,14 +15,14 @@ public class PlayerPanel {
     private JPanel chipCountPanel;
     private JLabel nameLabel;
     private JLabel chipCountLabel;
-    private JLabel winMessageLabel;
+    private JLabel statusDisplay;
     private JPanel mainPanel;
 
     CardJLabel leftCard;
     CardJLabel rightCard;
 
     public PlayerPanel() {
-        winMessageLabel.setText("");
+        statusDisplay.setText("");
         nameLabel.setText("");
         chipCountLabel.setText("");
     }
@@ -40,14 +41,8 @@ public class PlayerPanel {
         rightCard.setPlaceHolder();
 
         nameLabel.setText(player.getName());
-        chipCountLabel.setText(Integer.toString(player.getChipCount()));
+        printChipCount(player.getChipCount());
     }
-
-    public void playerFold() {
-        leftCard.setPlaceHolder();
-        rightCard.setPlaceHolder();
-    }
-
 
     /** Set card display as 'card_back.png' */
     public void displayCardBack() {
@@ -61,9 +56,42 @@ public class PlayerPanel {
         rightCard.setAsCard(c2);
     }
 
-    public void displayWinner() {
-        winMessageLabel.setText("Winner!");
+    public void displayFold() {
+        leftCard.setPlaceHolder();
+        rightCard.setPlaceHolder();
+
+        statusDisplay.setText(PlayerStatus.FOLD.print());
     }
 
-    public JPanel getRootPanel(){ return this.rootPanel; }
+    public void displayBigBlind(Player player, int amount) {
+        statusDisplay.setText( String.format("%s %d", PlayerStatus.BIG_BLIND.print(), amount) );
+        printChipCount(player.getChipCount());
+    }
+
+    public void displaySmallBlind(Player player, int amount) {
+        statusDisplay.setText( String.format("%s %d", PlayerStatus.SMALL_BLIND.print(), amount) );
+        printChipCount(player.getChipCount());
+    }
+
+    public void displayBet(Player player, int amount) {
+        statusDisplay.setText( String.format("%s %d", PlayerStatus.BET.print(), amount) );
+        printChipCount(player.getChipCount());
+    }
+
+    public void displayAllIn(int amount) {
+        statusDisplay.setText( String.format("%s %d", PlayerStatus.BET.print(), amount) );
+        chipCountLabel.setText(PlayerStatus.ALL_IN.print());
+    }
+
+    public void displayWinner() {
+        statusDisplay.setText(PlayerStatus.WINNER.print());
+    }
+
+    private void printChipCount(int chips) {
+        chipCountLabel.setText(String.format( "Chips: %d", chips) );
+    }
+
+    public JPanel getRootPanel(){
+        return this.rootPanel;
+    }
 }
