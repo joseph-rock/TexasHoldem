@@ -9,7 +9,7 @@ public enum PlayerStatus {
     ALL_IN("All In"),
     WINNER("Winner!");
 
-    private String displayString;
+    private final String displayString;
 
     PlayerStatus(String displayString) {
         this.displayString = displayString;

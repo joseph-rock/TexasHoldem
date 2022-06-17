@@ -15,7 +15,7 @@ public enum Value {
     KING("king"),
     ACE("ace");
 
-    private String displayString;
+    private final String displayString;
 
     Value(String displayString) {
         this.displayString = displayString;

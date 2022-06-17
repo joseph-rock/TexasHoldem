@@ -6,7 +6,7 @@ public enum Suite {
     SPADES("spades"),
     CLUBS("clubs");
 
-    private String displayString;
+    private final String displayString;
 
     Suite(String displayString) {
         this.displayString = displayString;
