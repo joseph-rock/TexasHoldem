@@ -42,7 +42,7 @@ public class CardCollection {
         Collections.sort(this.cards);
     }
 
-    public PokerHand getHand() {
+    public PokerHand getHandDescription() {
         return this.hand;
     }
 
@@ -260,20 +260,20 @@ public class CardCollection {
         if (getEncodedCards().equals("e5432")) {
             this.encodedCards = "5432e";
         }
-        if (getEncodedCards().equals("edcba") && getHand() == PokerHand.STRAIGHT_FLUSH) {
+        if (getEncodedCards().equals("edcba") && getHandDescription() == PokerHand.STRAIGHT_FLUSH) {
             this.hand = PokerHand.ROYAL_FLUSH;
         }
     }
 
     public boolean isBetterHand(CardCollection opponentCards) {
-        if (getHand() == opponentCards.getHand()) {
+        if (getHandDescription() == opponentCards.getHandDescription()) {
             return getEncodedCards().compareToIgnoreCase(opponentCards.getEncodedCards()) > 0 ;
         }
-        return getHand().getScore() > opponentCards.getHand().getScore();
+        return getHandDescription().getScore() > opponentCards.getHandDescription().getScore();
     }
 
     public boolean isDraw(CardCollection opponentCards) {
-        return getHand() == opponentCards.getHand()
+        return getHandDescription() == opponentCards.getHandDescription()
                 && getEncodedCards().equals(opponentCards.getEncodedCards());
     }
 

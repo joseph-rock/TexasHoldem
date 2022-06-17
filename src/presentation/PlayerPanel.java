@@ -89,7 +89,9 @@ public class PlayerPanel {
     }
 
     public void displayWinner(Player player) {
-        statusDisplay.setText(PlayerStatus.WINNER.print());
+        mainPanel.setOpaque(true);
+        mainPanel.setBackground(new Color(57,200,20));
+        statusDisplay.setText(String.format("%s - %s", PlayerStatus.WINNER.print(), player.getHand().getHandDescription()));
         printChipCount(player.getChipCount());
     }
 
