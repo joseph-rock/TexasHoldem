@@ -5,6 +5,7 @@ import data.Deck;
 import data.Player;
 import enums.Suite;
 import enums.Value;
+import main.GameController;
 import presentation.GameGUI;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
@@ -19,7 +20,8 @@ public class sandbox {
     public static void main(String[] args) {
         //drawPlayerPanel();
         //drawCommunityPanel();
-        drawBoard();
+        //drawBoard();
+        test();
     }
 
     private static void drawPlayerPanel() {
@@ -42,7 +44,7 @@ public class sandbox {
         panel.displayCardBack();
         panel.displayBet(player, 40);
         panel.displayAllIn(150);
-        panel.displayCards(c1, c2);
+        //panel.displayCards(c1, c2);
         panel.displayWinner(player);
 //        panel.displayFold();
 //        panel.displayAllIn(150);
@@ -89,7 +91,7 @@ public class sandbox {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(new Dimension(1000,900));
+        frame.setMinimumSize(new Dimension(800,600));
         main.setBackground(Color.pink);
 
         ArrayList<Player> players = new ArrayList<>();
@@ -103,5 +105,10 @@ public class sandbox {
         frame.add(main);
         frame.setVisible(true);
         //frame.pack();
+    }
+
+    private static void test() {
+        int players = 8;
+        new GameController();
     }
 }
