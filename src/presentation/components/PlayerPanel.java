@@ -6,6 +6,7 @@ import enums.PlayerStatus;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PlayerPanel {
     private JPanel rootPanel;
@@ -50,9 +51,9 @@ public class PlayerPanel {
     }
 
     /** Set card display matching cards in hand */
-    public void displayCards(Card c1, Card c2) {
-        leftCard.setAsCard(c1);
-        rightCard.setAsCard(c2);
+    public void displayCards(ArrayList<Card> cards) {
+        leftCard.setAsCard(cards.get(0));
+        rightCard.setAsCard(cards.get(1));
     }
 
     public void displayFold() {
