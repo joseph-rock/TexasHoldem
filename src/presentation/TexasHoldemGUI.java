@@ -17,7 +17,7 @@ public class TexasHoldemGUI {
     TexasHoldem game;
     int count = 0;
 
-    ArrayList<PlayerPanel> playerPanelList = new ArrayList<>();
+    ArrayList<PlayerPanel> playerPanels = new ArrayList<>();
     CommunityCardsPanel communityPanel = new CommunityCardsPanel();
 
     JPanel buttonPanel = new JPanel();
@@ -59,18 +59,18 @@ public class TexasHoldemGUI {
 
     public void drawBoard() {
         // ** TOP ROW **
-        frame.add(playerPanelList.get(7).getRootPanel(), getGBC(0, 0, 1, 1));
-        frame.add(playerPanelList.get(1).getRootPanel(), getGBC(1, 0, 1, 2));
-        frame.add(playerPanelList.get(4).getRootPanel(), getGBC(3, 0, 1, 1));
+        frame.add(playerPanels.get(7).getRootPanel(), getGBC(0, 0, 1, 1));
+        frame.add(playerPanels.get(1).getRootPanel(), getGBC(1, 0, 1, 2));
+        frame.add(playerPanels.get(4).getRootPanel(), getGBC(3, 0, 1, 1));
 
         // ** MIDDLE ROW **
-        frame.add(playerPanelList.get(3).getRootPanel(), getGBC(0, 1, 2, 1));
-        frame.add(playerPanelList.get(2).getRootPanel(), getGBC(3, 1, 2, 1));
+        frame.add(playerPanels.get(3).getRootPanel(), getGBC(0, 1, 2, 1));
+        frame.add(playerPanels.get(2).getRootPanel(), getGBC(3, 1, 2, 1));
 
         // ** BOTTOM ROW **
-        frame.add(playerPanelList.get(6).getRootPanel(), getGBC(0, 3, 1, 1));
-        frame.add(playerPanelList.get(0).getRootPanel(), getGBC(0, 4, 1, 4));
-        frame.add(playerPanelList.get(5).getRootPanel(), getGBC(3, 3, 1, 1));
+        frame.add(playerPanels.get(6).getRootPanel(), getGBC(0, 3, 1, 1));
+        frame.add(playerPanels.get(0).getRootPanel(), getGBC(0, 4, 1, 4));
+        frame.add(playerPanels.get(5).getRootPanel(), getGBC(3, 3, 1, 1));
 
         // community cards
         communityPanel.displayCards(game.communityCards.getCards());
@@ -81,22 +81,22 @@ public class TexasHoldemGUI {
 
     public void initBoard() {
         // Set fresh CommunityCardsPanel
-        playerPanelList = new ArrayList<>();
+        playerPanels = new ArrayList<>();
         communityPanel = new CommunityCardsPanel();
 
         // Set fresh PlayerPanels
         for (int i = 0; i < 8; i++) {
-            playerPanelList.add( new PlayerPanel() );
+            playerPanels.add( new PlayerPanel() );
 
             if (i < game.numberOfPlayers()) {
-                playerPanelList.get(i).initActivePlayerDisplay(game.getPlayer(i));
+                playerPanels.get(i).setActivePlayer(game.getPlayer(i));
             }
         }
     }
 
     public void resetBoard(){
         communityPanel.getRootPanel().removeAll();
-        for ( PlayerPanel panel : playerPanelList ) {
+        for ( PlayerPanel panel : playerPanels) {
             panel.getRootPanel().removeAll();
         }
         game.resetRound();
@@ -108,10 +108,10 @@ public class TexasHoldemGUI {
         Player human = game.getPlayer(0);
         Card c1 = human.getHand().getCard(0);
         Card c2 = human.getHand().getCard(1);
-        playerPanelList.get(0).displayCards(c1, c2);
+        playerPanels.get(0).displayCards(c1, c2);
 
         for (int i = 1; i < game.numberOfPlayers(); i++) {
-            playerPanelList.get(i).displayCardBack();
+            playerPanels.get(i).displayCardBack();
         }
     }
 
@@ -141,7 +141,7 @@ public class TexasHoldemGUI {
         revealBotCards();
         ArrayList<Player> winners = game.getWinners();
 
-        for (PlayerPanel playerPanel : playerPanelList) {
+        for (PlayerPanel playerPanel : playerPanels) {
             for (Player winner : winners) {
                 if (winner.getName().equals(playerPanel.getName())) {
                     playerPanel.displayWinner(winner);
@@ -156,7 +156,7 @@ public class TexasHoldemGUI {
             Player bot = game.getPlayer(i);
             Card c1 = bot.getHand().getCard(0);
             Card c2 = bot.getHand().getCard(1);
-            playerPanelList.get(i).displayCards(c1, c2);
+            playerPanels.get(i).displayCards(c1, c2);
         }
     }
 
