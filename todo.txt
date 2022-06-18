@@ -12,3 +12,6 @@ GUI
         -Name
         -Number of opponents
         -Starting chips
+
+Crackpot ideas
+    Bots can speak??
