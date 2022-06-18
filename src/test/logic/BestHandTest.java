@@ -4,7 +4,7 @@ import data.*;
 import enums.PokerHand;
 import enums.CardSuite;
 import enums.CardValue;
-import data.CardCollection;
+import data.Hand;
 import logic.BestHand;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +14,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkStraightFlush() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -29,7 +29,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkStraightFlushWithTwoPair() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -44,7 +44,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkStraightFlushWithThreeOfAKind() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
@@ -59,7 +59,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkRoyalFlush() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.ACE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.KING) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.QUEEN) );
@@ -74,7 +74,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkLowStraight() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
@@ -89,7 +89,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkLowestStraight() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.ACE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.THREE) );
@@ -104,7 +104,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkHighestStraight() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.ACE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.KING) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.QUEEN) );
@@ -119,7 +119,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkStraightWithThreeOfAKind() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.ACE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.KING) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.QUEEN) );
@@ -134,7 +134,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkStraightWithTwoPair() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.EIGHT) );
@@ -149,7 +149,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkFlush() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -164,7 +164,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkFlushWithThreeOfAKind() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -179,7 +179,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkFlushWithStraightPresent() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -194,7 +194,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkPair() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.THREE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -209,7 +209,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkTwoPair() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -225,7 +225,7 @@ class BestHandTest {
     // Fuck
     @org.junit.jupiter.api.Test
     void checkThreePairResultsInTwoPair() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -240,7 +240,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkThreeOfAKind() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TWO) );
@@ -255,7 +255,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkFullHouse() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TWO) );
@@ -270,7 +270,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkReallyFullHouse() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TWO) );
@@ -285,7 +285,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkInvertedReallyFullHouse() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TWO) );
@@ -300,7 +300,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkFourOfAKind() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TWO) );
@@ -315,7 +315,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkHighCard() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
@@ -330,7 +330,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkPairBeatsHighCard() {
-        CardCollection highCard = new CardCollection();
+        Hand highCard = new Hand();
         highCard.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         highCard.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         highCard.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
@@ -340,7 +340,7 @@ class BestHandTest {
         highCard.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
         BestHand.set(highCard);
 
-        CardCollection pair = new CardCollection();
+        Hand pair = new Hand();
         pair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         pair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.THREE) );
         pair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -355,7 +355,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkHigherPairWins() {
-        CardCollection highPair = new CardCollection();
+        Hand highPair = new Hand();
         highPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         highPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         highPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
@@ -365,7 +365,7 @@ class BestHandTest {
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
         BestHand.set(highPair);
 
-        CardCollection lowPair = new CardCollection();
+        Hand lowPair = new Hand();
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         lowPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.THREE) );
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
@@ -380,7 +380,7 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkEqualPairHighKickerWins() {
-        CardCollection highPair = new CardCollection();
+        Hand highPair = new Hand();
         highPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         highPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         highPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
@@ -390,7 +390,7 @@ class BestHandTest {
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
         BestHand.set(highPair);
 
-        CardCollection lowPair = new CardCollection();
+        Hand lowPair = new Hand();
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
         lowPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         lowPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
@@ -405,14 +405,14 @@ class BestHandTest {
 
     @org.junit.jupiter.api.Test
     void checkBug() {
-        CardCollection cards = new CardCollection();
+        Hand cards = new Hand();
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FOUR) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FIVE) );
 
-        CardCollection p1 = new CardCollection();
+        Hand p1 = new Hand();
         p1.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TWO) );
         p1.addCard( deck.getCard(CardSuite.SPADES, CardValue.THREE) );
         p1.addCollection(cards);
@@ -420,7 +420,7 @@ class BestHandTest {
         p1.printCards();
         System.out.println(p1.getHandType());
 
-        CardCollection p2 = new CardCollection();
+        Hand p2 = new Hand();
         p2.addCard( deck.getCard(CardSuite.SPADES, CardValue.ACE) );
         p2.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FOUR) );
         p2.addCollection(cards);
@@ -428,7 +428,7 @@ class BestHandTest {
         p2.printCards();
         System.out.println(p2.getHandType());
 
-        CardCollection p3 = new CardCollection();
+        Hand p3 = new Hand();
         p3.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
         p3.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SEVEN) );
         p3.addCollection(cards);

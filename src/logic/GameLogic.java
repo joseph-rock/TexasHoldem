@@ -73,10 +73,10 @@ public class GameLogic {
 
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
-        CardCollection bestHand = new CardCollection();
+        Hand bestHand = new Hand();
 
         for (Player player : players) {
-            CardCollection playerHand = player.getHand();
+            Hand playerHand = player.getHand();
             playerHand.addList(communityCards);
             BestHand.set(playerHand);
 

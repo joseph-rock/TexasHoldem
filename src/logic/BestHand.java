@@ -1,7 +1,7 @@
 package logic;
 
 import data.Card;
-import data.CardCollection;
+import data.Hand;
 import enums.PokerHand;
 
 import java.util.*;
@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class BestHand {
 
-    public static void set(CardCollection cards) {
+    public static void set(Hand cards) {
         cards.sortCollection();
 
         if ( isFlush(cards) ) {
@@ -39,7 +39,7 @@ public class BestHand {
         encodeHand(cards);
     }
 
-    private static Boolean isFlush(CardCollection c) {
+    private static Boolean isFlush(Hand c) {
         ArrayList<String> checkSuites = c.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
 
@@ -52,7 +52,7 @@ public class BestHand {
         return false;
     }
 
-    private static Boolean isStraight(CardCollection c) {
+    private static Boolean isStraight(Hand c) {
         Set<Integer> uniqueValues = new HashSet<>(c.getValueList());
 
         // Straight has to be 5 unique card values or more
@@ -81,7 +81,7 @@ public class BestHand {
         return false;
     }
 
-    private static void checkPair(CardCollection c) {
+    private static void checkPair(Hand c) {
         Map<Integer, Integer> countList = c.getCardValueFrequency();
 
         if (countList.size() == 0) {
@@ -113,7 +113,7 @@ public class BestHand {
         }
     }
 
-    private static void setFiveBestCards(CardCollection c) {
+    private static void setFiveBestCards(Hand c) {
         ArrayList<Card> cards = c.getCards();
         cards.sort(Collections.reverseOrder());
 
@@ -189,7 +189,7 @@ public class BestHand {
         }
     }
 
-    private static void encodeHand(CardCollection c) {
+    private static void encodeHand(Hand c) {
         ArrayList<Integer> valueList = c.getValueList();
         valueList.sort(Collections.reverseOrder());
 
@@ -238,27 +238,27 @@ public class BestHand {
         }
     }
 
-    private static void removeSuitesExcept(CardCollection c, String suite) {
+    private static void removeSuitesExcept(Hand c, String suite) {
         c.getCards().removeIf(card -> !Objects.equals(card.getSuite(), suite));
     }
 
-    private static void removeValueEqualTo(CardCollection c, int value) {
+    private static void removeValueEqualTo(Hand c, int value) {
         c.getCards().removeIf(card -> Objects.equals(card.getValue(), value));
     }
 
-    private static void removeValueInRange(CardCollection c, int min, int max) {
+    private static void removeValueInRange(Hand c, int min, int max) {
         for (int value = min; value < max; value++) {
             removeValueEqualTo(c, value);
         }
     }
 
-    private static void removeLowCards(CardCollection c) {
+    private static void removeLowCards(Hand c) {
         while (c.getCards().size() > 5) {
             c.getCards().remove(0);
         }
     }
 
-    private static void removeDuplicateValueCards(CardCollection c) {
+    private static void removeDuplicateValueCards(Hand c) {
         for (int i = c.getCards().size() - 2; i >= 0; i--) {
             if ( c.getCard(i).getValue() == c.getCard(i + 1).getValue()) {
                 c.getCards().remove(i+1);

@@ -4,12 +4,12 @@ import enums.PokerHand;
 
 import java.util.*;
 
-public class CardCollection {
+public class Hand {
     private ArrayList<Card> cards;
     private PokerHand handType;
     private String cardsEncoded;
 
-    public CardCollection() {
+    public Hand() {
         this.cards = new ArrayList<>();
         this.handType = PokerHand.INIT;
         this.cardsEncoded = "";
@@ -27,7 +27,7 @@ public class CardCollection {
         this.cards.addAll(cards);
     }
 
-    public void addCollection(CardCollection cards) {
+    public void addCollection(Hand cards) {
         this.cards.addAll(cards.getCards());
     }
 
@@ -88,14 +88,14 @@ public class CardCollection {
         return valueFrequencyMap;
     }
 
-    public boolean isBetterHand(CardCollection opponentCards) {
+    public boolean isBetterHand(Hand opponentCards) {
         if (getHandType() == opponentCards.getHandType()) {
             return getCardsEncoded().compareToIgnoreCase(opponentCards.getCardsEncoded()) > 0 ;
         }
         return getHandType().getScore() > opponentCards.getHandType().getScore();
     }
 
-    public boolean isDraw(CardCollection opponentCards) {
+    public boolean isDraw(Hand opponentCards) {
         return getHandType() == opponentCards.getHandType()
                 && getCardsEncoded().equals(opponentCards.getCardsEncoded());
     }

@@ -6,18 +6,18 @@ public class Player {
 
     private String name;
     private int chipCount;
-    private CardCollection hand;
+    private Hand hand;
 
     public Player() {
         this.name = RandomName.getName();
         this.chipCount = 500;
-        this.hand  = new CardCollection();
+        this.hand  = new Hand();
     }
 
     public Player(String name) {
         this.name = name;
         this.chipCount = 500;
-        this.hand  = new CardCollection();
+        this.hand  = new Hand();
     }
 
     public void addCard(Card card) {
@@ -25,10 +25,10 @@ public class Player {
     }
 
     public void resetHand() {
-        this.hand = new CardCollection();
+        this.hand = new Hand();
     }
 
-    public CardCollection getHand() {
+    public Hand getHand() {
         return hand;
     }
 
