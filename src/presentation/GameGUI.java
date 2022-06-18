@@ -1,6 +1,8 @@
 package presentation;
 
+import data.Card;
 import data.Player;
+import logic.TexasHoldem;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
 
@@ -77,6 +79,41 @@ public class GameGUI {
         }
     }
 
+    public void resetBoard(ArrayList<Player> players){
+        initPanels();
+        setPlayerPanels(players);
+    }
+
+    public void dealBoard(ArrayList<Player> players) {
+        Player main = players.get(0);
+
+        // Draw player cards
+        for (int i = 0; i < players.size(); i++) {
+            getPlayerPanel(i).displayCardBack();
+        }
+        getPlayerPanel(0).displayCards(main.getHand().getCards());
+    }
+
+    public void showBotCards(ArrayList<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
+        }
+    }
+
+    public void displayWinner(ArrayList<Player> winners) {
+        for (PlayerPanel playerPanel : playerPanels) {
+            for (Player winner : winners) {
+                if (winner.getName().equals(playerPanel.getName())) {
+                    playerPanel.displayWinner(winner);
+                }
+            }
+        }
+    }
+
+    public void updateCommunityCards(ArrayList<Card> cards) {
+        communityPanel.displayCards(cards);
+    }
+
     private PlayerPanel getPlayerPanel(int index) {
         return playerPanels.get(index);
     }
@@ -87,5 +124,9 @@ public class GameGUI {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    public JButton getCheckButton() {
+        return checkButton;
     }
 }
