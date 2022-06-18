@@ -415,7 +415,7 @@ class BestHandTest {
         Hand p1 = new Hand();
         p1.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TWO) );
         p1.addCard( deck.getCard(CardSuite.SPADES, CardValue.THREE) );
-        p1.addCollection(cards);
+        p1.addHand(cards);
         BestHand.set(p1);
         p1.printCards();
         System.out.println(p1.getHandType());
@@ -423,7 +423,7 @@ class BestHandTest {
         Hand p2 = new Hand();
         p2.addCard( deck.getCard(CardSuite.SPADES, CardValue.ACE) );
         p2.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FOUR) );
-        p2.addCollection(cards);
+        p2.addHand(cards);
         BestHand.set(p2);
         p2.printCards();
         System.out.println(p2.getHandType());
@@ -431,7 +431,7 @@ class BestHandTest {
         Hand p3 = new Hand();
         p3.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
         p3.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SEVEN) );
-        p3.addCollection(cards);
+        p3.addHand(cards);
         BestHand.set(p3);
         p3.printCards();
 

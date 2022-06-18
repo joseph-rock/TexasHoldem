@@ -27,7 +27,7 @@ public class Hand {
         this.cards.addAll(cards);
     }
 
-    public void addCollection(Hand cards) {
+    public void addHand(Hand cards) {
         this.cards.addAll(cards.getCards());
     }
 
