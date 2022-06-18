@@ -33,6 +33,7 @@ public class GameGUI {
     private JButton betButton;
     private JSlider betSlider;
     private JSeparator seperator;
+    private JButton dealButton;
 
     private ArrayList<PlayerPanel> playerPanels;
     private CommunityCardsPanel communityPanel;
@@ -128,5 +129,21 @@ public class GameGUI {
 
     public JButton getCheckButton() {
         return checkButton;
+    }
+
+    public JButton getDealButton() {
+        return dealButton;
+    }
+
+    public JButton getFoldButton() {
+        return foldButton;
+    }
+
+    public JButton getBetButton() {
+        return betButton;
+    }
+
+    public JSlider getBetSlider() {
+        return betSlider;
     }
 }
