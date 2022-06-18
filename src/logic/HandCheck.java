@@ -13,7 +13,7 @@ import java.util.*;
  * CardCollection.isBetterHand and CardCollection.isDraw.
  *
  * @author Joseph Rock
- * @version 6.18.2022
+ * @version 1.0
  */
 public class HandCheck {
 
@@ -37,7 +37,6 @@ public class HandCheck {
     }
 
     private static Boolean isFlush(CardCollection cards) {
-
         ArrayList<String> checkSuites = cards.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
 
@@ -84,38 +83,32 @@ public class HandCheck {
     }
 
     private static void checkPair(CardCollection cards) {
-        Map<Integer, Integer> countList = cards.getValueFrequencyMap();
+        Map<Integer, Integer> countList = cards.mapCardValueFrequency();
 
-        // No pairs
         if (countList.size() == 0) {
             return;
         }
 
-        // Single pair
         if (countList.size() == 1 && countList.containsValue(2)) {
             cards.setHand(PokerHand.PAIR);
             return;
         }
 
-        // Three of a kind
         if (countList.size() == 1 && countList.containsValue(3)) {
             cards.setHand(PokerHand.THREE_OF_A_KIND);
             return;
         }
 
-        // Four of a kind
         if (countList.containsValue(4)) {
             cards.setHand(PokerHand.FOUR_OF_A_KIND);
             return;
         }
 
-        // Full house
         if (countList.containsValue(3)) {
             cards.setHand(PokerHand.FULL_HOUSE);
             return;
         }
 
-        // Two pair
         if (countList.containsValue(2)) {
             cards.setHand(PokerHand.TWO_PAIR);
         }
