@@ -13,6 +13,8 @@ public class CommunityCardsPanel {
     private JPanel cardPanel;
     private JPanel potDisplayPanel;
     private JLabel potDisplayLabel;
+    private JLabel messageLabel;
+    private JPanel messagePanel;
 
     private final String POT_LABEL = "Current Pot:";
 
