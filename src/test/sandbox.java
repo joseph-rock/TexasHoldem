@@ -3,8 +3,8 @@ package test;
 import data.Card;
 import data.Deck;
 import data.Player;
-import enums.Suite;
-import enums.Value;
+import enums.CardSuite;
+import enums.CardValue;
 import main.GameController;
 import presentation.GameGUI;
 import presentation.components.CommunityCardsPanel;
@@ -33,8 +33,8 @@ public class sandbox {
         main.setBackground(Color.pink);
 
         Deck deck = new Deck();
-        Card c1 = deck.getCard(Suite.HEARTS, Value.TWO);
-        Card c2 = deck.getCard(Suite.SPADES, Value.TWO);
+        Card c1 = deck.getCard(CardSuite.HEARTS, CardValue.TWO);
+        Card c2 = deck.getCard(CardSuite.SPADES, CardValue.TWO);
 
         Player player = new Player();
 
@@ -66,9 +66,9 @@ public class sandbox {
         main.setBackground(Color.pink);
 
         Deck deck = new Deck();
-        Card c1 = deck.getCard(Suite.HEARTS, Value.TWO);
-        Card c2 = deck.getCard(Suite.SPADES, Value.TWO);
-        Card c3 = deck.getCard(Suite.CLUBS, Value.TWO);
+        Card c1 = deck.getCard(CardSuite.HEARTS, CardValue.TWO);
+        Card c2 = deck.getCard(CardSuite.SPADES, CardValue.TWO);
+        Card c3 = deck.getCard(CardSuite.CLUBS, CardValue.TWO);
 
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(c1);

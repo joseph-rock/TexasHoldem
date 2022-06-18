@@ -1,6 +1,6 @@
 package enums;
 
-public enum Suite {
+public enum CardSuite {
     DIAMONDS("diamonds"),
     HEARTS  ("hearts"),
     SPADES  ("spades"),
@@ -8,7 +8,7 @@ public enum Suite {
 
     private final String displayString;
 
-    Suite(String displayString) {
+    CardSuite(String displayString) {
         this.displayString = displayString;
     }
 

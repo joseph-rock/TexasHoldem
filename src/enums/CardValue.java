@@ -1,6 +1,6 @@
 package enums;
 
-public enum Value {
+public enum CardValue {
     TWO   (2, "two"),
     THREE (3, "three"),
     FOUR  (4,"four"),
@@ -18,7 +18,7 @@ public enum Value {
     private final String displayString;
     private final int value;
 
-    Value(int value, String displayString) {
+    CardValue(int value, String displayString) {
         this.displayString = displayString;
         this.value = value;
     }
