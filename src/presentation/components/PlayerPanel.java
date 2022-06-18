@@ -3,7 +3,6 @@ package presentation.components;
 import data.Card;
 import data.Player;
 import enums.PlayerStatus;
-import presentation.components.CardLabel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +35,7 @@ public class PlayerPanel {
     }
 
     /** Set card display as 'card_placeholder.png' */
-    public void initActivePlayerDisplay(Player player) {
+    public void setActivePlayer(Player player) {
         leftCard.setPlaceHolder();
         rightCard.setPlaceHolder();
 
