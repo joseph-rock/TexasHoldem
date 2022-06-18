@@ -5,6 +5,7 @@ import data.Deck;
 import data.Player;
 import enums.Suite;
 import enums.Value;
+import presentation.GameGUI;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
 
@@ -14,13 +15,18 @@ import java.util.ArrayList;
 
 public class sandbox {
 
+
     public static void main(String[] args) {
         //drawPlayerPanel();
-        drawCommunityPanel();
+        //drawCommunityPanel();
+        drawBoard();
     }
 
     private static void drawPlayerPanel() {
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(500,500));
+
         JPanel main = new JPanel();
         main.setBackground(Color.pink);
 
@@ -30,12 +36,9 @@ public class sandbox {
 
         Player player = new Player();
 
-        // Configure Frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(500,500));
 
         PlayerPanel panel = new PlayerPanel();
-        panel.initActivePlayerDisplay(new Player());
+        panel.setActivePlayer(new Player());
         panel.displayCardBack();
         panel.displayBet(player, 40);
         panel.displayAllIn(150);
@@ -43,7 +46,6 @@ public class sandbox {
         panel.displayWinner(player);
 //        panel.displayFold();
 //        panel.displayAllIn(150);
-
 
         main.add(panel.getRootPanel());
 
@@ -74,6 +76,29 @@ public class sandbox {
         panel.updatePot(150);
         panel.displayCards(cards);
         main.add(panel.getRootPanel());
+
+        frame.add(main);
+        frame.setVisible(true);
+        //frame.pack();
+    }
+
+    private static void drawBoard() {
+        JFrame frame = new JFrame();
+        JPanel main = new JPanel();
+        GameGUI gameGUI = new GameGUI();
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setMinimumSize(new Dimension(1000,900));
+        main.setBackground(Color.pink);
+
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            players.add(new Player());
+        }
+
+        gameGUI.setPlayerPanels(players);
+        main.add(gameGUI.getRootPanel());
 
         frame.add(main);
         frame.setVisible(true);
