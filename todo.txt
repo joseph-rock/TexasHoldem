@@ -1,0 +1,14 @@
+Game
+    Add betting
+        Randomly select BB & SB
+        Move around table clockwise - Oh god, why did I lay out the table like this
+        2 sec pause on all bots
+
+GUI
+    Create dynamic "Start" button - or "Deal"
+        Only works when starting a new round
+    Make main menu
+        Player selects:
+        -Name
+        -Number of opponents
+        -Starting chips
