@@ -6,19 +6,25 @@ import java.util.ArrayList;
 
 public class TexasHoldem {
 
-    public ArrayList<Player> players;
-    public CardCollection communityCards;
-    public Deck deck;
+    private ArrayList<Player> players;
+    private CardCollection communityCards;
+    private Deck deck;
+    private final int MAX_BOTS = 7;
 
-    public TexasHoldem(int numPlayers) {
+    public TexasHoldem(int numBots, String playerName) {
         this.players = new ArrayList<>();
         this.communityCards = new CardCollection();
         this.deck = new Deck();
-        addPlayers(numPlayers);
-        getPlayer(0).setName("Player");
+        addPlayers(numBots);
+        getPlayer(0).setName(playerName);
     }
 
     private void addPlayers(int numPlayers) {
+        if (numPlayers < 1) {
+            numPlayers = 1;
+        } else if (numPlayers > MAX_BOTS) {
+            numPlayers = MAX_BOTS;
+        }
         for (int i = 0; i <= numPlayers; i++) {
             players.add(new Player());
         }
