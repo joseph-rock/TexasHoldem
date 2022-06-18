@@ -118,6 +118,7 @@
                   <paintTicks value="false"/>
                   <paintTrack value="true"/>
                   <snapToTicks value="true"/>
+                  <value value="0"/>
                   <valueIsAdjusting value="false"/>
                 </properties>
               </component>

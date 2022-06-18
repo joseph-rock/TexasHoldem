@@ -23,10 +23,36 @@ public class GameController {
     private void initGameGUI() {
         this.gameGUI = new GameGUI();
         this.gameGUI.setPlayerPanels(game.getPlayers());
+        this.gameGUI.getDealButton().setEnabled(false);
+        flipButtons();
+
+        this.gameGUI.getDealButton().addActionListener(e -> {
+            cycleGameState();
+            flipButtons();
+        });
 
         this.gameGUI.getCheckButton().addActionListener(e -> {
             cycleGameState();
         });
+    }
+
+    private void flipButtons() {
+        if ( this.gameGUI.getDealButton().isEnabled() ) {
+            this.gameGUI.getDealButton().setEnabled(false);
+
+            this.gameGUI.getFoldButton().setEnabled(true);
+            this.gameGUI.getCheckButton().setEnabled(true);
+            this.gameGUI.getBetButton().setEnabled(true);
+            this.gameGUI.getBetSlider().setEnabled(true);
+            this.gameGUI.getBetSlider().setValue(0);
+        } else {
+            this.gameGUI.getDealButton().setEnabled(true);
+
+            this.gameGUI.getFoldButton().setEnabled(false);
+            this.gameGUI.getCheckButton().setEnabled(false);
+            this.gameGUI.getBetButton().setEnabled(false);
+            this.gameGUI.getBetSlider().setEnabled(false);
+        }
     }
 
     private void initFrame() {
@@ -45,6 +71,7 @@ public class GameController {
         this.game.resetRound();
 
         initGameGUI();
+        flipButtons();
         this.rootFrame.add(gameGUI.getRootPanel());
         this.rootFrame.repaint();
         this.rootFrame.setVisible(true);
@@ -73,6 +100,8 @@ public class GameController {
     public void endOfRoundBoard() {
         gameGUI.showBotCards(game.getPlayers());
         gameGUI.displayWinner(game.getWinners());
+        flipButtons();
+        this.gameGUI.getDealButton().setText("Next");
     }
 
     public void cycleGameState() {
