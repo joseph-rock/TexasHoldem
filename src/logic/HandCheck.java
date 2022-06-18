@@ -1,14 +1,16 @@
 package logic;
 
+import data.Card;
 import enums.PokerHand;
 
 import java.util.*;
 
 /**
- * HandCheck.check is designed to take a CardCollection object containing 5 or
- * more Card objects and determine the best possible hand. It will:
- *      1) Set CardCollection.hand to the best PokerHand
- *      2) Set CardCollection.encodedCards to the 5 best cards in order of importance
+ * HandCheck.check is designed to take a CardCollection object containing 5 to 7
+ * Card objects and determine the best possible hand. It will:
+ *      1) Reduce CardCollection.cards to the 5 best cards in the hand
+ *      2) Set CardCollection.hand to the best possible PokerHand
+ *      3) Set CardCollection.encodedCards to hex representation of the 5 best cards in order of importance
  * After running HandCheck.check, CardCollection objects can then be compared using
  * CardCollection.isBetterHand and CardCollection.isDraw.
  *
@@ -32,25 +34,25 @@ public class HandCheck {
             cards.setHandType(PokerHand.HIGH_CARD);
         }
         checkPair(cards);
-        cards.getBestHand();
-        cards.encodeHand();
+        getBestHand(cards);
+        encodeHand(cards);
     }
 
-    private static Boolean isFlush(CardCollection cards) {
-        ArrayList<String> checkSuites = cards.getSuiteList();
+    private static Boolean isFlush(CardCollection c) {
+        ArrayList<String> checkSuites = c.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
 
         for (String suite : uniqueSuites) {
             if (Collections.frequency(checkSuites, suite) >= 5) {
-                cards.removeSuitesExcept(suite);
+                removeSuitesExcept(c, suite);
                 return true;
             }
         }
         return false;
     }
 
-    private static Boolean isStraight(CardCollection cards) {
-        Set<Integer> uniqueValues = new HashSet<>(cards.getValueList());
+    private static Boolean isStraight(CardCollection c) {
+        Set<Integer> uniqueValues = new HashSet<>(c.getValueList());
 
         // Straight has to be 5 unique card values or more
         if (uniqueValues.size() < 5) {
@@ -60,8 +62,8 @@ public class HandCheck {
         // Manually check low straight (A, 2, 3, 4, 5)
         if (uniqueValues.contains(14) && uniqueValues.contains(2) && uniqueValues.contains(3) &&
                 uniqueValues.contains(4) && uniqueValues.contains(5)) {
-            cards.removeValueInRange(6, 14);
-            cards.removeDuplicateValueCards();
+            removeValueInRange(c, 6, 14);
+            removeDuplicateValueCards(c);
             return true;
         }
 
@@ -69,44 +71,204 @@ public class HandCheck {
         for (int i = uniqueValueList.size() - 1; i >= 4; i--) {
             if ( uniqueValueList.get(i) - uniqueValueList.get(i-4) == 4)
             {
-                cards.removeValueInRange(uniqueValueList.get(i) + 1, 15);
-                cards.removeValueInRange(2, uniqueValueList.get(i-4));
-                cards.removeDuplicateValueCards();
+                removeValueInRange(c, uniqueValueList.get(i) + 1, 15);
+                removeValueInRange(c, 2, uniqueValueList.get(i-4));
+                removeDuplicateValueCards(c);
                 return true;
             }
         }
         return false;
     }
 
-    private static void checkPair(CardCollection cards) {
-        Map<Integer, Integer> countList = cards.mapCardValueFrequency();
+    private static void checkPair(CardCollection c) {
+        Map<Integer, Integer> countList = c.getCardValueFrequency();
 
         if (countList.size() == 0) {
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(2)) {
-            cards.setHandType(PokerHand.PAIR);
+            c.setHandType(PokerHand.PAIR);
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(3)) {
-            cards.setHandType(PokerHand.THREE_OF_A_KIND);
+            c.setHandType(PokerHand.THREE_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(4)) {
-            cards.setHandType(PokerHand.FOUR_OF_A_KIND);
+            c.setHandType(PokerHand.FOUR_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(3)) {
-            cards.setHandType(PokerHand.FULL_HOUSE);
+            c.setHandType(PokerHand.FULL_HOUSE);
             return;
         }
 
         if (countList.containsValue(2)) {
-            cards.setHandType(PokerHand.TWO_PAIR);
+            c.setHandType(PokerHand.TWO_PAIR);
+        }
+    }
+
+    // TODO de-clutter and optimize
+    private static void getBestHand(CardCollection c) {
+        ArrayList<Card> cards = c.getCards();
+        cards.sort(Collections.reverseOrder());
+
+        ArrayList<Card> bestHand = new ArrayList<>();
+        Map<Integer, Integer> cardFrequencyMap = c.getCardValueFrequency();
+
+        // Creates best hand with 4 of a kind
+        if (cardFrequencyMap.containsValue(4)) {
+            for ( Card card : cards ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 4 ) {
+                    bestHand.add(card);
+                }
+            }
+
+            if (cards.get(0).getValue() == bestHand.get(0).getValue()) {
+                bestHand.add(cards.get(4));
+            }
+            else {
+                bestHand.add(cards.get(0));
+            }
+        }
+
+        // Build best hand with three of a kind present
+        else if ( cardFrequencyMap.containsValue(3) ) {
+
+            // get highest three of a kind
+            for ( Card card : cards ) {
+                if ( bestHand.size() < 3 && cardFrequencyMap.getOrDefault(card.getValue(), 0) == 3 ) {
+                    bestHand.add(card);
+                }
+            }
+
+            // If more pairs exist, choose highest 2 cards
+            if ( cardFrequencyMap.size() > 1 ) {
+                for (Card card : cards) {
+                    if (cardFrequencyMap.containsKey(card.getValue())
+                            && card.getValue() != bestHand.get(0).getValue()
+                            && bestHand.size() < 5) {
+                        bestHand.add(card);
+                    }
+                }
+            }
+
+            // Fill in the rest
+            for (Card card : cards) {
+                if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                    bestHand.add(card);
+                }
+            }
+        }
+
+        // Build best hand with only pairs present
+        else if ( cardFrequencyMap.containsValue(2) ) {
+            for ( Card card : cards ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 2 && bestHand.size() < 4 ) {
+                    bestHand.add(card);
+                }
+            }
+            for (Card card : cards) {
+                if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                    bestHand.add(card);
+                }
+            }
+        }
+
+        if (bestHand.size() != 0) {
+            c.setCards(bestHand);
+            c.sortCollection();
+        } else {
+            // remove dupes or low cards
+            c.sortCollection();
+            removeDuplicateValueCards(c);
+            removeLowCards(c);
+        }
+    }
+
+    private static void encodeHand(CardCollection c) {
+        ArrayList<Integer> valueList = c.getValueList();
+        valueList.sort(Collections.reverseOrder());
+
+        Map<Integer, Integer> valueFrequency = c.getCardValueFrequency();
+        StringBuilder encodedHand = new StringBuilder();
+
+        // Encodes pairs
+        if (valueFrequency.size() != 0) {
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 4) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 3) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+
+            for (int value : valueList) {
+                if (valueFrequency.getOrDefault(value, 0) == 2) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+
+            for (int value : valueList) {
+                if (!valueFrequency.containsKey(value)) {
+                    encodedHand.append(Integer.toHexString(value));
+                }
+            }
+        }
+
+        // No pairs present
+        else {
+            for (int value : valueList) {
+                encodedHand.append(Integer.toHexString(value));
+            }
+        }
+
+        c.setCardsEncoded(String.valueOf(encodedHand));
+
+        // Checks for A-5 straight, A becomes low card
+        if (c.getCardsEncoded().equals("e5432")) {
+            c.setCardsEncoded("5432e");
+        }
+        if (c.getCardsEncoded().equals("edcba") && c.getHandType() == PokerHand.STRAIGHT_FLUSH) {
+            c.setHandType(PokerHand.ROYAL_FLUSH);
+        }
+    }
+
+    private static void removeSuitesExcept(CardCollection c, String suite) {
+        c.getCards().removeIf(card -> !Objects.equals(card.getSuite(), suite));
+    }
+
+    private static void removeValueEqualTo(CardCollection c, int value) {
+        c.getCards().removeIf(card -> Objects.equals(card.getValue(), value));
+    }
+
+    private static void removeValueInRange(CardCollection c, int min, int max) {
+        for (int value = min; value < max; value++) {
+            removeValueEqualTo(c, value);
+        }
+    }
+
+    private static void removeLowCards(CardCollection c) {
+        c.sortCollection();
+        while (c.getCards().size() > 5) {
+            c.getCards().remove(0);
+        }
+    }
+
+    private static void removeDuplicateValueCards(CardCollection c) {
+        c.sortCollection();
+        for (int i = c.getCards().size() - 2; i >= 0; i--) {
+            if ( c.getCard(i).getValue() == c.getCard(i + 1).getValue()) {
+                c.getCards().remove(i+1);
+            }
         }
     }
 }
