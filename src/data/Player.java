@@ -1,9 +1,6 @@
 package data;
 
-import logic.CardCollection;
 import logic.RandomName;
-
-import java.util.ArrayList;
 
 public class Player {
 

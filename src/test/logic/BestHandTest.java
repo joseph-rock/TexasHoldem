@@ -4,7 +4,7 @@ import data.*;
 import enums.PokerHand;
 import enums.CardSuite;
 import enums.CardValue;
-import logic.CardCollection;
+import data.CardCollection;
 import logic.BestHand;
 
 import static org.junit.jupiter.api.Assertions.*;

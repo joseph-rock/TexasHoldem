@@ -1,6 +1,7 @@
 package logic;
 
 import data.Card;
+import data.CardCollection;
 import enums.PokerHand;
 
 import java.util.*;
