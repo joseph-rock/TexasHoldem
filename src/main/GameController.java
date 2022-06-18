@@ -13,8 +13,8 @@ public class GameController {
     private TexasHoldem game;
     private int count;
 
-    public GameController() {
-        this.game = new TexasHoldem(7, "This Guy");
+    public GameController(int numBots, String playerName) {
+        this.game = new TexasHoldem(numBots, playerName);
 
         initGameGUI();
         initFrame();
