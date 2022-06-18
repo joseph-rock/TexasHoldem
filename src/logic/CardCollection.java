@@ -16,12 +16,6 @@ public class CardCollection {
         this.cardsEncoded = "";
     }
 
-    public CardCollection(ArrayList<Card> cardList) {
-        this.cards = new ArrayList<>(cardList);
-        this.handType = PokerHand.INIT;
-        this.cardsEncoded = "";
-    }
-
     public void sortCollection() {
         Collections.sort(this.cards);
     }
@@ -90,19 +84,6 @@ public class CardCollection {
             int frequency = Collections.frequency(valueList, value);
             if (frequency != 1) {
                 valueFrequencyMap.put(value, frequency);
-            }
-        }
-        return valueFrequencyMap;
-    }
-
-    public Map<String, Integer> getCardSuiteFrequency() {
-        HashMap<String, Integer> valueFrequencyMap = new HashMap<>();
-        ArrayList<String> suiteList = getSuiteList();
-
-        for (String suite : suiteList) {
-            int frequency = Collections.frequency(suiteList, suite);
-            if (frequency != 1) {
-                valueFrequencyMap.put(suite, frequency);
             }
         }
         return valueFrequencyMap;
