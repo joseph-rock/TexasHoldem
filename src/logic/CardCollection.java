@@ -7,26 +7,26 @@ import java.util.*;
 
 public class CardCollection {
     private ArrayList<Card> cards;
-    private PokerHand hand;
-    private String encodedCards;
+    private PokerHand handType;
+    private String cardsEncoded;
 
     public CardCollection() {
         this.cards = new ArrayList<>();
-        this.hand = PokerHand.INIT;
-        this.encodedCards = "";
+        this.handType = PokerHand.INIT;
+        this.cardsEncoded = "";
     }
 
     public CardCollection(ArrayList<Card> cardList) {
         this.cards = new ArrayList<>(cardList);
-        this.hand = PokerHand.INIT;
-        this.encodedCards = "";
+        this.handType = PokerHand.INIT;
+        this.cardsEncoded = "";
     }
 
     public void addCard(Card card) {
         this.cards.add(card);
     }
 
-    public void addListToCollection(ArrayList<Card> cards) {
+    public void addList(ArrayList<Card> cards) {
         this.cards.addAll(cards);
     }
 
@@ -42,16 +42,16 @@ public class CardCollection {
         Collections.sort(this.cards);
     }
 
-    public PokerHand getHandDescription() {
-        return this.hand;
+    public void setHandType(PokerHand handType) {
+        this.handType = handType;
     }
 
-    public String getEncodedCards() {
-        return this.encodedCards;
+    public PokerHand getHandType() {
+        return this.handType;
     }
 
-    public void setHand(PokerHand hand) {
-        this.hand = hand;
+    public String getCardsEncoded() {
+        return this.cardsEncoded;
     }
 
     public ArrayList<Card> getCards() {
@@ -82,17 +82,6 @@ public class CardCollection {
             valueList.add(card.getValue());
         }
         return valueList;
-    }
-
-    /**
-     * Convert list of Card objects to list of Card.valueAsString objects
-     * */
-    public ArrayList<String> getValueStringList() {
-        ArrayList<String> valueStringList = new ArrayList<>();
-        for (Card card : cards) {
-            valueStringList.add(card.getValueAsString());
-        }
-        return valueStringList;
     }
 
     public Map<Integer, Integer> mapCardValueFrequency() {
@@ -142,16 +131,17 @@ public class CardCollection {
         }
     }
 
+    // TODO de-clutter and optimize
     public void getBestHand() {
         cards.sort(Collections.reverseOrder());
 
         ArrayList<Card> bestHand = new ArrayList<>();
-        Map<Integer, Integer> valueFrequency = mapCardValueFrequency();
+        Map<Integer, Integer> cardFrequencyMap = mapCardValueFrequency();
 
         // Creates best hand with 4 of a kind
-        if (valueFrequency.containsValue(4)) {
+        if (cardFrequencyMap.containsValue(4)) {
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 4 ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 4 ) {
                     bestHand.add(card);
                 }
             }
@@ -165,37 +155,38 @@ public class CardCollection {
         }
 
         // Build best hand with three of a kind present
-        else if ( valueFrequency.containsValue(3) ) {
+        else if ( cardFrequencyMap.containsValue(3) ) {
 
             // get highest three of a kind
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 3 && bestHand.size() < 3 ) {
+                if ( bestHand.size() < 3 && cardFrequencyMap.getOrDefault(card.getValue(), 0) == 3 ) {
                     bestHand.add(card);
                 }
             }
 
-            // get highest pair or three of a kind converted to pair
-            for ( Card card : cards ) {
-                if ( valueFrequency.containsKey(card.getValue()) && card.getValue() != bestHand.get(0).getValue()
-                        && bestHand.size() < 5 ) {
-                    bestHand.add(card);
-                }
-            }
-
-            // fill in with highest cards
-            if (bestHand.size() < 5) {
+            // If more pairs exist, choose highest 2 cards
+            if ( cardFrequencyMap.size() > 1 ) {
                 for (Card card : cards) {
-                    if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                    if (cardFrequencyMap.containsKey(card.getValue())
+                            && card.getValue() != bestHand.get(0).getValue()
+                            && bestHand.size() < 5) {
                         bestHand.add(card);
                     }
+                }
+            }
+
+            // Fill in the rest
+            for (Card card : cards) {
+                if (bestHand.size() < 5 && !bestHand.contains(card)) {
+                    bestHand.add(card);
                 }
             }
         }
 
         // Build best hand with only pairs present
-        else if ( valueFrequency.containsValue(2) ) {
+        else if ( cardFrequencyMap.containsValue(2) ) {
             for ( Card card : cards ) {
-                if ( valueFrequency.getOrDefault(card.getValue(), 0) == 2 && bestHand.size() < 4 ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 2 && bestHand.size() < 4 ) {
                     bestHand.add(card);
                 }
             }
@@ -267,27 +258,27 @@ public class CardCollection {
             }
         }
 
-        this.encodedCards = String.valueOf(encodedHand);
+        this.cardsEncoded = String.valueOf(encodedHand);
 
         // Checks for A-5 straight, A becomes low card
-        if (getEncodedCards().equals("e5432")) {
-            this.encodedCards = "5432e";
+        if (getCardsEncoded().equals("e5432")) {
+            this.cardsEncoded = "5432e";
         }
-        if (getEncodedCards().equals("edcba") && getHandDescription() == PokerHand.STRAIGHT_FLUSH) {
-            this.hand = PokerHand.ROYAL_FLUSH;
+        if (getCardsEncoded().equals("edcba") && getHandType() == PokerHand.STRAIGHT_FLUSH) {
+            this.handType = PokerHand.ROYAL_FLUSH;
         }
     }
 
     public boolean isBetterHand(CardCollection opponentCards) {
-        if (getHandDescription() == opponentCards.getHandDescription()) {
-            return getEncodedCards().compareToIgnoreCase(opponentCards.getEncodedCards()) > 0 ;
+        if (getHandType() == opponentCards.getHandType()) {
+            return getCardsEncoded().compareToIgnoreCase(opponentCards.getCardsEncoded()) > 0 ;
         }
-        return getHandDescription().getScore() > opponentCards.getHandDescription().getScore();
+        return getHandType().getScore() > opponentCards.getHandType().getScore();
     }
 
     public boolean isDraw(CardCollection opponentCards) {
-        return getHandDescription() == opponentCards.getHandDescription()
-                && getEncodedCards().equals(opponentCards.getEncodedCards());
+        return getHandType() == opponentCards.getHandType()
+                && getCardsEncoded().equals(opponentCards.getCardsEncoded());
     }
 
     public void printCards() {

@@ -22,14 +22,14 @@ public class HandCheck {
 
         if ( isFlush(cards) ) {
             if ( isStraight(cards) ) {
-                cards.setHand(PokerHand.STRAIGHT_FLUSH);
+                cards.setHandType(PokerHand.STRAIGHT_FLUSH);
             } else {
-                cards.setHand(PokerHand.FLUSH);
+                cards.setHandType(PokerHand.FLUSH);
             }
         } else if ( isStraight(cards) ) {
-            cards.setHand(PokerHand.STRAIGHT);
+            cards.setHandType(PokerHand.STRAIGHT);
         } else {
-            cards.setHand(PokerHand.HIGH_CARD);
+            cards.setHandType(PokerHand.HIGH_CARD);
         }
         checkPair(cards);
         cards.getBestHand();
@@ -90,27 +90,27 @@ public class HandCheck {
         }
 
         if (countList.size() == 1 && countList.containsValue(2)) {
-            cards.setHand(PokerHand.PAIR);
+            cards.setHandType(PokerHand.PAIR);
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(3)) {
-            cards.setHand(PokerHand.THREE_OF_A_KIND);
+            cards.setHandType(PokerHand.THREE_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(4)) {
-            cards.setHand(PokerHand.FOUR_OF_A_KIND);
+            cards.setHandType(PokerHand.FOUR_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(3)) {
-            cards.setHand(PokerHand.FULL_HOUSE);
+            cards.setHandType(PokerHand.FULL_HOUSE);
             return;
         }
 
         if (countList.containsValue(2)) {
-            cards.setHand(PokerHand.TWO_PAIR);
+            cards.setHandType(PokerHand.TWO_PAIR);
         }
     }
 }

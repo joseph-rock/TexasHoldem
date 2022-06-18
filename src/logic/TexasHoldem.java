@@ -7,13 +7,13 @@ import java.util.ArrayList;
 public class TexasHoldem {
 
     private ArrayList<Player> players;
-    private CardCollection communityCards;
+    private ArrayList<Card> communityCards;
     private Deck deck;
     private final int MAX_BOTS = 7;
 
     public TexasHoldem(int numBots, String playerName) {
         this.players = new ArrayList<>();
-        this.communityCards = new CardCollection();
+        this.communityCards = new ArrayList<>();
         this.deck = new Deck();
         addPlayers(numBots);
         getPlayer(0).setName(playerName);
@@ -43,7 +43,7 @@ public class TexasHoldem {
     }
 
     public ArrayList<Card> getCommunityCards() {
-        return communityCards.getCards();
+        return communityCards;
     }
 
     public void dealPlayers() {
@@ -55,7 +55,7 @@ public class TexasHoldem {
 
     private void dealCommunity(int numCards) {
         for (int i = 0; i < numCards; i++) {
-            communityCards.addCard(deck.dealCard());
+            communityCards.add(deck.dealCard());
         }
     }
 
@@ -77,7 +77,7 @@ public class TexasHoldem {
 
         for (Player player : players) {
             CardCollection playerHand = player.getHand();
-            playerHand.addCollection(communityCards);
+            playerHand.addList(communityCards);
             HandCheck.check(playerHand);
 
             if (playerHand.isBetterHand(bestHand)) {
@@ -102,7 +102,7 @@ public class TexasHoldem {
         for (Player player : players) {
             player.resetHand();
         }
-        this.communityCards = new CardCollection();
+        this.communityCards = new ArrayList<>();
         this.deck = new Deck();
     }
 
