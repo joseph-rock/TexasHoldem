@@ -1,13 +1,13 @@
 package enums;
 
 public enum PlayerStatus {
-    FOLD("Fold"),
-    BIG_BLIND("Big Blind:"),
-    SMALL_BLIND("Small Blind:"),
-    BET("Bet:"),
-    CALL("Call:"),
-    ALL_IN("All In"),
-    WINNER("Winner!");
+    BET  ("Bet:"),
+    CALL ("Call:"),
+    FOLD ("Fold"),
+    ALL_IN ("All In"),
+    WINNER ("Winner!"),
+    BIG_BLIND   ("Big Blind:"),
+    SMALL_BLIND ("Small Blind:");
 
     private final String displayString;
 

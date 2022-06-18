@@ -2,9 +2,9 @@ package enums;
 
 public enum Suite {
     DIAMONDS("diamonds"),
-    HEARTS("hearts"),
-    SPADES("spades"),
-    CLUBS("clubs");
+    HEARTS  ("hearts"),
+    SPADES  ("spades"),
+    CLUBS   ("clubs");
 
     private final String displayString;
 
