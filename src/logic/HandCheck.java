@@ -34,7 +34,7 @@ public class HandCheck {
             cards.setHandType(PokerHand.HIGH_CARD);
         }
         checkPair(cards);
-        getBestHand(cards);
+        setFiveBestCards(cards);
         encodeHand(cards);
     }
 
@@ -112,8 +112,7 @@ public class HandCheck {
         }
     }
 
-    // TODO de-clutter and optimize
-    private static void getBestHand(CardCollection c) {
+    private static void setFiveBestCards(CardCollection c) {
         ArrayList<Card> cards = c.getCards();
         cards.sort(Collections.reverseOrder());
 
@@ -130,8 +129,7 @@ public class HandCheck {
 
             if (cards.get(0).getValue() == bestHand.get(0).getValue()) {
                 bestHand.add(cards.get(4));
-            }
-            else {
+            } else {
                 bestHand.add(cards.get(0));
             }
         }
@@ -222,10 +220,7 @@ public class HandCheck {
                     encodedHand.append(Integer.toHexString(value));
                 }
             }
-        }
-
-        // No pairs present
-        else {
+        } else {
             for (int value : valueList) {
                 encodedHand.append(Integer.toHexString(value));
             }
@@ -257,14 +252,12 @@ public class HandCheck {
     }
 
     private static void removeLowCards(CardCollection c) {
-        c.sortCollection();
         while (c.getCards().size() > 5) {
             c.getCards().remove(0);
         }
     }
 
     private static void removeDuplicateValueCards(CardCollection c) {
-        c.sortCollection();
         for (int i = c.getCards().size() - 2; i >= 0; i--) {
             if ( c.getCard(i).getValue() == c.getCard(i + 1).getValue()) {
                 c.getCards().remove(i+1);
