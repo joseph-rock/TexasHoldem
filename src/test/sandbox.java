@@ -109,6 +109,6 @@ public class sandbox {
 
     private static void test() {
         int players = 8;
-        new GameController();
+        new GameController(players, "dskflj");
     }
 }
