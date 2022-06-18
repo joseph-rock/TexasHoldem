@@ -2,7 +2,6 @@ package presentation;
 
 import data.Card;
 import data.Player;
-import logic.TexasHoldem;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
 

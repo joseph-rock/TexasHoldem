@@ -1,6 +1,6 @@
 package main;
 
-import logic.TexasHoldem;
+import logic.GameLogic;
 import presentation.GameGUI;
 
 import javax.swing.*;
@@ -10,11 +10,11 @@ public class GameController {
 
     private JFrame rootFrame;
     private GameGUI gameGUI;
-    private TexasHoldem game;
+    private GameLogic game;
     private int count;
 
     public GameController(int numBots, String playerName) {
-        this.game = new TexasHoldem(numBots, playerName);
+        this.game = new GameLogic(numBots, playerName);
 
         initGameGUI();
         initFrame();

@@ -4,14 +4,14 @@ import data.*;
 
 import java.util.ArrayList;
 
-public class TexasHoldem {
+public class GameLogic {
 
     private ArrayList<Player> players;
     private ArrayList<Card> communityCards;
     private Deck deck;
     private final int MAX_BOTS = 7;
 
-    public TexasHoldem(int numBots, String playerName) {
+    public GameLogic(int numBots, String playerName) {
         this.players = new ArrayList<>();
         this.communityCards = new ArrayList<>();
         this.deck = new Deck();
