@@ -4,63 +4,39 @@ import enums.PokerHand;
 
 import java.util.*;
 
-/** Poker hands in order from best to worst:
- *      NAME                TIEBREAKER
+/**
+ * HandCheck.check is designed to take a CardCollection object containing 5 or
+ * more Card objects and determine the best possible hand. It will:
+ *      1) Set CardCollection.hand to the best PokerHand
+ *      2) Set CardCollection.encodedCards to the 5 best cards in order of importance
+ * After running HandCheck.check, CardCollection objects can then be compared using
+ * CardCollection.isBetterHand and CardCollection.isDraw.
  *
- * 9     Royal Flush -       Tie unbreakable
- * 8     Straight Flush -    High card
- * 7     Four of a Kind -    Best, only one can
- *                          occur per round
- * 6     Full House -        Highest three of a kind
- * 5     Flush -             High card
- * 4     Straight -          High card
- * 3     Three of a kind -   High card
- * 2     Two pair -          Highest pair, then second
- *                          highest pair, then 5th
- * 1     Pair -              Highest pair, then 3rd,
- *                          4th, then 5th
- * 0     High Card -         Highest card, then 2nd,
- *                          3rd, 4th, 5th
+ * @author Joseph Rock
+ * @version 6.18.2022
  */
 public class HandCheck {
 
     public static void check(CardCollection cards) {
         cards.sortCollection();
 
-        // Check for flush
         if ( isFlush(cards) ) {
-            // Check for straight flush
             if ( isStraight(cards) ) {
                 cards.setHand(PokerHand.STRAIGHT_FLUSH);
             } else {
                 cards.setHand(PokerHand.FLUSH);
             }
-            cards.getBestHand();
-            cards.encodeHand();
-        }
-
-        // check for straight
-        else if ( isStraight(cards) ) {
+        } else if ( isStraight(cards) ) {
             cards.setHand(PokerHand.STRAIGHT);
-            cards.getBestHand();
-            cards.encodeHand();
-        }
-
-        // check for pairs
-        else if ( isPair(cards) ) {
-            cards.getBestHand();
-            cards.encodeHand();
-        }
-
-        // high card
-        else {
-            cards.getBestHand();
+        } else {
             cards.setHand(PokerHand.HIGH_CARD);
-            cards.encodeHand();
         }
+        checkPair(cards);
+        cards.getBestHand();
+        cards.encodeHand();
     }
 
-    public static Boolean isFlush(CardCollection cards) {
+    private static Boolean isFlush(CardCollection cards) {
 
         ArrayList<String> checkSuites = cards.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
@@ -74,9 +50,7 @@ public class HandCheck {
         return false;
     }
 
-    public static Boolean isStraight(CardCollection cards) {
-
-        // Create Set with each Card.value
+    private static Boolean isStraight(CardCollection cards) {
         Set<Integer> uniqueValues = new HashSet<>(cards.getValueList());
 
         // Straight has to be 5 unique card values or more
@@ -109,45 +83,41 @@ public class HandCheck {
         return false;
     }
 
-    public static Boolean isPair(CardCollection cards) {
+    private static void checkPair(CardCollection cards) {
         Map<Integer, Integer> countList = cards.getValueFrequencyMap();
 
-        // No pairs, check first to optimize
+        // No pairs
         if (countList.size() == 0) {
-            return false;
+            return;
         }
 
         // Single pair
         if (countList.size() == 1 && countList.containsValue(2)) {
             cards.setHand(PokerHand.PAIR);
-            return true;
+            return;
         }
 
         // Three of a kind
         if (countList.size() == 1 && countList.containsValue(3)) {
             cards.setHand(PokerHand.THREE_OF_A_KIND);
-            return true;
+            return;
         }
 
         // Four of a kind
         if (countList.containsValue(4)) {
             cards.setHand(PokerHand.FOUR_OF_A_KIND);
-            return true;
+            return;
         }
 
         // Full house
         if (countList.containsValue(3)) {
             cards.setHand(PokerHand.FULL_HOUSE);
-            return true;
+            return;
         }
 
         // Two pair
         if (countList.containsValue(2)) {
             cards.setHand(PokerHand.TWO_PAIR);
-            return true;
         }
-        
-        return false;
     }
-    
 }

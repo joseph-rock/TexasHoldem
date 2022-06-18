@@ -95,7 +95,7 @@ public class CardCollection {
         return valueStringList;
     }
 
-    public Map<Integer, Integer> getValueFrequencyMap() {
+    public Map<Integer, Integer> mapCardValueFrequency() {
         HashMap<Integer, Integer> valueFrequencyMap = new HashMap<>();
         ArrayList<Integer> valueList = getValueList();
 
@@ -103,6 +103,19 @@ public class CardCollection {
             int frequency = Collections.frequency(valueList, value);
             if (frequency != 1) {
                 valueFrequencyMap.put(value, frequency);
+            }
+        }
+        return valueFrequencyMap;
+    }
+
+    public Map<String, Integer> mapCardSuiteFrequency() {
+        HashMap<String, Integer> valueFrequencyMap = new HashMap<>();
+        ArrayList<String> suiteList = getSuiteList();
+
+        for (String suite : suiteList) {
+            int frequency = Collections.frequency(suiteList, suite);
+            if (frequency != 1) {
+                valueFrequencyMap.put(suite, frequency);
             }
         }
         return valueFrequencyMap;
@@ -133,7 +146,7 @@ public class CardCollection {
         cards.sort(Collections.reverseOrder());
 
         ArrayList<Card> bestHand = new ArrayList<>();
-        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
+        Map<Integer, Integer> valueFrequency = mapCardValueFrequency();
 
         // Creates best hand with 4 of a kind
         if (valueFrequency.containsValue(4)) {
@@ -217,7 +230,7 @@ public class CardCollection {
         ArrayList<Integer> valueList = getValueList();
         valueList.sort(Collections.reverseOrder());
 
-        Map<Integer, Integer> valueFrequency = getValueFrequencyMap();
+        Map<Integer, Integer> valueFrequency = mapCardValueFrequency();
         StringBuilder encodedHand = new StringBuilder();
 
         // Encodes pairs
