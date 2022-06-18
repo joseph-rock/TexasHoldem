@@ -78,7 +78,7 @@ public class TexasHoldem {
         for (Player player : players) {
             CardCollection playerHand = player.getHand();
             playerHand.addList(communityCards);
-            HandCheck.check(playerHand);
+            BestHand.set(playerHand);
 
             if (playerHand.isBetterHand(bestHand)) {
                 bestHand = playerHand;

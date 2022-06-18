@@ -5,11 +5,11 @@ import enums.PokerHand;
 import enums.CardSuite;
 import enums.CardValue;
 import logic.CardCollection;
-import logic.HandCheck;
+import logic.BestHand;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HandCheckTest {
+class BestHandTest {
     Deck deck = new Deck();
 
     @org.junit.jupiter.api.Test
@@ -22,7 +22,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
         assertEquals("87654", cards.getCardsEncoded());
     }
@@ -37,7 +37,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.THREE) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
         assertEquals("65432", cards.getCardsEncoded());
     }
@@ -52,7 +52,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
         assertEquals("a9876", cards.getCardsEncoded());
     }
@@ -67,7 +67,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.ROYAL_FLUSH, cards.getHandType());
         assertEquals("edcba", cards.getCardsEncoded());
     }
@@ -82,7 +82,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT, cards.getHandType());
         assertEquals("87654", cards.getCardsEncoded());
     }
@@ -97,7 +97,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT, cards.getHandType());
         assertEquals("5432e", cards.getCardsEncoded());
     }
@@ -112,7 +112,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT, cards.getHandType());
         assertEquals("edcba", cards.getCardsEncoded());
     }
@@ -127,7 +127,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT, cards.getHandType());
         assertEquals("edcba", cards.getCardsEncoded());
     }
@@ -142,7 +142,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.JACK) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.JACK) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.STRAIGHT, cards.getHandType());
         assertEquals("ba987", cards.getCardsEncoded());
     }
@@ -157,7 +157,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FLUSH, cards.getHandType());
         assertEquals("87643", cards.getCardsEncoded());
     }
@@ -172,7 +172,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FOUR) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FLUSH, cards.getHandType());
         assertEquals("87432", cards.getCardsEncoded());
     }
@@ -187,7 +187,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FLUSH, cards.getHandType());
         assertEquals("87432", cards.getCardsEncoded());
     }
@@ -202,7 +202,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.PAIR, cards.getHandType());
         assertEquals("44976", cards.getCardsEncoded());
     }
@@ -217,7 +217,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.TWO_PAIR, cards.getHandType());
         assertEquals("44229", cards.getCardsEncoded());
     }
@@ -233,7 +233,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.TWO_PAIR, cards.getHandType());
         assertEquals("66449", cards.getCardsEncoded());
     }
@@ -248,7 +248,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.THREE_OF_A_KIND, cards.getHandType());
         assertEquals("222a8", cards.getCardsEncoded());
     }
@@ -263,7 +263,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
         assertEquals("22255", cards.getCardsEncoded());
     }
@@ -278,7 +278,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
         assertEquals("55522", cards.getCardsEncoded());
     }
@@ -293,7 +293,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SIX) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
         assertEquals("22266", cards.getCardsEncoded());
     }
@@ -308,7 +308,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.FOUR_OF_A_KIND, cards.getHandType());
         assertEquals("2222a", cards.getCardsEncoded());
     }
@@ -323,7 +323,7 @@ class HandCheckTest {
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.NINE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
-        HandCheck.check(cards);
+        BestHand.set(cards);
         assertEquals(PokerHand.HIGH_CARD, cards.getHandType());
         assertEquals("ea986", cards.getCardsEncoded());
     }
@@ -338,7 +338,7 @@ class HandCheckTest {
         highCard.addCard( deck.getCard(CardSuite.SPADES, CardValue.NINE) );
         highCard.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         highCard.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
-        HandCheck.check(highCard);
+        BestHand.set(highCard);
 
         CardCollection pair = new CardCollection();
         pair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
@@ -348,7 +348,7 @@ class HandCheckTest {
         pair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         pair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         pair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
-        HandCheck.check(pair);
+        BestHand.set(pair);
 
         assertFalse(highCard.isBetterHand(pair));
     }
@@ -363,7 +363,7 @@ class HandCheckTest {
         highPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
-        HandCheck.check(highPair);
+        BestHand.set(highPair);
 
         CardCollection lowPair = new CardCollection();
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
@@ -373,7 +373,7 @@ class HandCheckTest {
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SIX) );
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         lowPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
-        HandCheck.check(lowPair);
+        BestHand.set(lowPair);
 
         assertTrue(highPair.isBetterHand(lowPair));
     }
@@ -388,7 +388,7 @@ class HandCheckTest {
         highPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         highPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
-        HandCheck.check(highPair);
+        BestHand.set(highPair);
 
         CardCollection lowPair = new CardCollection();
         lowPair.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TWO) );
@@ -398,7 +398,7 @@ class HandCheckTest {
         lowPair.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
         lowPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         lowPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
-        HandCheck.check(lowPair);
+        BestHand.set(lowPair);
 
         assertTrue(highPair.isBetterHand(lowPair));
     }
@@ -416,7 +416,7 @@ class HandCheckTest {
         p1.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TWO) );
         p1.addCard( deck.getCard(CardSuite.SPADES, CardValue.THREE) );
         p1.addCollection(cards);
-        HandCheck.check(p1);
+        BestHand.set(p1);
         p1.printCards();
         System.out.println(p1.getHandType());
 
@@ -424,7 +424,7 @@ class HandCheckTest {
         p2.addCard( deck.getCard(CardSuite.SPADES, CardValue.ACE) );
         p2.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FOUR) );
         p2.addCollection(cards);
-        HandCheck.check(p2);
+        BestHand.set(p2);
         p2.printCards();
         System.out.println(p2.getHandType());
 
@@ -432,7 +432,7 @@ class HandCheckTest {
         p3.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
         p3.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SEVEN) );
         p3.addCollection(cards);
-        HandCheck.check(p3);
+        BestHand.set(p3);
         p3.printCards();
 
         assertTrue(p2.isBetterHand(p1));

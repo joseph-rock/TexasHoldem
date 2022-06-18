@@ -6,20 +6,20 @@ import enums.PokerHand;
 import java.util.*;
 
 /**
- * HandCheck.check is designed to take a CardCollection object containing 5 to 7
+ * BestHand.set is designed to take a CardCollection object containing 5 to 7
  * Card objects and determine the best possible hand. It will:
  *      1) Reduce CardCollection.cards to the 5 best cards in the hand
  *      2) Set CardCollection.hand to the best possible PokerHand
  *      3) Set CardCollection.encodedCards to hex representation of the 5 best cards in order of importance
- * After running HandCheck.check, CardCollection objects can then be compared using
+ * After running BestHand.set, CardCollection objects can then be compared using
  * CardCollection.isBetterHand and CardCollection.isDraw.
  *
  * @author Joseph Rock
  * @version 1.0
  */
-public class HandCheck {
+public class BestHand {
 
-    public static void check(CardCollection cards) {
+    public static void set(CardCollection cards) {
         cards.sortCollection();
 
         if ( isFlush(cards) ) {
