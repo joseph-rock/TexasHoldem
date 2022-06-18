@@ -65,13 +65,9 @@ public class HandCheck {
             return true;
         }
 
-        // Actually disgusting
         ArrayList<Integer> uniqueValueList = new ArrayList<>(uniqueValues);
         for (int i = uniqueValueList.size() - 1; i >= 4; i--) {
-            if ( uniqueValueList.get(i)   - uniqueValueList.get(i-1) == 1
-                    && uniqueValueList.get(i-1) - uniqueValueList.get(i-2) == 1
-                    && uniqueValueList.get(i-2) - uniqueValueList.get(i-3) == 1
-                    && uniqueValueList.get(i-3) - uniqueValueList.get(i-4) == 1)
+            if ( uniqueValueList.get(i) - uniqueValueList.get(i-4) == 4)
             {
                 cards.removeValueInRange(uniqueValueList.get(i) + 1, 15);
                 cards.removeValueInRange(2, uniqueValueList.get(i-4));
