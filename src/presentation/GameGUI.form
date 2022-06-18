@@ -66,7 +66,7 @@
               <component id="9cb35" class="javax.swing.JButton" binding="foldButton">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="50" height="50"/>
+                    <preferred-size width="75" height="50"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -81,7 +81,7 @@
               <component id="414c2" class="javax.swing.JButton" binding="checkButton">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="50" height="50"/>
+                    <preferred-size width="75" height="50"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -91,7 +91,7 @@
               <component id="9ba69" class="javax.swing.JButton" binding="betButton">
                 <constraints>
                   <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="50" height="50"/>
+                    <preferred-size width="75" height="50"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -107,7 +107,15 @@
                 <constraints>
                   <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <majorTickSpacing value="5"/>
+                  <opaque value="false"/>
+                  <paintLabels value="false"/>
+                  <paintTicks value="false"/>
+                  <paintTrack value="true"/>
+                  <snapToTicks value="true"/>
+                  <valueIsAdjusting value="false"/>
+                </properties>
               </component>
             </children>
           </grid>
