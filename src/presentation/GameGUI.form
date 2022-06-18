@@ -71,6 +71,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <opaque value="false"/>
                   <text value="Fold"/>
                 </properties>
               </component>
@@ -86,6 +87,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <opaque value="false"/>
                   <text value="Check"/>
                 </properties>
               </component>
@@ -96,6 +98,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <opaque value="false"/>
                   <text value="Bet"/>
                 </properties>
               </component>
