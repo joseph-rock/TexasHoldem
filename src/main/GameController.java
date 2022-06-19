@@ -7,6 +7,33 @@ import presentation.GameGUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * No-Limit Texas Hold'em
+ *
+ * Definitions:
+ *      Action - The betting phase
+ *      Street - The phases where cards are dealt (pre-flop, flop, turn, river)
+ *      Button - The 'dealer'. Action starts with the player to the left (clockwise) of the button
+ *      Small blind - Player to the left (clockwise) of the button
+ *      Big blind - Player to the left (clockwise) of the Small blind
+ *      Under the Gun - Player that initiates the action pre-flop. Player to the left (clockwise) of the Big blind
+ *      Heads up - When there are only two players remaining
+ *
+ * Pre-flop
+ *      Under the Gun goes first
+ *      Minimum opening raise must be at least twice the big blind
+ *      Max is all-in
+ *
+ * Remaining Rounds
+ *      Active player to the left of button goes first
+ *
+ * The Showdown
+ *      Players reveal their cards. Winner wins
+ *
+ * Heads up
+ *      Dealer places small blind
+ *      Opponent places big blind
+ */
 public class GameController {
 
     private JFrame rootFrame;
