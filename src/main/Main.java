@@ -1,9 +1,15 @@
 package main;
 
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args){
-        new GameController(7, "It's a me");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new GameController(7, "It's a me");
+            }
+        });
     }
-
 }
