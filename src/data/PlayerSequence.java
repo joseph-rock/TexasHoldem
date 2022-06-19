@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class PlayerSequence {
 
-    private Map<Integer, Integer> clockwiseSequence;
+    private final Map<Integer, Integer> clockwiseSequence;
 
     public PlayerSequence() {
         clockwiseSequence = new HashMap<>();
@@ -19,7 +19,13 @@ public class PlayerSequence {
         clockwiseSequence.put(6, 0);
     }
 
-    public int getNext(int current) {
-        return clockwiseSequence.get(current);
+    public int nextIndex(int current, int numPlayers) {
+        int next = clockwiseSequence.get(current);
+
+        while (next > numPlayers - 1) {
+            next = clockwiseSequence.get(next);
+        }
+
+        return next;
     }
 }
