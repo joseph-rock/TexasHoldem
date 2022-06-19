@@ -35,6 +35,14 @@ public class Card implements Comparable<Card>{
         return suite + "_" + valueAsString + ".png";
     }
 
+    public boolean isConsecutive(Card o) {
+        return Math.abs( value - o.getValue() ) == 1;
+    }
+
+    public boolean sameSuite(Card o) {
+        return suite.equals(o.getSuite());
+    }
+
     @Override public int compareTo(Card o) {
         return Integer.compare(this.value, o.getValue());
     }   
