@@ -1,6 +1,7 @@
 package logic;
 
 import data.*;
+import enums.PlayerAction;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,8 @@ public class GameLogic {
     private ArrayList<Card> communityCards;
     private Deck deck;
     private final int MAX_BOTS = 7;
+    private int currentPot;
+    private int highestBet;
 
     public GameLogic(int numBots, String playerName) {
         this.players = new ArrayList<>();
@@ -34,7 +37,7 @@ public class GameLogic {
         return players.get(idx);
     }
 
-    public int numberOfPlayers() {
+    public int numPlayers() {
         return players.size();
     }
 
@@ -80,11 +83,11 @@ public class GameLogic {
             playerHand.addList(communityCards);
             BestHand.set(playerHand);
 
-            if (playerHand.isBetterHand(bestHand)) {
+            if (!player.hasFolded() && playerHand.isBetterHand(bestHand)) {
                 bestHand = playerHand;
                 winners = new ArrayList<>();
                 winners.add(player);
-            } else if (playerHand.isDraw(bestHand)) {
+            } else if (!player.hasFolded() && playerHand.isDraw(bestHand)) {
                 winners.add(player);
             }
         }
@@ -100,10 +103,9 @@ public class GameLogic {
     /** Reset all player hands, reset community cards, create new deck. */
     public void resetRound() {
         for (Player player : players) {
-            player.resetHand();
+            player.newRound();
         }
         this.communityCards = new ArrayList<>();
         this.deck = new Deck();
     }
-
 }
