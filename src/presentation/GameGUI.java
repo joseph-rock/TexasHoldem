@@ -96,7 +96,9 @@ public class GameGUI {
 
     public void showBotCards(ArrayList<Player> players) {
         for (int i = 0; i < players.size(); i++) {
-            getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
+            if (!players.get(i).hasFolded()) {
+                getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
+            }
         }
     }
 
@@ -112,6 +114,14 @@ public class GameGUI {
 
     public void updateCommunityCards(ArrayList<Card> cards) {
         communityPanel.displayCards(cards);
+    }
+
+    public void updatePlayerCards(ArrayList<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).hasFolded()) {
+                getPlayerPanel(i).displayFold();
+            }
+        }
     }
 
     private PlayerPanel getPlayerPanel(int index) {
