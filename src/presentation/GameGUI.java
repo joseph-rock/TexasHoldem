@@ -79,15 +79,9 @@ public class GameGUI {
         }
     }
 
-    public void resetBoard(ArrayList<Player> players){
-        initPanels();
-        setPlayerPanels(players);
-    }
-
     public void dealBoard(ArrayList<Player> players) {
         Player main = players.get(0);
 
-        // Draw player cards
         for (int i = 0; i < players.size(); i++) {
             getPlayerPanel(i).displayCardBack();
         }
