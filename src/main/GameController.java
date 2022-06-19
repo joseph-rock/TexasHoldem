@@ -1,5 +1,6 @@
 package main;
 
+import data.PlayerSequence;
 import logic.GameLogic;
 import presentation.GameGUI;
 
@@ -11,10 +12,15 @@ public class GameController {
     private JFrame rootFrame;
     private GameGUI gameGUI;
     private GameLogic game;
-    private int count;
+    private int stage;
+
+    private int bigBlind;
+
+    private PlayerSequence sequence;
 
     public GameController(int numBots, String playerName) {
         this.game = new GameLogic(numBots, playerName);
+        this.sequence = new PlayerSequence();
 
         initGameGUI();
         initFrame();
@@ -27,12 +33,12 @@ public class GameController {
         flipButtons();
 
         this.gameGUI.getDealButton().addActionListener(e -> {
-            cycleGameState();
+            cycleGameStage();
             flipButtons();
         });
 
         this.gameGUI.getCheckButton().addActionListener(e -> {
-            cycleGameState();
+            cycleGameStage();
         });
     }
 
@@ -104,8 +110,8 @@ public class GameController {
         this.gameGUI.getDealButton().setText("Next");
     }
 
-    public void cycleGameState() {
-        switch (count) {
+    public void cycleGameStage() {
+        switch (stage) {
             case 0 -> dealBoard();
             case 1 -> flopBoard();
             case 2 -> turnBoard();
@@ -113,9 +119,9 @@ public class GameController {
             case 4 -> endOfRoundBoard();
             case 5 -> {
                 startOfRound();
-                count = -1;
+                stage = -1;
             }
         }
-        count++;
+        stage++;
     }
 }
