@@ -1,5 +1,6 @@
 package data;
 
+import enums.PlayerAction;
 import logic.RandomName;
 
 public class Player {
@@ -7,25 +8,37 @@ public class Player {
     private String name;
     private int chipCount;
     private Hand hand;
+    private int currentBet;
+
+    private boolean folded;
+    private boolean eliminated;
+    private PlayerAction lastAction;
 
     public Player() {
         this.name = RandomName.getName();
         this.chipCount = 500;
         this.hand  = new Hand();
+        this.folded = false;
+        this.eliminated = false;
+        this.lastAction = null;
     }
 
     public Player(String name) {
         this.name = name;
         this.chipCount = 500;
         this.hand  = new Hand();
+        this.folded = false;
+        this.lastAction = null;
     }
 
     public void addCard(Card card) {
         hand.addCard(card);
     }
 
-    public void resetHand() {
+    public void newRound() {
         this.hand = new Hand();
+        this.folded = false;
+        this.lastAction = null;
     }
 
     public Hand getHand() {
@@ -52,4 +65,23 @@ public class Player {
         return chipCount;
     }
 
+    public boolean hasFolded() {
+        return this.folded;
+    }
+
+    public void fold() {
+        this.folded = true;
+    }
+
+    public void setEliminated() {
+        this.eliminated = true;
+    }
+
+    public void setLastAction(PlayerAction action) {
+        this.lastAction = action;
+    }
+
+    public PlayerAction getLastAction() {
+        return this.lastAction;
+    }
 }
