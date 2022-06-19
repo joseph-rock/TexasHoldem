@@ -2,7 +2,7 @@ package presentation.components;
 
 import data.Card;
 import data.Player;
-import enums.PlayerStatus;
+import enums.PlayerAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,38 +60,38 @@ public class PlayerPanel {
         leftCard.setPlaceHolder();
         rightCard.setPlaceHolder();
 
-        statusDisplay.setText(PlayerStatus.FOLD.toString());
+        statusDisplay.setText(PlayerAction.FOLD.toString());
     }
 
     public void displayBigBlind(Player player, int amount) {
-        statusDisplay.setText( String.format("%s %d", PlayerStatus.BIG_BLIND.toString(), amount) );
+        statusDisplay.setText( String.format("%s %d", PlayerAction.BIG_BLIND.toString(), amount) );
         printChipCount(player.getChipCount());
     }
 
     public void displaySmallBlind(Player player, int amount) {
-        statusDisplay.setText( String.format("%s %d", PlayerStatus.SMALL_BLIND.toString(), amount) );
+        statusDisplay.setText( String.format("%s %d", PlayerAction.SMALL_BLIND.toString(), amount) );
         printChipCount(player.getChipCount());
     }
 
     public void displayBet(Player player, int amount) {
-        statusDisplay.setText( String.format("%s %d", PlayerStatus.BET.toString(), amount) );
+        statusDisplay.setText( String.format("%s %d", PlayerAction.BET.toString(), amount) );
         printChipCount(player.getChipCount());
     }
 
     public void displayCall(Player player, int amount) {
-        statusDisplay.setText( String.format("%s %d", PlayerStatus.CALL.toString(), amount) );
+        statusDisplay.setText( String.format("%s %d", PlayerAction.CALL.toString(), amount) );
         printChipCount(player.getChipCount());
     }
 
     public void displayAllIn(int amount) {
-        statusDisplay.setText( String.format("%s %d", PlayerStatus.BET.toString(), amount) );
-        chipCountLabel.setText(PlayerStatus.ALL_IN.toString());
+        statusDisplay.setText( String.format("%s %d", PlayerAction.BET.toString(), amount) );
+        chipCountLabel.setText(PlayerAction.ALL_IN.toString());
     }
 
     public void displayWinner(Player player) {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(new Color(57,200,20));
-        statusDisplay.setText(String.format("%s - %s", PlayerStatus.WINNER.toString(), player.getHand().getHandType()));
+        statusDisplay.setText(String.format("%s - %s", PlayerAction.WINNER.toString(), player.getHand().getHandType()));
         printChipCount(player.getChipCount());
     }
 

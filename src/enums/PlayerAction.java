@@ -1,6 +1,6 @@
 package enums;
 
-public enum PlayerStatus {
+public enum PlayerAction {
     BET  ("Bet:"),
     CALL ("Call:"),
     FOLD ("Fold"),
@@ -11,7 +11,7 @@ public enum PlayerStatus {
 
     private final String displayString;
 
-    PlayerStatus(String displayString) {
+    PlayerAction(String displayString) {
         this.displayString = displayString;
     }
 
