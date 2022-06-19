@@ -1,6 +1,8 @@
 package main;
 
 import data.PlayerSequence;
+import enums.PlayerAction;
+import logic.BotAction;
 import logic.GameLogic;
 import presentation.GameGUI;
 
@@ -38,12 +40,10 @@ public class GameController {
 
     private JFrame rootFrame;
     private GameGUI gameGUI;
-    private GameLogic game;
+    private final GameLogic game;
     private int stage;
 
-    private int bigBlind;
-
-    private PlayerSequence sequence;
+    private final PlayerSequence sequence;
 
     public GameController(int numBots, String playerName) {
         this.game = new GameLogic(numBots, playerName);
@@ -60,12 +60,12 @@ public class GameController {
         flipButtons();
 
         this.gameGUI.getDealButton().addActionListener(e -> {
-            cycleGameStage();
+            cycleStreet();
             flipButtons();
         });
 
         this.gameGUI.getCheckButton().addActionListener(e -> {
-            cycleGameStage();
+            cycleStreet();
         });
     }
 
@@ -137,10 +137,15 @@ public class GameController {
         this.gameGUI.getDealButton().setText("Next");
     }
 
-    public void cycleGameStage() {
+    public void cycleStreet() {
         switch (stage) {
-            case 0 -> dealBoard();
-            case 1 -> flopBoard();
+            case 0 -> {
+                dealBoard();
+                action();
+            }
+            case 1 -> {
+                flopBoard();
+            }
             case 2 -> turnBoard();
             case 3 -> riverBoard();
             case 4 -> endOfRoundBoard();
@@ -150,5 +155,23 @@ public class GameController {
             }
         }
         stage++;
+    }
+
+    public void action(){
+        PlayerSequence seq = new PlayerSequence();
+
+        int dealer = 0;
+        int next = seq.nextIndex(dealer, game.numPlayers());
+
+        while( game.getPlayer(next).getLastAction() != PlayerAction.CHECK
+                && game.getPlayer(next).getLastAction() != PlayerAction.CALL) {
+
+            // Player action
+            BotAction.chooseAction(game.getPlayer(next));
+            gameGUI.updatePlayerCards(game.getPlayers());
+
+            // Next player
+            next = seq.nextIndex(next, game.numPlayers());
+        }
     }
 }
