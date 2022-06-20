@@ -12,7 +12,7 @@ public class Player {
 
     private boolean folded;
     private boolean eliminated;
-    private PlayerAction lastAction;
+    private PlayerAction lastPlayerAction;
 
     public Player() {
         this.name = RandomName.getName();
@@ -20,7 +20,7 @@ public class Player {
         this.hand  = new Hand();
         this.folded = false;
         this.eliminated = false;
-        this.lastAction = null;
+        this.lastPlayerAction = null;
     }
 
     public Player(String name) {
@@ -28,7 +28,7 @@ public class Player {
         this.chipCount = 500;
         this.hand  = new Hand();
         this.folded = false;
-        this.lastAction = null;
+        this.lastPlayerAction = null;
     }
 
     public void addCard(Card card) {
@@ -38,7 +38,7 @@ public class Player {
     public void newRound() {
         this.hand = new Hand();
         this.folded = false;
-        this.lastAction = null;
+        this.lastPlayerAction = null;
     }
 
     public Hand getHand() {
@@ -77,11 +77,11 @@ public class Player {
         this.eliminated = true;
     }
 
-    public void setLastAction(PlayerAction action) {
-        this.lastAction = action;
+    public void setLastAction(PlayerAction playerAction) {
+        this.lastPlayerAction = playerAction;
     }
 
     public PlayerAction getLastAction() {
-        return this.lastAction;
+        return this.lastPlayerAction;
     }
 }
