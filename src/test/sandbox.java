@@ -42,8 +42,6 @@ public class sandbox {
         PlayerPanel panel = new PlayerPanel();
         panel.setActivePlayer(new Player());
         panel.displayCardBack();
-        panel.displayBet(player, 40);
-        panel.displayAllIn(150);
         //panel.displayCards(c1, c2);
         panel.displayWinner(player);
 //        panel.displayFold();

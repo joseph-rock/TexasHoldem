@@ -82,11 +82,11 @@ public class GameLogic {
             playerHand.addList(communityCards);
             BestHand.set(playerHand);
 
-            if (!player.hasFolded() && playerHand.isBetterHand(bestHand)) {
+            if (playerHand.isBetterHand(bestHand)) {
                 bestHand = playerHand;
                 winners = new ArrayList<>();
                 winners.add(player);
-            } else if (!player.hasFolded() && playerHand.isDraw(bestHand)) {
+            } else if (playerHand.isDraw(bestHand)) {
                 winners.add(player);
             }
         }

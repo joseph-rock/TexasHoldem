@@ -1,8 +1,5 @@
 package main;
 
-import data.PlayerSequence;
-import enums.PlayerAction;
-import logic.BotAction;
 import logic.GameLogic;
 import presentation.GameGUI;
 
@@ -43,11 +40,8 @@ public class GameController {
     private final GameLogic game;
     private int stage;
 
-    private final PlayerSequence sequence;
-
     public GameController(int numBots, String playerName) {
         this.game = new GameLogic(numBots, playerName);
-        this.sequence = new PlayerSequence();
 
         initGameGUI();
         initFrame();
@@ -56,36 +50,10 @@ public class GameController {
     private void initGameGUI() {
         this.gameGUI = new GameGUI();
         this.gameGUI.setPlayerPanels(game.getPlayers());
-        this.gameGUI.getDealButton().setEnabled(false);
-        flipButtons();
 
         this.gameGUI.getDealButton().addActionListener(e -> {
             cycleStreet();
-            flipButtons();
         });
-
-        this.gameGUI.getCheckButton().addActionListener(e -> {
-            cycleStreet();
-        });
-    }
-
-    private void flipButtons() {
-        if ( this.gameGUI.getDealButton().isEnabled() ) {
-            this.gameGUI.getDealButton().setEnabled(false);
-
-            this.gameGUI.getFoldButton().setEnabled(true);
-            this.gameGUI.getCheckButton().setEnabled(true);
-            this.gameGUI.getBetButton().setEnabled(true);
-            this.gameGUI.getBetSlider().setEnabled(true);
-            this.gameGUI.getBetSlider().setValue(0);
-        } else {
-            this.gameGUI.getDealButton().setEnabled(true);
-
-            this.gameGUI.getFoldButton().setEnabled(false);
-            this.gameGUI.getCheckButton().setEnabled(false);
-            this.gameGUI.getBetButton().setEnabled(false);
-            this.gameGUI.getBetSlider().setEnabled(false);
-        }
     }
 
     private void initFrame() {
@@ -104,7 +72,6 @@ public class GameController {
         this.game.resetRound();
 
         initGameGUI();
-        flipButtons();
         this.rootFrame.add(gameGUI.getRootPanel());
         this.rootFrame.repaint();
         this.rootFrame.setVisible(true);
@@ -133,19 +100,13 @@ public class GameController {
     public void endOfRoundBoard() {
         gameGUI.showBotCards(game.getPlayers());
         gameGUI.displayWinner(game.getWinners());
-        flipButtons();
         this.gameGUI.getDealButton().setText("Next");
     }
 
     public void cycleStreet() {
         switch (stage) {
-            case 0 -> {
-                dealBoard();
-                action();
-            }
-            case 1 -> {
-                flopBoard();
-            }
+            case 0 -> dealBoard();
+            case 1 -> flopBoard();
             case 2 -> turnBoard();
             case 3 -> riverBoard();
             case 4 -> endOfRoundBoard();
@@ -155,23 +116,5 @@ public class GameController {
             }
         }
         stage++;
-    }
-
-    public void action(){
-        PlayerSequence seq = new PlayerSequence();
-
-        int dealer = 0;
-        int next = seq.nextIndex(dealer, game.numPlayers());
-
-        while( game.getPlayer(next).getLastAction() != PlayerAction.CHECK
-                && game.getPlayer(next).getLastAction() != PlayerAction.CALL) {
-
-            // Player action
-            BotAction.chooseAction(game.getPlayer(next));
-            gameGUI.updatePlayerCards(game.getPlayers());
-
-            // Next player
-            next = seq.nextIndex(next, game.numPlayers());
-        }
     }
 }

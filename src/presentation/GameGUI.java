@@ -27,19 +27,15 @@ public class GameGUI {
     private JPanel middlePanel;
     private JPanel bottomPanel;
     private JPanel buttonPanel;
-    private JButton foldButton;
-    private JButton checkButton;
-    private JButton betButton;
-    private JSlider betSlider;
-    private JSeparator seperator;
+    private JSeparator separator;
     private JButton dealButton;
 
     private ArrayList<PlayerPanel> playerPanels;
     private CommunityCardsPanel communityPanel;
 
     public GameGUI() {
-        seperator.setBackground(Color.decode("#005500"));
-        seperator.setForeground(Color.BLACK);
+        separator.setBackground(Color.decode("#005500"));
+        separator.setForeground(Color.BLACK);
     }
 
     private void createUIComponents() {
@@ -90,9 +86,7 @@ public class GameGUI {
 
     public void showBotCards(ArrayList<Player> players) {
         for (int i = 0; i < players.size(); i++) {
-            if (!players.get(i).hasFolded()) {
-                getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
-            }
+            getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
         }
     }
 
@@ -110,14 +104,6 @@ public class GameGUI {
         communityPanel.displayCards(cards);
     }
 
-    public void updatePlayerCards(ArrayList<Player> players) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).hasFolded()) {
-                getPlayerPanel(i).displayFold();
-            }
-        }
-    }
-
     private PlayerPanel getPlayerPanel(int index) {
         return playerPanels.get(index);
     }
@@ -130,23 +116,7 @@ public class GameGUI {
         return rootPanel;
     }
 
-    public JButton getCheckButton() {
-        return checkButton;
-    }
-
     public JButton getDealButton() {
         return dealButton;
-    }
-
-    public JButton getFoldButton() {
-        return foldButton;
-    }
-
-    public JButton getBetButton() {
-        return betButton;
-    }
-
-    public JSlider getBetSlider() {
-        return betSlider;
     }
 }
