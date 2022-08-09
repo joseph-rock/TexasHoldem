@@ -34,15 +34,11 @@ public class Deck {
     }
 
     public Card getCard(CardSuite suite, CardValue value) {
-        Card card = new Card();
-
-        for (Card c : cards) {
-            if (c.getSuite().equals(suite.toString()) && c.getValueAsString().equals(value.toString())) {
-                card = c;
-                break;
+        for (Card card : cards) {
+            if (card.getSuite().equals(suite.toString()) && card.getValue() == value.toInt()) {
+                return card;
             }
         }
-
-        return card;
+        return null;
     }
 }

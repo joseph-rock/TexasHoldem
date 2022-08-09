@@ -102,7 +102,7 @@ public class Hand {
 
     public void printCards() {
         for (Card card : cards) {
-            System.out.println(card.getValueAsString() + " " + card.getSuite());
+            System.out.println(card.getValue() + " " + card.getSuite());
         }
         System.out.println();
     }

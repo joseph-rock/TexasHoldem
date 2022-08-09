@@ -91,10 +91,10 @@ public class GameLogic {
             }
         }
 
-        for (Player winner : winners) {
-            System.out.println(winner.getName());
-            winner.getHand().printCards();
-        }
+//        for (Player winner : winners) {
+//            System.out.println(winner.getName());
+//            winner.getHand().printCards();
+//        }
 
         return winners;
     }
