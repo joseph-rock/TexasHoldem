@@ -11,17 +11,10 @@ public class CommunityCardsPanel {
     private JPanel rootPanel;
     private JPanel mainPanel;
     private JPanel cardPanel;
-    private JPanel potDisplayPanel;
-    private JLabel potDisplayLabel;
-    private JLabel messageLabel;
-    private JPanel messagePanel;
-
-    private final String POT_LABEL = "Current Pot:";
 
     private ArrayList<CardLabel> cardJLabelList;
 
     public CommunityCardsPanel() {
-        potDisplayLabel.setText(String.format("%s 0", POT_LABEL));
     }
 
     private void createUIComponents() {
@@ -39,10 +32,6 @@ public class CommunityCardsPanel {
             getCardJLabel(idx).setAsCard(card);
             idx++;
         }
-    }
-
-    public void updatePot(int chips) {
-        potDisplayLabel.setText(String.format("%s %d", POT_LABEL, chips));
     }
 
     public CardLabel getCardJLabel(int idx) {

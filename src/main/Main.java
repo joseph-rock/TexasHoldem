@@ -8,7 +8,7 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GameController(7, "It's a me");
+                new GameController(7);
             }
         });
     }

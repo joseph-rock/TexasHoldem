@@ -13,12 +13,11 @@ public class GameLogic {
     private int currentPot;
     private int highestBet;
 
-    public GameLogic(int numBots, String playerName) {
+    public GameLogic(int numBots) {
         this.players = new ArrayList<>();
         this.communityCards = new ArrayList<>();
         this.deck = new Deck();
         addPlayers(numBots);
-        getPlayer(0).setName(playerName);
     }
 
     private void addPlayers(int numPlayers) {

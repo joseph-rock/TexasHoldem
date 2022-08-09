@@ -40,8 +40,8 @@ public class GameController {
     private final GameLogic game;
     private int stage;
 
-    public GameController(int numBots, String playerName) {
-        this.game = new GameLogic(numBots, playerName);
+    public GameController(int numBots) {
+        this.game = new GameLogic(numBots);
 
         initGameGUI();
         initFrame();

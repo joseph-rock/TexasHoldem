@@ -11,9 +11,8 @@ public class PlayerPanel {
     private JPanel rootPanel;
     private JPanel cardPanel;
     private JPanel nameDisplayPanel;
-    private JPanel chipCountPanel;
+    private JPanel handTypePanel;
     private JLabel nameLabel;
-    private JLabel chipCountLabel;
     private JLabel statusDisplay;
     private JPanel mainPanel;
 
@@ -23,7 +22,6 @@ public class PlayerPanel {
     public PlayerPanel() {
         statusDisplay.setText("");
         nameLabel.setText("");
-        chipCountLabel.setText("");
     }
 
     private void createUIComponents() {
@@ -58,10 +56,6 @@ public class PlayerPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(new Color(57,200,20));
         statusDisplay.setText(String.format("%s", player.getHand().getHandType()));
-    }
-
-    private void printChipCount(int chips) {
-        chipCountLabel.setText(String.format( "Chips: %d", chips) );
     }
 
     public String getName() {
