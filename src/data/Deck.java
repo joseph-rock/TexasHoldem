@@ -18,7 +18,7 @@ public class Deck {
     private void makeDeck() {
         for (CardSuite suite : CardSuite.values()){
             for (CardValue value : CardValue.values()) {
-                cards.add( new Card( value.toInt(), suite.toString(), value.toString()) );
+                cards.add( new Card( value, suite) );
             }
         } 
     }
@@ -39,6 +39,8 @@ public class Deck {
                 return card;
             }
         }
+
+        // Throw an exception pls
         return null;
     }
 }

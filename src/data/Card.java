@@ -1,31 +1,32 @@
 package data;
 
+import enums.CardSuite;
+import enums.CardValue;
+
 public class Card implements Comparable<Card>{
 
-    private final int value;
-    private final String suite;
-    private final String valueAsString;
+    private final CardValue value;
+    private final CardSuite suite;
 
-    public Card(int value, String suite, String valueAsString){
+    public Card(CardValue value, CardSuite suite){
         this.value = value;
         this.suite = suite;
-        this.valueAsString = valueAsString;
     }
 
     public int getValue() {
-        return value;
+        return value.toInt();
     }
 
     public String getSuite() {
-        return suite;
+        return suite.toString();
     }
 
     /** Generate image filename as "suite_value.png" */
     public String getCardPath(){
-        return suite + "_" + valueAsString + ".png";
+        return suite.toString() + "_" + value.toString() + ".png";
     }
 
     @Override public int compareTo(Card o) {
-        return Integer.compare(this.value, o.getValue());
+        return Integer.compare(this.value.toInt(), o.getValue());
     }
 }
