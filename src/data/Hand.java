@@ -62,7 +62,7 @@ public class Hand {
     public ArrayList<String> getSuiteList() {
         ArrayList<String> suiteList = new ArrayList<>();
         for (Card card : cards) {
-            suiteList.add(card.getSuite());
+            suiteList.add(card.getSuiteString());
         }
         return suiteList;
     }
@@ -70,7 +70,7 @@ public class Hand {
     public ArrayList<Integer> getValueList() {
         ArrayList<Integer> valueList = new ArrayList<>();
         for (Card card : cards) {
-            valueList.add(card.getValue());
+            valueList.add(card.getValueInt());
         }
         return valueList;
     }
@@ -102,7 +102,7 @@ public class Hand {
 
     public void printCards() {
         for (Card card : cards) {
-            System.out.println(card.getValue() + " " + card.getSuite());
+            System.out.println(card.getValueInt() + " " + card.getSuiteString());
         }
         System.out.println();
     }

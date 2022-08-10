@@ -123,12 +123,12 @@ public class BestHand {
         // Creates best hand with 4 of a kind
         if (cardFrequencyMap.containsValue(4)) {
             for ( Card card : cards ) {
-                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 4 ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValueInt(), 0) == 4 ) {
                     bestHand.add(card);
                 }
             }
 
-            if (cards.get(0).getValue() == bestHand.get(0).getValue()) {
+            if (cards.get(0).getValueInt() == bestHand.get(0).getValueInt()) {
                 bestHand.add(cards.get(4));
             } else {
                 bestHand.add(cards.get(0));
@@ -140,7 +140,7 @@ public class BestHand {
 
             // get highest three of a kind
             for ( Card card : cards ) {
-                if ( bestHand.size() < 3 && cardFrequencyMap.getOrDefault(card.getValue(), 0) == 3 ) {
+                if ( bestHand.size() < 3 && cardFrequencyMap.getOrDefault(card.getValueInt(), 0) == 3 ) {
                     bestHand.add(card);
                 }
             }
@@ -148,8 +148,8 @@ public class BestHand {
             // If more pairs exist, choose highest 2 cards
             if ( cardFrequencyMap.size() > 1 ) {
                 for (Card card : cards) {
-                    if (cardFrequencyMap.containsKey(card.getValue())
-                            && card.getValue() != bestHand.get(0).getValue()
+                    if (cardFrequencyMap.containsKey(card.getValueInt())
+                            && card.getValueInt() != bestHand.get(0).getValueInt()
                             && bestHand.size() < 5) {
                         bestHand.add(card);
                     }
@@ -167,7 +167,7 @@ public class BestHand {
         // Build best hand with only pairs present
         else if ( cardFrequencyMap.containsValue(2) ) {
             for ( Card card : cards ) {
-                if ( cardFrequencyMap.getOrDefault(card.getValue(), 0) == 2 && bestHand.size() < 4 ) {
+                if ( cardFrequencyMap.getOrDefault(card.getValueInt(), 0) == 2 && bestHand.size() < 4 ) {
                     bestHand.add(card);
                 }
             }
@@ -239,11 +239,11 @@ public class BestHand {
     }
 
     private static void removeSuitesExcept(Hand c, String suite) {
-        c.getCards().removeIf(card -> !Objects.equals(card.getSuite(), suite));
+        c.getCards().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
     }
 
     private static void removeValueEqualTo(Hand c, int value) {
-        c.getCards().removeIf(card -> Objects.equals(card.getValue(), value));
+        c.getCards().removeIf(card -> Objects.equals(card.getValueInt(), value));
     }
 
     private static void removeValueInRange(Hand c, int min, int max) {
@@ -260,7 +260,7 @@ public class BestHand {
 
     private static void removeDuplicateValueCards(Hand c) {
         for (int i = c.getCards().size() - 2; i >= 0; i--) {
-            if ( c.getCard(i).getValue() == c.getCard(i + 1).getValue()) {
+            if ( c.getCard(i).getValueInt() == c.getCard(i + 1).getValueInt()) {
                 c.getCards().remove(i+1);
             }
         }

@@ -13,11 +13,19 @@ public class Card implements Comparable<Card>{
         this.suite = suite;
     }
 
-    public int getValue() {
+    public CardValue getValue() {
+        return value;
+    }
+
+    public CardSuite getSuite() {
+        return suite;
+    }
+
+    public int getValueInt() {
         return value.toInt();
     }
 
-    public String getSuite() {
+    public String getSuiteString() {
         return suite.toString();
     }
 
@@ -27,6 +35,6 @@ public class Card implements Comparable<Card>{
     }
 
     @Override public int compareTo(Card o) {
-        return Integer.compare(this.value.toInt(), o.getValue());
+        return Integer.compare(this.value.toInt(), o.getValueInt());
     }
 }
