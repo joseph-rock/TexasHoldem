@@ -6,82 +6,47 @@ import enums.PokerHand;
 
 import java.util.*;
 
-/**
- * BestHand.set is designed to take a CardCollection object containing 5 to 7
- * Card objects and determine the best possible hand. It will:
- *      1) Reduce CardCollection.cards to the 5 best cards in the hand
- *      2) Set CardCollection.hand to the best possible PokerHand
- *      3) Set CardCollection.encodedCards to hex representation of the 5 best cards in order of importance
- * After running BestHand.set, CardCollection objects can then be compared using
- * CardCollection.isBetterHand and CardCollection.isDraw.
- *
- * @author Joseph Rock
- * @version 1.0
- */
 public class BestHand {
 
-    public static void set(Hand cards) {
-        cards.sortCollection();
-
-        if ( isFlush(cards) ) {
-            if ( isStraight(cards) ) {
-                cards.setHandType(PokerHand.STRAIGHT_FLUSH);
-            } else {
-                cards.setHandType(PokerHand.FLUSH);
-            }
-        } else if ( isStraight(cards) ) {
-            cards.setHandType(PokerHand.STRAIGHT);
-        } else {
-            cards.setHandType(PokerHand.HIGH_CARD);
-            setPair(cards);
-        }
-        setFiveBestCards(cards);
-        encodeHand(cards);
-    }
-
-    public static Hand calculate(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
+    public static Hand generate(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
         Hand hand = new Hand();
         hand.addList(playerCards);
         hand.addList(communityCards);
-        hand.sortCollection();
-
-        if ( isFlush(hand) ) {
-            if ( isStraight(hand) ) {
-                hand.setHandType(PokerHand.STRAIGHT_FLUSH);
-            } else {
-                hand.setHandType(PokerHand.FLUSH);
-            }
-        } else if ( isStraight(hand) ) {
-            hand.setHandType(PokerHand.STRAIGHT);
-        } else {
-            hand.setHandType(PokerHand.HIGH_CARD);
-            setPair(hand);
-        }
-        setFiveBestCards(hand);
-        encodeHand(hand);
-
+        set(hand);
         return hand;
     }
 
-    private static Boolean isFlush(Hand hand) {
+    public static void set(Hand hand) {
+        hand.sortCollection();
+
+        checkFlush(hand);
+        checkStraight(hand);
+        checkPair(hand);
+        checkHighCard(hand);
+
+        setFiveBestCards(hand);
+        encodeHand(hand);
+    }
+
+    private static void checkFlush(Hand hand) {
         ArrayList<String> suiteList = hand.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(suiteList);
 
         for (String uniqueSuite : uniqueSuites) {
             if (Collections.frequency(suiteList, uniqueSuite) >= 5) {
                 removeSuitesExcept(uniqueSuite, hand);
-                return true;
+                hand.setHandType(PokerHand.FLUSH);
+                return;
             }
         }
-        return false;
     }
 
-    private static Boolean isStraight(Hand hand) {
+    private static void checkStraight(Hand hand) {
         Set<Integer> uniqueValues = new HashSet<>(hand.getValueList());
 
         // Straight has to be 5 unique card values or more
         if (uniqueValues.size() < 5) {
-            return false;
+            return;
         }
 
         // Manually check low straight (A, 2, 3, 4, 5)
@@ -89,7 +54,8 @@ public class BestHand {
                 uniqueValues.contains(4) && uniqueValues.contains(5)) {
             removeValueInRange(hand, 6, 14);
             removeDuplicateValueCards(hand);
-            return true;
+            setStraightType(hand);
+            return;
         }
 
         ArrayList<Integer> uniqueValueList = new ArrayList<>(uniqueValues);
@@ -99,13 +65,21 @@ public class BestHand {
                 removeValueInRange(hand, uniqueValueList.get(i) + 1, 15);
                 removeValueInRange(hand, 2, uniqueValueList.get(i-4));
                 removeDuplicateValueCards(hand);
-                return true;
+                setStraightType(hand);
+                return;
             }
         }
-        return false;
     }
 
-    private static void setPair(Hand hand) {
+    private static void setStraightType(Hand hand) {
+        if (hand.getHandType() == PokerHand.FLUSH) {
+            hand.setHandType(PokerHand.STRAIGHT_FLUSH);
+        } else {
+            hand.setHandType(PokerHand.STRAIGHT);
+        }
+    }
+
+    private static void checkPair(Hand hand) {
         Map<Integer, Integer> countList = hand.getCardValueFrequency();
 
         if (countList.size() == 0) {
@@ -134,6 +108,12 @@ public class BestHand {
 
         if (countList.containsValue(2)) {
             hand.setHandType(PokerHand.TWO_PAIR);
+        }
+    }
+
+    private static void checkHighCard(Hand hand) {
+        if(hand.getHandType() == PokerHand.INIT) {
+            hand.setHandType(PokerHand.HIGH_CARD);
         }
     }
 

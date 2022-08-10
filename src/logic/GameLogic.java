@@ -69,7 +69,7 @@ public class GameLogic {
         Hand bestHand = new Hand();
 
         for (Player player : this.players) {
-            player.setHand( BestHand.calculate(player.getCards(), this.communityCards ) );
+            player.setHand( BestHand.generate(player.getCards(), this.communityCards ) );
 
             if (player.getHand().isBetterHand(bestHand)) {
                 bestHand = player.getHand();
