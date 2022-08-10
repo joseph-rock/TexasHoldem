@@ -39,6 +39,30 @@ public class BestHand {
         encodeHand(cards);
     }
 
+    public static Hand setHand(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
+        Hand hand = new Hand();
+        hand.addList(playerCards);
+        hand.addList(communityCards);
+        hand.sortCollection();
+
+        if ( isFlush(hand) ) {
+            if ( isStraight(hand) ) {
+                hand.setHandType(PokerHand.STRAIGHT_FLUSH);
+            } else {
+                hand.setHandType(PokerHand.FLUSH);
+            }
+        } else if ( isStraight(hand) ) {
+            hand.setHandType(PokerHand.STRAIGHT);
+        } else {
+            hand.setHandType(PokerHand.HIGH_CARD);
+        }
+        checkPair(hand);
+        setFiveBestCards(hand);
+        encodeHand(hand);
+
+        return hand;
+    }
+
     private static Boolean isFlush(Hand c) {
         ArrayList<String> checkSuites = c.getSuiteList();
         HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
