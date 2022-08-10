@@ -6,12 +6,9 @@ import java.util.ArrayList;
 
 public class GameLogic {
 
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private ArrayList<Card> communityCards;
     private Deck deck;
-    private final int MAX_BOTS = 7;
-    private int currentPot;
-    private int highestBet;
 
     public GameLogic(int numBots) {
         this.players = new ArrayList<>();
@@ -21,42 +18,37 @@ public class GameLogic {
     }
 
     private void addPlayers(int numPlayers) {
+        final int MAX_BOTS = 7;
+
         if (numPlayers < 1) {
             numPlayers = 1;
         } else if (numPlayers > MAX_BOTS) {
             numPlayers = MAX_BOTS;
         }
+
         for (int i = 0; i <= numPlayers; i++) {
             players.add(new Player());
         }
     }
 
-    public Player getPlayer(int idx) {
-        return players.get(idx);
-    }
-
-    public int numPlayers() {
-        return players.size();
-    }
-
     public ArrayList<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     public ArrayList<Card> getCommunityCards() {
-        return communityCards;
+        return this.communityCards;
     }
 
     public void dealPlayers() {
-        for (Player player : players) {
-            player.addCard(deck.dealCard());
-            player.addCard(deck.dealCard());
+        for (Player player : this.players) {
+            player.addCard( this.deck.dealCard() );
+            player.addCard( this.deck.dealCard() );
         }
     }
 
     private void dealCommunity(int numCards) {
         for (int i = 0; i < numCards; i++) {
-            communityCards.add(deck.dealCard());
+            this.communityCards.add( this.deck.dealCard() );
         }
     }
 
@@ -72,13 +64,14 @@ public class GameLogic {
         dealCommunity(1);
     }
 
+    // TODO: Simplify the BestHand tool
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
         Hand bestHand = new Hand();
 
-        for (Player player : players) {
+        for (Player player : this.players) {
             Hand playerHand = player.getHand();
-            playerHand.addList(communityCards);
+            playerHand.addList( this.communityCards );
             BestHand.set(playerHand);
 
             if (playerHand.isBetterHand(bestHand)) {
@@ -90,17 +83,12 @@ public class GameLogic {
             }
         }
 
-//        for (Player winner : winners) {
-//            System.out.println(winner.getName());
-//            winner.getHand().printCards();
-//        }
-
         return winners;
     }
 
     /** Reset all player hands, reset community cards, create new deck. */
     public void resetRound() {
-        for (Player player : players) {
+        for (Player player : this.players) {
             player.newRound();
         }
         this.communityCards = new ArrayList<>();
