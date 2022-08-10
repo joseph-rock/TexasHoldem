@@ -36,7 +36,6 @@ public class Deck {
             }
         }
 
-        // TODO: Throw exception
-        return null;
+        throw new RuntimeException("Card not found");
     }
 }
