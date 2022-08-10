@@ -9,6 +9,7 @@ public class Hand {
     private PokerHand handType;
     private String cardsEncoded;
 
+    // TODO: Hand type and encoding should be a single thing
     public Hand() {
         this.cards = new ArrayList<>();
         this.handType = PokerHand.INIT;

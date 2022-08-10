@@ -64,21 +64,18 @@ public class GameLogic {
         dealCommunity(1);
     }
 
-    // TODO: Simplify the BestHand tool
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
         Hand bestHand = new Hand();
 
         for (Player player : this.players) {
-            Hand playerHand = player.getHand();
-            playerHand.addList( this.communityCards );
-            BestHand.set(playerHand);
+            player.setHand( BestHand.calculate(player.getCards(), this.communityCards ) );
 
-            if (playerHand.isBetterHand(bestHand)) {
-                bestHand = playerHand;
+            if (player.getHand().isBetterHand(bestHand)) {
+                bestHand = player.getHand();
                 winners = new ArrayList<>();
                 winners.add(player);
-            } else if (playerHand.isDraw(bestHand)) {
+            } else if (player.getHand().isDraw(bestHand)) {
                 winners.add(player);
             }
         }

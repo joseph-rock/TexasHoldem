@@ -81,12 +81,12 @@ public class GameGUI {
         for (int i = 0; i < players.size(); i++) {
             getPlayerPanel(i).displayCardBack();
         }
-        getPlayerPanel(0).displayCards(main.getHand().getCards());
+        getPlayerPanel(0).displayCards(main.getCards());
     }
 
     public void showBotCards(ArrayList<Player> players) {
         for (int i = 0; i < players.size(); i++) {
-            getPlayerPanel(i).displayCards(players.get(i).getHand().getCards());
+            getPlayerPanel(i).displayCards(players.get(i).getCards());
         }
     }
 
