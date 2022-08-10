@@ -33,13 +33,13 @@ public class BestHand {
             cards.setHandType(PokerHand.STRAIGHT);
         } else {
             cards.setHandType(PokerHand.HIGH_CARD);
+            setPair(cards);
         }
-        checkPair(cards);
         setFiveBestCards(cards);
         encodeHand(cards);
     }
 
-    public static Hand setHand(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
+    public static Hand calculate(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
         Hand hand = new Hand();
         hand.addList(playerCards);
         hand.addList(communityCards);
@@ -55,29 +55,29 @@ public class BestHand {
             hand.setHandType(PokerHand.STRAIGHT);
         } else {
             hand.setHandType(PokerHand.HIGH_CARD);
+            setPair(hand);
         }
-        checkPair(hand);
         setFiveBestCards(hand);
         encodeHand(hand);
 
         return hand;
     }
 
-    private static Boolean isFlush(Hand c) {
-        ArrayList<String> checkSuites = c.getSuiteList();
-        HashSet<String> uniqueSuites = new HashSet<>(checkSuites);
+    private static Boolean isFlush(Hand hand) {
+        ArrayList<String> suiteList = hand.getSuiteList();
+        HashSet<String> uniqueSuites = new HashSet<>(suiteList);
 
-        for (String suite : uniqueSuites) {
-            if (Collections.frequency(checkSuites, suite) >= 5) {
-                removeSuitesExcept(c, suite);
+        for (String uniqueSuite : uniqueSuites) {
+            if (Collections.frequency(suiteList, uniqueSuite) >= 5) {
+                removeSuitesExcept(uniqueSuite, hand);
                 return true;
             }
         }
         return false;
     }
 
-    private static Boolean isStraight(Hand c) {
-        Set<Integer> uniqueValues = new HashSet<>(c.getValueList());
+    private static Boolean isStraight(Hand hand) {
+        Set<Integer> uniqueValues = new HashSet<>(hand.getValueList());
 
         // Straight has to be 5 unique card values or more
         if (uniqueValues.size() < 5) {
@@ -87,8 +87,8 @@ public class BestHand {
         // Manually check low straight (A, 2, 3, 4, 5)
         if (uniqueValues.contains(14) && uniqueValues.contains(2) && uniqueValues.contains(3) &&
                 uniqueValues.contains(4) && uniqueValues.contains(5)) {
-            removeValueInRange(c, 6, 14);
-            removeDuplicateValueCards(c);
+            removeValueInRange(hand, 6, 14);
+            removeDuplicateValueCards(hand);
             return true;
         }
 
@@ -96,53 +96,53 @@ public class BestHand {
         for (int i = uniqueValueList.size() - 1; i >= 4; i--) {
             if ( uniqueValueList.get(i) - uniqueValueList.get(i-4) == 4)
             {
-                removeValueInRange(c, uniqueValueList.get(i) + 1, 15);
-                removeValueInRange(c, 2, uniqueValueList.get(i-4));
-                removeDuplicateValueCards(c);
+                removeValueInRange(hand, uniqueValueList.get(i) + 1, 15);
+                removeValueInRange(hand, 2, uniqueValueList.get(i-4));
+                removeDuplicateValueCards(hand);
                 return true;
             }
         }
         return false;
     }
 
-    private static void checkPair(Hand c) {
-        Map<Integer, Integer> countList = c.getCardValueFrequency();
+    private static void setPair(Hand hand) {
+        Map<Integer, Integer> countList = hand.getCardValueFrequency();
 
         if (countList.size() == 0) {
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(2)) {
-            c.setHandType(PokerHand.PAIR);
+            hand.setHandType(PokerHand.PAIR);
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(3)) {
-            c.setHandType(PokerHand.THREE_OF_A_KIND);
+            hand.setHandType(PokerHand.THREE_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(4)) {
-            c.setHandType(PokerHand.FOUR_OF_A_KIND);
+            hand.setHandType(PokerHand.FOUR_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(3)) {
-            c.setHandType(PokerHand.FULL_HOUSE);
+            hand.setHandType(PokerHand.FULL_HOUSE);
             return;
         }
 
         if (countList.containsValue(2)) {
-            c.setHandType(PokerHand.TWO_PAIR);
+            hand.setHandType(PokerHand.TWO_PAIR);
         }
     }
 
-    private static void setFiveBestCards(Hand c) {
-        ArrayList<Card> cards = c.getCards();
+    private static void setFiveBestCards(Hand hand) {
+        ArrayList<Card> cards = hand.getCards();
         cards.sort(Collections.reverseOrder());
 
         ArrayList<Card> bestHand = new ArrayList<>();
-        Map<Integer, Integer> cardFrequencyMap = c.getCardValueFrequency();
+        Map<Integer, Integer> cardFrequencyMap = hand.getCardValueFrequency();
 
         // Creates best hand with 4 of a kind
         if (cardFrequencyMap.containsValue(4)) {
@@ -203,21 +203,21 @@ public class BestHand {
         }
 
         if (bestHand.size() != 0) {
-            c.setCards(bestHand);
-            c.sortCollection();
+            hand.setCards(bestHand);
+            hand.sortCollection();
         } else {
             // remove dupes or low cards
-            c.sortCollection();
-            removeDuplicateValueCards(c);
-            removeLowCards(c);
+            hand.sortCollection();
+            removeDuplicateValueCards(hand);
+            removeLowCards(hand);
         }
     }
 
-    private static void encodeHand(Hand c) {
-        ArrayList<Integer> valueList = c.getValueList();
+    private static void encodeHand(Hand hand) {
+        ArrayList<Integer> valueList = hand.getValueList();
         valueList.sort(Collections.reverseOrder());
 
-        Map<Integer, Integer> valueFrequency = c.getCardValueFrequency();
+        Map<Integer, Integer> valueFrequency = hand.getCardValueFrequency();
         StringBuilder encodedHand = new StringBuilder();
 
         // Encodes pairs
@@ -251,41 +251,41 @@ public class BestHand {
             }
         }
 
-        c.setCardsEncoded(String.valueOf(encodedHand));
+        hand.setCardsEncoded(String.valueOf(encodedHand));
 
         // Checks for A-5 straight, A becomes low card
-        if (c.getCardsEncoded().equals("e5432")) {
-            c.setCardsEncoded("5432e");
+        if (hand.getCardsEncoded().equals("e5432")) {
+            hand.setCardsEncoded("5432e");
         }
-        if (c.getCardsEncoded().equals("edcba") && c.getHandType() == PokerHand.STRAIGHT_FLUSH) {
-            c.setHandType(PokerHand.ROYAL_FLUSH);
+        if (hand.getCardsEncoded().equals("edcba") && hand.getHandType() == PokerHand.STRAIGHT_FLUSH) {
+            hand.setHandType(PokerHand.ROYAL_FLUSH);
         }
     }
 
-    private static void removeSuitesExcept(Hand c, String suite) {
-        c.getCards().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
+    private static void removeSuitesExcept(String suite, Hand hand) {
+        hand.getCards().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
     }
 
-    private static void removeValueEqualTo(Hand c, int value) {
-        c.getCards().removeIf(card -> Objects.equals(card.getValueInt(), value));
+    private static void removeValueEqualTo(Hand hand, int value) {
+        hand.getCards().removeIf(card -> Objects.equals(card.getValueInt(), value));
     }
 
-    private static void removeValueInRange(Hand c, int min, int max) {
+    private static void removeValueInRange(Hand hand, int min, int max) {
         for (int value = min; value < max; value++) {
-            removeValueEqualTo(c, value);
+            removeValueEqualTo(hand, value);
         }
     }
 
-    private static void removeLowCards(Hand c) {
-        while (c.getCards().size() > 5) {
-            c.getCards().remove(0);
+    private static void removeLowCards(Hand hand) {
+        while (hand.getCards().size() > 5) {
+            hand.getCards().remove(0);
         }
     }
 
-    private static void removeDuplicateValueCards(Hand c) {
-        for (int i = c.getCards().size() - 2; i >= 0; i--) {
-            if ( c.getCard(i).getValueInt() == c.getCard(i + 1).getValueInt()) {
-                c.getCards().remove(i+1);
+    private static void removeDuplicateValueCards(Hand hand) {
+        for (int i = hand.getCards().size() - 2; i >= 0; i--) {
+            if ( hand.getCard(i).getValueInt() == hand.getCard(i + 1).getValueInt()) {
+                hand.getCards().remove(i+1);
             }
         }
     }
