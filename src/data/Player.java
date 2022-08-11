@@ -21,9 +21,8 @@ public class Player implements Comparable<Player>{
         cards.add(card);
     }
 
-    public void newRound() {
-        this.cards = new ArrayList<>();
-        this.hand = new Hand();
+    public void setHand(Hand hand) {
+        this.hand = hand;
     }
 
     public String getName() {
@@ -42,12 +41,9 @@ public class Player implements Comparable<Player>{
         return hand.getPokerHand();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setHand(Hand hand) {
-        this.hand = hand;
+    public void newRound() {
+        this.cards = new ArrayList<>();
+        this.hand = new Hand();
     }
 
     @Override
