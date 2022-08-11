@@ -54,7 +54,7 @@ public class Hand implements Comparable<Hand>{
     public ArrayList<String> getSuiteList() {
         ArrayList<String> suiteList = new ArrayList<>();
         for (Card card : cards) {
-            suiteList.add(card.getSuiteString());
+            suiteList.add(card.getSuite().toString());
         }
         return suiteList;
     }
@@ -62,7 +62,7 @@ public class Hand implements Comparable<Hand>{
     public ArrayList<Integer> getValueList() {
         ArrayList<Integer> valueList = new ArrayList<>();
         for (Card card : cards) {
-            valueList.add(card.getValueInt());
+            valueList.add(card.getValue().toInt());
         }
         return valueList;
     }

@@ -14,7 +14,7 @@ public class Deck {
         this.cards = new ArrayList<>();
         for (CardSuite suite : CardSuite.values()){
             for (CardValue value : CardValue.values()) {
-                this.cards.add( new Card( value, suite) );
+                this.cards.add( new Card( suite, value) );
             }
         }
     }
@@ -27,15 +27,5 @@ public class Deck {
         this.cards.remove(randomIndex);
 
         return card;
-    }
-
-    public Card getCard(CardSuite suite, CardValue value) {
-        for (Card card : this.cards) {
-            if ( card.getSuite() == suite && card.getValue() == value ) {
-                return card;
-            }
-        }
-
-        throw new RuntimeException("Card not found");
     }
 }
