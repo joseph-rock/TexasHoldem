@@ -1,10 +1,12 @@
 package data;
 
+import enums.PokerHand;
 import logic.RandomName;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Player {
+public class Player implements Comparable<Player>{
 
     private String name;
     private ArrayList<Card> cards;
@@ -37,11 +39,20 @@ public class Player {
         return hand;
     }
 
+    public PokerHand getHandType() {
+        return hand.getHandType();
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setHand(Hand hand) {
         this.hand = hand;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return this.getHand().compareTo(o.getHand());
     }
 }

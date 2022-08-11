@@ -3,6 +3,7 @@ package logic;
 import data.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameLogic {
 
@@ -71,7 +72,7 @@ public class GameLogic {
         for (Player player : this.players) {
             player.setHand( BestHand.generate(player.getCards(), this.communityCards ) );
 
-            if (player.getHand().isBetterHand(bestHand)) {
+            if (player.getHand().compareTo(bestHand) > 0) {
                 bestHand = player.getHand();
                 winners = new ArrayList<>();
                 winners.add(player);
@@ -79,8 +80,19 @@ public class GameLogic {
                 winners.add(player);
             }
         }
+        printPlayers();
 
         return winners;
+    }
+
+    private void printPlayers() {
+        ArrayList<Player> foo = new ArrayList<>(players);
+        foo.sort(Collections.reverseOrder());
+
+        for(Player p : foo) {
+            System.out.printf("%s - %s\n", p.getName(), p.getHandType().toString());
+        }
+        System.out.println();
     }
 
     /** Reset all player hands, reset community cards, create new deck. */

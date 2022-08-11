@@ -4,7 +4,7 @@ import enums.PokerHand;
 
 import java.util.*;
 
-public class Hand {
+public class Hand implements Comparable<Hand>{
     private ArrayList<Card> cards;
     private PokerHand handType;
     private String cardsEncoded;
@@ -106,5 +106,14 @@ public class Hand {
             System.out.println(card.getValueInt() + " " + card.getSuiteString());
         }
         System.out.println();
+    }
+
+    @Override
+    public int compareTo(Hand o) {
+        int c = Integer.compare(this.getHandType().getScore(), o.getHandType().getScore());
+        if (c == 0) {
+            return this.getCardsEncoded().compareTo(o.getCardsEncoded());
+        }
+        return c;
     }
 }
