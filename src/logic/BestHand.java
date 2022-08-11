@@ -12,11 +12,11 @@ public class BestHand {
         Hand hand = new Hand();
         hand.addList(playerCards);
         hand.addList(communityCards);
-        set(hand);
+        setBestHand(hand);
         return hand;
     }
 
-    public static void set(Hand hand) {
+    public static void setBestHand(Hand hand) {
         hand.sortCollection();
 
         checkFlush(hand);
@@ -30,11 +30,11 @@ public class BestHand {
 
     private static void checkFlush(Hand hand) {
         ArrayList<String> suiteList = hand.getSuiteList();
-        HashSet<String> uniqueSuites = new HashSet<>(suiteList);
+        Set<String> uniqueSuites = new HashSet<>(suiteList);
 
-        for (String uniqueSuite : uniqueSuites) {
-            if (Collections.frequency(suiteList, uniqueSuite) >= 5) {
-                removeSuitesExcept(uniqueSuite, hand);
+        for (String suite : uniqueSuites) {
+            if (Collections.frequency(suiteList, suite) >= 5) {
+                removeSuitesExcept(suite, hand);
                 hand.setHandType(PokerHand.FLUSH);
                 return;
             }
@@ -52,7 +52,7 @@ public class BestHand {
         // Manually check low straight (A, 2, 3, 4, 5)
         if (uniqueValues.contains(14) && uniqueValues.contains(2) && uniqueValues.contains(3) &&
                 uniqueValues.contains(4) && uniqueValues.contains(5)) {
-            removeValueInRange(hand, 6, 14);
+            removeValuesInRange(hand, 6, 14);
             removeDuplicateValueCards(hand);
             setStraightType(hand);
             return;
@@ -62,8 +62,8 @@ public class BestHand {
         for (int i = uniqueValueList.size() - 1; i >= 4; i--) {
             if ( uniqueValueList.get(i) - uniqueValueList.get(i-4) == 4)
             {
-                removeValueInRange(hand, uniqueValueList.get(i) + 1, 15);
-                removeValueInRange(hand, 2, uniqueValueList.get(i-4));
+                removeValuesInRange(hand, uniqueValueList.get(i) + 1, 15);
+                removeValuesInRange(hand, 2, uniqueValueList.get(i-4));
                 removeDuplicateValueCards(hand);
                 setStraightType(hand);
                 return;
@@ -186,7 +186,7 @@ public class BestHand {
             hand.setCards(bestHand);
             hand.sortCollection();
         } else {
-            // remove dupes or low cards
+            // remove duplicate or low cards
             hand.sortCollection();
             removeDuplicateValueCards(hand);
             removeLowCards(hand);
@@ -246,13 +246,10 @@ public class BestHand {
         hand.getCards().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
     }
 
-    private static void removeValueEqualTo(Hand hand, int value) {
-        hand.getCards().removeIf(card -> Objects.equals(card.getValueInt(), value));
-    }
-
-    private static void removeValueInRange(Hand hand, int min, int max) {
+    private static void removeValuesInRange(Hand hand, int min, int max) {
         for (int value = min; value < max; value++) {
-            removeValueEqualTo(hand, value);
+            int v = value;
+            hand.getCards().removeIf(card -> Objects.equals(card.getValueInt(), v));
         }
     }
 
@@ -264,7 +261,7 @@ public class BestHand {
 
     private static void removeDuplicateValueCards(Hand hand) {
         for (int i = hand.getCards().size() - 2; i >= 0; i--) {
-            if ( hand.getCard(i).getValueInt() == hand.getCard(i + 1).getValueInt()) {
+            if ( hand.getCard(i).getValue() == hand.getCard(i + 1).getValue()) {
                 hand.getCards().remove(i+1);
             }
         }
