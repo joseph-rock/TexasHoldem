@@ -8,16 +8,16 @@ import java.util.*;
 
 public class BestHand {
 
-    public static Hand generate(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
+    public static Hand getBestHand(ArrayList<Card> playerCards, ArrayList<Card> communityCards) {
         Hand hand = new Hand();
-        hand.addList(playerCards);
-        hand.addList(communityCards);
+        hand.addCardList(playerCards);
+        hand.addCardList(communityCards);
         setBestHand(hand);
         return hand;
     }
 
     public static void setBestHand(Hand hand) {
-        hand.sortCollection();
+        hand.sortCards();
 
         checkFlush(hand);
         checkStraight(hand);
@@ -35,7 +35,7 @@ public class BestHand {
         for (String suite : uniqueSuites) {
             if (Collections.frequency(suiteList, suite) >= 5) {
                 removeSuitesExcept(suite, hand);
-                hand.setHandType(PokerHand.FLUSH);
+                hand.setPokerHand(PokerHand.FLUSH);
                 return;
             }
         }
@@ -72,10 +72,10 @@ public class BestHand {
     }
 
     private static void setStraightType(Hand hand) {
-        if (hand.getHandType() == PokerHand.FLUSH) {
-            hand.setHandType(PokerHand.STRAIGHT_FLUSH);
+        if (hand.getPokerHand() == PokerHand.FLUSH) {
+            hand.setPokerHand(PokerHand.STRAIGHT_FLUSH);
         } else {
-            hand.setHandType(PokerHand.STRAIGHT);
+            hand.setPokerHand(PokerHand.STRAIGHT);
         }
     }
 
@@ -87,33 +87,33 @@ public class BestHand {
         }
 
         if (countList.size() == 1 && countList.containsValue(2)) {
-            hand.setHandType(PokerHand.PAIR);
+            hand.setPokerHand(PokerHand.PAIR);
             return;
         }
 
         if (countList.size() == 1 && countList.containsValue(3)) {
-            hand.setHandType(PokerHand.THREE_OF_A_KIND);
+            hand.setPokerHand(PokerHand.THREE_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(4)) {
-            hand.setHandType(PokerHand.FOUR_OF_A_KIND);
+            hand.setPokerHand(PokerHand.FOUR_OF_A_KIND);
             return;
         }
 
         if (countList.containsValue(3)) {
-            hand.setHandType(PokerHand.FULL_HOUSE);
+            hand.setPokerHand(PokerHand.FULL_HOUSE);
             return;
         }
 
         if (countList.containsValue(2)) {
-            hand.setHandType(PokerHand.TWO_PAIR);
+            hand.setPokerHand(PokerHand.TWO_PAIR);
         }
     }
 
     private static void checkHighCard(Hand hand) {
-        if(hand.getHandType() == PokerHand.INIT) {
-            hand.setHandType(PokerHand.HIGH_CARD);
+        if(hand.getPokerHand() == PokerHand.INIT) {
+            hand.setPokerHand(PokerHand.HIGH_CARD);
         }
     }
 
@@ -183,11 +183,11 @@ public class BestHand {
         }
 
         if (bestHand.size() != 0) {
-            hand.setCards(bestHand);
-            hand.sortCollection();
+            hand.setCardList(bestHand);
+            hand.sortCards();
         } else {
             // remove duplicate or low cards
-            hand.sortCollection();
+            hand.sortCards();
             removeDuplicateValueCards(hand);
             removeLowCards(hand);
         }
@@ -231,14 +231,14 @@ public class BestHand {
             }
         }
 
-        hand.setCardsEncoded(String.valueOf(encodedHand));
+        hand.setEncodedCards(String.valueOf(encodedHand));
 
         // Checks for A-5 straight, A becomes low card
-        if (hand.getCardsEncoded().equals("e5432")) {
-            hand.setCardsEncoded("5432e");
+        if (hand.getEncodedCards().equals("e5432")) {
+            hand.setEncodedCards("5432e");
         }
-        if (hand.getCardsEncoded().equals("edcba") && hand.getHandType() == PokerHand.STRAIGHT_FLUSH) {
-            hand.setHandType(PokerHand.ROYAL_FLUSH);
+        if (hand.getEncodedCards().equals("edcba") && hand.getPokerHand() == PokerHand.STRAIGHT_FLUSH) {
+            hand.setPokerHand(PokerHand.ROYAL_FLUSH);
         }
     }
 

@@ -4,7 +4,6 @@ import enums.PokerHand;
 import logic.RandomName;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Player implements Comparable<Player>{
 
@@ -40,7 +39,7 @@ public class Player implements Comparable<Player>{
     }
 
     public PokerHand getHandType() {
-        return hand.getHandType();
+        return hand.getPokerHand();
     }
 
     public void setName(String name) {

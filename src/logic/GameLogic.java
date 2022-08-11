@@ -70,13 +70,13 @@ public class GameLogic {
         Hand bestHand = new Hand();
 
         for (Player player : this.players) {
-            player.setHand( BestHand.generate(player.getCards(), this.communityCards ) );
+            player.setHand( BestHand.getBestHand(player.getCards(), this.communityCards ) );
 
             if (player.getHand().compareTo(bestHand) > 0) {
                 bestHand = player.getHand();
                 winners = new ArrayList<>();
                 winners.add(player);
-            } else if (player.getHand().isDraw(bestHand)) {
+            } else if (player.getHand().compareTo(bestHand) == 0) {
                 winners.add(player);
             }
         }

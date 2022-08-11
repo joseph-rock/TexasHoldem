@@ -6,17 +6,16 @@ import java.util.*;
 
 public class Hand implements Comparable<Hand>{
     private ArrayList<Card> cards;
-    private PokerHand handType;
-    private String cardsEncoded;
+    private PokerHand pokerHand;
+    private String encodedCards;
 
-    // TODO: Hand type and encoding should be a single thing
     public Hand() {
         this.cards = new ArrayList<>();
-        this.handType = PokerHand.INIT;
-        this.cardsEncoded = "";
+        this.pokerHand = PokerHand.INIT;
+        this.encodedCards = "";
     }
 
-    public void sortCollection() {
+    public void sortCards() {
         Collections.sort(this.cards);
     }
 
@@ -24,32 +23,28 @@ public class Hand implements Comparable<Hand>{
         this.cards.add(card);
     }
 
-    public void addList(ArrayList<Card> cards) {
+    public void addCardList(ArrayList<Card> cards) {
         this.cards.addAll(cards);
     }
 
-    public void addHand(Hand cards) {
-        this.cards.addAll(cards.getCards());
-    }
-
-    public void setCards(ArrayList<Card> cards) {
+    public void setCardList(ArrayList<Card> cards) {
         this.cards = cards;
     }
 
-    public void setHandType(PokerHand handType) {
-        this.handType = handType;
+    public void setPokerHand(PokerHand pokerHand) {
+        this.pokerHand = pokerHand;
     }
 
-    public void setCardsEncoded(String cardsEncoded) {
-        this.cardsEncoded = cardsEncoded;
+    public void setEncodedCards(String encodedCards) {
+        this.encodedCards = encodedCards;
     }
 
-    public PokerHand getHandType() {
-        return this.handType;
+    public PokerHand getPokerHand() {
+        return this.pokerHand;
     }
 
-    public String getCardsEncoded() {
-        return this.cardsEncoded;
+    public String getEncodedCards() {
+        return this.encodedCards;
     }
 
     public ArrayList<Card> getCards() {
@@ -89,30 +84,11 @@ public class Hand implements Comparable<Hand>{
         return valueFrequencyMap;
     }
 
-    public boolean isBetterHand(Hand opponentCards) {
-        if (getHandType() == opponentCards.getHandType()) {
-            return getCardsEncoded().compareToIgnoreCase(opponentCards.getCardsEncoded()) > 0 ;
-        }
-        return getHandType().getScore() > opponentCards.getHandType().getScore();
-    }
-
-    public boolean isDraw(Hand opponentCards) {
-        return getHandType() == opponentCards.getHandType()
-                && getCardsEncoded().equals(opponentCards.getCardsEncoded());
-    }
-
-    public void printCards() {
-        for (Card card : cards) {
-            System.out.println(card.getValueInt() + " " + card.getSuiteString());
-        }
-        System.out.println();
-    }
-
     @Override
     public int compareTo(Hand o) {
-        int c = Integer.compare(this.getHandType().getScore(), o.getHandType().getScore());
+        int c = Integer.compare(this.getPokerHand().getScore(), o.getPokerHand().getScore());
         if (c == 0) {
-            return this.getCardsEncoded().compareTo(o.getCardsEncoded());
+            return this.getEncodedCards().compareTo(o.getEncodedCards());
         }
         return c;
     }

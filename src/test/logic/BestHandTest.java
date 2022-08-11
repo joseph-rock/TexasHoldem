@@ -7,6 +7,8 @@ import enums.CardValue;
 import data.Hand;
 import logic.BestHand;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BestHandTest {
@@ -23,8 +25,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
-        assertEquals("87654", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getPokerHand());
+        assertEquals("87654", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -38,8 +40,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.THREE) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
-        assertEquals("65432", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getPokerHand());
+        assertEquals("65432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -53,8 +55,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getHandType());
-        assertEquals("a9876", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT_FLUSH, cards.getPokerHand());
+        assertEquals("a9876", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -68,8 +70,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.ROYAL_FLUSH, cards.getHandType());
-        assertEquals("edcba", cards.getCardsEncoded());
+        assertEquals(PokerHand.ROYAL_FLUSH, cards.getPokerHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -83,8 +85,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT, cards.getHandType());
-        assertEquals("87654", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT, cards.getPokerHand());
+        assertEquals("87654", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -98,8 +100,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT, cards.getHandType());
-        assertEquals("5432e", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT, cards.getPokerHand());
+        assertEquals("5432e", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -113,8 +115,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT, cards.getHandType());
-        assertEquals("edcba", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT, cards.getPokerHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -128,8 +130,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.TEN) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT, cards.getHandType());
-        assertEquals("edcba", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT, cards.getPokerHand());
+        assertEquals("edcba", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -143,8 +145,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.JACK) );
         cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.JACK) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.STRAIGHT, cards.getHandType());
-        assertEquals("ba987", cards.getCardsEncoded());
+        assertEquals(PokerHand.STRAIGHT, cards.getPokerHand());
+        assertEquals("ba987", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -158,8 +160,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FLUSH, cards.getHandType());
-        assertEquals("87643", cards.getCardsEncoded());
+        assertEquals(PokerHand.FLUSH, cards.getPokerHand());
+        assertEquals("87643", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -173,8 +175,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FLUSH, cards.getHandType());
-        assertEquals("87432", cards.getCardsEncoded());
+        assertEquals(PokerHand.FLUSH, cards.getPokerHand());
+        assertEquals("87432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -188,8 +190,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.EIGHT) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FLUSH, cards.getHandType());
-        assertEquals("87432", cards.getCardsEncoded());
+        assertEquals(PokerHand.FLUSH, cards.getPokerHand());
+        assertEquals("87432", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -203,8 +205,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.PAIR, cards.getHandType());
-        assertEquals("44976", cards.getCardsEncoded());
+        assertEquals(PokerHand.PAIR, cards.getPokerHand());
+        assertEquals("44976", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -218,8 +220,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.TWO_PAIR, cards.getHandType());
-        assertEquals("44229", cards.getCardsEncoded());
+        assertEquals(PokerHand.TWO_PAIR, cards.getPokerHand());
+        assertEquals("44229", cards.getEncodedCards());
     }
 
     // Fuck
@@ -234,8 +236,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.TWO_PAIR, cards.getHandType());
-        assertEquals("66449", cards.getCardsEncoded());
+        assertEquals(PokerHand.TWO_PAIR, cards.getPokerHand());
+        assertEquals("66449", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -249,8 +251,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.THREE_OF_A_KIND, cards.getHandType());
-        assertEquals("222a8", cards.getCardsEncoded());
+        assertEquals(PokerHand.THREE_OF_A_KIND, cards.getPokerHand());
+        assertEquals("222a8", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -264,8 +266,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
-        assertEquals("22255", cards.getCardsEncoded());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getPokerHand());
+        assertEquals("22255", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -279,8 +281,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FIVE) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
-        assertEquals("55522", cards.getCardsEncoded());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getPokerHand());
+        assertEquals("55522", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -294,8 +296,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SIX) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SIX) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FULL_HOUSE, cards.getHandType());
-        assertEquals("22266", cards.getCardsEncoded());
+        assertEquals(PokerHand.FULL_HOUSE, cards.getPokerHand());
+        assertEquals("22266", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -309,8 +311,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.FOUR_OF_A_KIND, cards.getHandType());
-        assertEquals("2222a", cards.getCardsEncoded());
+        assertEquals(PokerHand.FOUR_OF_A_KIND, cards.getPokerHand());
+        assertEquals("2222a", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -324,8 +326,8 @@ class BestHandTest {
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TEN) );
         cards.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
         BestHand.setBestHand(cards);
-        assertEquals(PokerHand.HIGH_CARD, cards.getHandType());
-        assertEquals("ea986", cards.getCardsEncoded());
+        assertEquals(PokerHand.HIGH_CARD, cards.getPokerHand());
+        assertEquals("ea986", cards.getEncodedCards());
     }
 
     @org.junit.jupiter.api.Test
@@ -350,7 +352,7 @@ class BestHandTest {
         pair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
         BestHand.setBestHand(pair);
 
-        assertFalse(highCard.isBetterHand(pair));
+        assertTrue(highCard.compareTo(pair) < 0);
     }
 
     @org.junit.jupiter.api.Test
@@ -375,7 +377,7 @@ class BestHandTest {
         lowPair.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.NINE) );
         BestHand.setBestHand(lowPair);
 
-        assertTrue(highPair.isBetterHand(lowPair));
+        assertTrue(highPair.compareTo(lowPair) > 0);
     }
 
     @org.junit.jupiter.api.Test
@@ -400,43 +402,38 @@ class BestHandTest {
         lowPair.addCard( deck.getCard(CardSuite.CLUBS, CardValue.ACE) );
         BestHand.setBestHand(lowPair);
 
-        assertTrue(highPair.isBetterHand(lowPair));
+        assertTrue(highPair.compareTo(lowPair) > 0);
     }
 
     @org.junit.jupiter.api.Test
     void checkBug() {
-        Hand cards = new Hand();
-        cards.addCard( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
-        cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
-        cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
-        cards.addCard( deck.getCard(CardSuite.SPADES, CardValue.FOUR) );
-        cards.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FIVE) );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( deck.getCard(CardSuite.DIAMONDS, CardValue.FOUR) );
+        cards.add( deck.getCard(CardSuite.SPADES, CardValue.FIVE) );
+        cards.add( deck.getCard(CardSuite.SPADES, CardValue.SIX) );
+        cards.add( deck.getCard(CardSuite.SPADES, CardValue.FOUR) );
+        cards.add( deck.getCard(CardSuite.HEARTS, CardValue.FIVE) );
 
         Hand p1 = new Hand();
         p1.addCard( deck.getCard(CardSuite.CLUBS, CardValue.TWO) );
         p1.addCard( deck.getCard(CardSuite.SPADES, CardValue.THREE) );
-        p1.addHand(cards);
+        p1.addCardList(cards);
         BestHand.setBestHand(p1);
-        p1.printCards();
-        System.out.println(p1.getHandType());
 
         Hand p2 = new Hand();
         p2.addCard( deck.getCard(CardSuite.SPADES, CardValue.ACE) );
         p2.addCard( deck.getCard(CardSuite.CLUBS, CardValue.FOUR) );
-        p2.addHand(cards);
+        p2.addCardList(cards);
         BestHand.setBestHand(p2);
-        p2.printCards();
-        System.out.println(p2.getHandType());
 
         Hand p3 = new Hand();
         p3.addCard( deck.getCard(CardSuite.HEARTS, CardValue.FOUR) );
         p3.addCard( deck.getCard(CardSuite.CLUBS, CardValue.SEVEN) );
-        p3.addHand(cards);
+        p3.addCardList(cards);
         BestHand.setBestHand(p3);
-        p3.printCards();
 
-        assertTrue(p2.isBetterHand(p1));
-        assertTrue(p3.isBetterHand(p1));
-        assertTrue(p2.isDraw(p3));
+        assertTrue(p2.compareTo(p1) > 0);
+        assertTrue(p3.compareTo(p1) > 0);
+        assertEquals(0, p2.compareTo(p3));
     }
 }

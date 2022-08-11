@@ -55,7 +55,7 @@ public class PlayerPanel {
     public void displayWinner(Player player) {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(new Color(57,200,20));
-        statusDisplay.setText(String.format("%s", player.getHand().getHandType()));
+        statusDisplay.setText(String.format("%s", player.getHand().getPokerHand()));
     }
 
     public String getName() {
