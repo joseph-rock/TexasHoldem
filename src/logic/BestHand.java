@@ -21,9 +21,10 @@ public class BestHand {
 
         checkFlush(hand);
         checkStraight(hand);
-        checkPair(hand);
-        checkHighCard(hand);
-
+        if (hand.getPokerHand() == PokerHand.INIT) {
+            checkPair(hand);
+            checkHighCard(hand);
+        }
         setFiveBestCards(hand);
         encodeHand(hand);
     }
@@ -118,7 +119,7 @@ public class BestHand {
     }
 
     private static void setFiveBestCards(Hand hand) {
-        ArrayList<Card> cards = hand.getCards();
+        ArrayList<Card> cards = hand.getCardList();
         cards.sort(Collections.reverseOrder());
 
         ArrayList<Card> bestHand = new ArrayList<>();
@@ -243,26 +244,27 @@ public class BestHand {
     }
 
     private static void removeSuitesExcept(String suite, Hand hand) {
-        hand.getCards().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
+        hand.getCardList().removeIf(card -> !Objects.equals(card.getSuiteString(), suite));
     }
 
     private static void removeValuesInRange(Hand hand, int min, int max) {
         for (int value = min; value < max; value++) {
             int v = value;
-            hand.getCards().removeIf(card -> Objects.equals(card.getValueInt(), v));
+            hand.getCardList().removeIf(card -> Objects.equals(card.getValueInt(), v));
         }
     }
 
     private static void removeLowCards(Hand hand) {
-        while (hand.getCards().size() > 5) {
-            hand.getCards().remove(0);
+        while (hand.getCardList().size() > 5) {
+            hand.getCardList().remove(0);
         }
     }
 
     private static void removeDuplicateValueCards(Hand hand) {
-        for (int i = hand.getCards().size() - 2; i >= 0; i--) {
-            if ( hand.getCard(i).getValue() == hand.getCard(i + 1).getValue()) {
-                hand.getCards().remove(i+1);
+        ArrayList<Card> cards = hand.getCardList();
+        for (int i = cards.size() - 2; i >= 0; i--) {
+            if ( cards.get(i).getValue() == cards.get(i + 1).getValue()) {
+                cards.remove(i+1);
             }
         }
     }

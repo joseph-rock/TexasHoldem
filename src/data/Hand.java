@@ -39,20 +39,16 @@ public class Hand implements Comparable<Hand>{
         this.encodedCards = encodedCards;
     }
 
+    public ArrayList<Card> getCardList() {
+        return cards;
+    }
+
     public PokerHand getPokerHand() {
         return this.pokerHand;
     }
 
     public String getEncodedCards() {
         return this.encodedCards;
-    }
-
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
-    public Card getCard(int index) {
-        return cards.get(index);
     }
 
     public ArrayList<String> getSuiteList() {
