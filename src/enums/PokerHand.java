@@ -10,8 +10,7 @@ public enum PokerHand {
     THREE_OF_A_KIND (3, "Three of a Kind"),
     TWO_PAIR        (2, "Two Pair"),
     PAIR            (1, "Pair"),
-    HIGH_CARD       (0, "High Card"),
-    INIT            (-1, "");
+    HIGH_CARD       (0, "High Card");
 
     private final int rank;
     private final String displayString;
