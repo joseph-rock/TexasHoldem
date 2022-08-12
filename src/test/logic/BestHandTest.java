@@ -23,7 +23,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("887654", BestHand.encode(cards));
     }
 
@@ -38,7 +38,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.TWO) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.THREE) );
         
-        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("865432", BestHand.encode(cards));
     }
 
@@ -53,7 +53,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.EIGHT) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("8a9876", BestHand.encode(cards));
     }
 
@@ -68,7 +68,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.ROYAL_FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("8edcba", BestHand.encode(cards));
     }
 
@@ -83,7 +83,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("487654", BestHand.encode(cards));
     }
 
@@ -98,7 +98,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("45432e", BestHand.encode(cards));
     }
 
@@ -113,7 +113,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.STRAIGHT, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("4edcba", BestHand.encode(cards));
     }
 
@@ -128,7 +128,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.TEN) );
         cards.add( new Card(CardSuite.SPADES, CardValue.TEN) );
         
-        assertEquals(PokerHand.STRAIGHT, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("4edcba", BestHand.encode(cards));
     }
 
@@ -143,7 +143,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.JACK) );
         cards.add( new Card(CardSuite.SPADES, CardValue.JACK) );
         
-        assertEquals(PokerHand.STRAIGHT, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("4ba987", BestHand.encode(cards));
     }
 
@@ -158,7 +158,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("587643", BestHand.encode(cards));
     }
 
@@ -173,7 +173,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("587432", BestHand.encode(cards));
     }
 
@@ -188,7 +188,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.EIGHT) );
         
-        assertEquals(PokerHand.FLUSH, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FLUSH, BestHand.bestPokerHand(cards));
         assertEquals("587432", BestHand.encode(cards));
     }
 
@@ -203,7 +203,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.NINE) );
         
-        assertEquals(PokerHand.PAIR, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.PAIR, BestHand.bestPokerHand(cards));
         assertEquals("144976", BestHand.encode(cards));
     }
 
@@ -217,7 +217,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.HEARTS, CardValue.SIX) );
         cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.NINE) );
-        assertEquals(PokerHand.TWO_PAIR, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.TWO_PAIR, BestHand.bestPokerHand(cards));
         assertEquals("244229", BestHand.encode(cards));
     }
 
@@ -232,7 +232,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.SIX) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.NINE) );
         
-        assertEquals(PokerHand.TWO_PAIR, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.TWO_PAIR, BestHand.bestPokerHand(cards));
         assertEquals("266449", BestHand.encode(cards));
     }
 
@@ -247,7 +247,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
         
-        assertEquals(PokerHand.THREE_OF_A_KIND, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.THREE_OF_A_KIND, BestHand.bestPokerHand(cards));
         assertEquals("3222a8", BestHand.encode(cards));
     }
 
@@ -262,7 +262,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
         
-        assertEquals(PokerHand.FULL_HOUSE, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FULL_HOUSE, BestHand.bestPokerHand(cards));
         assertEquals("622255", BestHand.encode(cards));
     }
 
@@ -277,7 +277,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.FIVE) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
         
-        assertEquals(PokerHand.FULL_HOUSE, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FULL_HOUSE, BestHand.bestPokerHand(cards));
         assertEquals("655522", BestHand.encode(cards));
     }
 
@@ -292,7 +292,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.SIX) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.SIX) );
         
-        assertEquals(PokerHand.FULL_HOUSE, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FULL_HOUSE, BestHand.bestPokerHand(cards));
         assertEquals("622266", BestHand.encode(cards));
     }
 
@@ -307,7 +307,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.EIGHT) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
         
-        assertEquals(PokerHand.FOUR_OF_A_KIND, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.FOUR_OF_A_KIND, BestHand.bestPokerHand(cards));
         assertEquals("72222a", BestHand.encode(cards));
     }
 
@@ -322,7 +322,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
         cards.add( new Card(CardSuite.CLUBS, CardValue.ACE) );
         
-        assertEquals(PokerHand.HIGH_CARD, BestHand.getPokerHand(cards));
+        assertEquals(PokerHand.HIGH_CARD, BestHand.bestPokerHand(cards));
         assertEquals("0ea986", BestHand.encode(cards));
     }
 
