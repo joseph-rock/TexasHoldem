@@ -1,28 +1,23 @@
 package data;
 
 import enums.PokerHand;
+import logic.BestHand;
 import logic.RandomName;
 
 import java.util.ArrayList;
 
-public class Player implements Comparable<Player>{
+public class Player{
 
     private String name;
     private ArrayList<Card> cards;
-    private Hand hand;
 
     public Player() {
         this.name = RandomName.getName();
         this.cards = new ArrayList<>();
-        this.hand  = new Hand();
     }
 
     public void addCard(Card card) {
         cards.add(card);
-    }
-
-    public void setHand(Hand hand) {
-        this.hand = hand;
     }
 
     public String getName() {
@@ -33,21 +28,24 @@ public class Player implements Comparable<Player>{
         return cards;
     }
 
-    public Hand getHand() {
-        return hand;
+    public String getEncodedHand(ArrayList<Card> communityCards) {
+        ArrayList<Card> allCards = new ArrayList<>(this.cards);
+        allCards.addAll(communityCards);
+        return BestHand.encode(allCards);
     }
 
-    public PokerHand getHandType() {
-        return hand.getPokerHand();
+    public PokerHand getHandType(ArrayList<Card> communityCards) {
+        ArrayList<Card> allCards = new ArrayList<>(this.cards);
+        allCards.addAll(communityCards);
+        return BestHand.getPokerHand(allCards);
     }
 
     public void newRound() {
         this.cards = new ArrayList<>();
-        this.hand = new Hand();
     }
 
-    @Override
-    public int compareTo(Player o) {
-        return this.getHand().compareTo(o.getHand());
-    }
+//    @Override
+//    public int compareTo(Player o) {
+//        return this.getEncodedHand().compareTo(o.getEncodedHand());
+//    }
 }
