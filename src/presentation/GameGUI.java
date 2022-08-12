@@ -94,7 +94,7 @@ public class GameGUI {
         for (PlayerPanel playerPanel : playerPanels) {
             for (Player winner : winners) {
                 if (winner.getName().equals(playerPanel.getName())) {
-                    playerPanel.displayWinner(winner);
+                    playerPanel.displayWinner();
                 }
             }
         }

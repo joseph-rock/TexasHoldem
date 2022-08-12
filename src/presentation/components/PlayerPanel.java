@@ -52,10 +52,9 @@ public class PlayerPanel {
         rightCard.setAsCard(cards.get(1));
     }
 
-    public void displayWinner(Player player) {
+    public void displayWinner() {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(new Color(57,200,20));
-        statusDisplay.setText(String.format("%s", player.getHand().getPokerHand()));
     }
 
     public String getName() {

@@ -67,16 +67,15 @@ public class GameLogic {
 
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
-        Hand bestHand = new Hand();
+        String bestHand = "";
 
         for (Player player : this.players) {
-            player.setHand( BestHand.getBestHand(player.getCards(), this.communityCards ) );
-
-            if (player.getHand().compareTo(bestHand) > 0) {
-                bestHand = player.getHand();
+            String playerHand = player.getEncodedHand(this.getCommunityCards());
+            if (playerHand.compareTo(bestHand) > 0) {
+                bestHand = playerHand;
                 winners = new ArrayList<>();
                 winners.add(player);
-            } else if (player.getHand().compareTo(bestHand) == 0) {
+            } else if (playerHand.compareTo(bestHand) == 0) {
                 winners.add(player);
             }
         }
@@ -86,11 +85,8 @@ public class GameLogic {
     }
 
     private void printPlayers() {
-        ArrayList<Player> foo = new ArrayList<>(players);
-        foo.sort(Collections.reverseOrder());
-
-        for(Player p : foo) {
-            System.out.printf("%s - %s\n", p.getName(), p.getHandType().toString());
+        for(Player p : players) {
+            System.out.printf("%s - %s\n", p.getName(), p.getHandType(this.getCommunityCards()));
         }
         System.out.println();
     }
