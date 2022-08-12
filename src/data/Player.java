@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Player{
 
-    private String name;
+    private final String name;
     private ArrayList<Card> cards;
 
     public Player() {
@@ -28,24 +28,19 @@ public class Player{
         return cards;
     }
 
-    public String getEncodedHand(ArrayList<Card> communityCards) {
+    public String encodeHand(ArrayList<Card> communityCards) {
         ArrayList<Card> allCards = new ArrayList<>(this.cards);
         allCards.addAll(communityCards);
         return BestHand.encode(allCards);
     }
 
-    public PokerHand getHandType(ArrayList<Card> communityCards) {
+    public PokerHand handType(ArrayList<Card> communityCards) {
         ArrayList<Card> allCards = new ArrayList<>(this.cards);
         allCards.addAll(communityCards);
-        return BestHand.getPokerHand(allCards);
+        return BestHand.bestPokerHand(allCards);
     }
 
     public void newRound() {
         this.cards = new ArrayList<>();
     }
-
-//    @Override
-//    public int compareTo(Player o) {
-//        return this.getEncodedHand().compareTo(o.getEncodedHand());
-//    }
 }
