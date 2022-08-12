@@ -55,12 +55,12 @@ public class BestHand {
         return encodeHighCard(cards);
     }
 
-    public static Boolean isPair(final ArrayList<Card> cards) {
+    private static Boolean isPair(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         return cvf.size() == 1 && cvf.containsValue(2);
     }
 
-    public static Boolean isTwoPair(final ArrayList<Card> cards) {
+    private static Boolean isTwoPair(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         return cvf.size() > 1
                 && cvf.containsValue(2)
@@ -68,22 +68,22 @@ public class BestHand {
                 && !cvf.containsValue(4);
     }
 
-    public static Boolean isThreeOfAKind(final ArrayList<Card> cards) {
+    private static Boolean isThreeOfAKind(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         return cvf.size() == 1 && cvf.containsValue(3);
     }
 
-    public static Boolean isFourOfAKind(final ArrayList<Card> cards) {
+    private static Boolean isFourOfAKind(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         return cvf.size() == 1 && cvf.containsValue(4);
     }
 
-    public static Boolean isFullHouse(final ArrayList<Card> cards) {
+    private static Boolean isFullHouse(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         return cvf.size() > 1 && cvf.containsValue(3) && !cvf.containsValue(4);
     }
 
-    public static Boolean isFlush(final ArrayList<Card> cards) {
+    private static Boolean isFlush(final ArrayList<Card> cards) {
         ArrayList<CardSuite> suiteList = getSuiteList(cards);
 
         for (CardSuite suite : CardSuite.values()) {
@@ -94,7 +94,7 @@ public class BestHand {
         return false;
     }
 
-    public static Boolean isStraight(final ArrayList<Card> cards) {
+    private static Boolean isStraight(final ArrayList<Card> cards) {
         Set<Integer> valueSet = new HashSet<>(getValueList(cards));
         ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
         Collections.sort(uniqueValues);
@@ -116,7 +116,7 @@ public class BestHand {
         return false;
     }
 
-    public static Boolean isStraightFlush(final ArrayList<Card> cards) {
+    private static Boolean isStraightFlush(final ArrayList<Card> cards) {
         ArrayList<CardSuite> suiteList = getSuiteList(cards);
 
         for (CardSuite suite : CardSuite.values()) {
@@ -128,7 +128,7 @@ public class BestHand {
         return false;
     }
 
-    public static String encodePair(final ArrayList<Card> cards) {
+    private static String encodePair(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         cards.sort(Collections.reverseOrder());
         StringBuilder encodedHand = new StringBuilder();
@@ -149,7 +149,7 @@ public class BestHand {
         return PokerHand.PAIR.getRank() + String.valueOf(encodedHand);
     }
 
-    public static String encodeTwoPair(final ArrayList<Card> cards) {
+    private static String encodeTwoPair(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         cards.sort(Collections.reverseOrder());
         StringBuilder encodedHand = new StringBuilder();
@@ -170,7 +170,7 @@ public class BestHand {
         return PokerHand.TWO_PAIR.getRank() + String.valueOf(encodedHand);
     }
 
-    public static String encodeThreeOfAKind(final ArrayList<Card> cards) {
+    private static String encodeThreeOfAKind(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         cards.sort(Collections.reverseOrder());
         StringBuilder encodedHand = new StringBuilder();
@@ -192,7 +192,7 @@ public class BestHand {
         return PokerHand.THREE_OF_A_KIND.getRank() + String.valueOf(encodedHand);
     }
 
-    public static String encodeFourOfAKind(final ArrayList<Card> cards) {
+    private static String encodeFourOfAKind(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         cards.sort(Collections.reverseOrder());
         StringBuilder encodedHand = new StringBuilder();
@@ -214,7 +214,7 @@ public class BestHand {
         return PokerHand.FOUR_OF_A_KIND.getRank() + String.valueOf(encodedHand);
     }
 
-    public static String encodeFullHouse(final ArrayList<Card> cards) {
+    private static String encodeFullHouse(final ArrayList<Card> cards) {
         Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
         cards.sort(Collections.reverseOrder());
         StringBuilder encodedHand = new StringBuilder();
@@ -349,7 +349,7 @@ public class BestHand {
         return bestFlushCards;
     }
 
-    public static ArrayList<CardSuite> getSuiteList(final ArrayList<Card> cards) {
+    private static ArrayList<CardSuite> getSuiteList(final ArrayList<Card> cards) {
         ArrayList<CardSuite> suiteList = new ArrayList<>();
         for (Card card : cards) {
             suiteList.add(card.getSuite());
@@ -357,7 +357,7 @@ public class BestHand {
         return suiteList;
     }
 
-    public static ArrayList<Integer> getValueList(final ArrayList<Card> cards) {
+    private static ArrayList<Integer> getValueList(final ArrayList<Card> cards) {
         ArrayList<Integer> valueList = new ArrayList<>();
         for (Card card : cards) {
             valueList.add(card.getIntValue());
@@ -365,7 +365,7 @@ public class BestHand {
         return valueList;
     }
 
-    public static Map<Integer, Integer> getCardValueFrequencyMap(final ArrayList<Card> cards) {
+    private static Map<Integer, Integer> getCardValueFrequencyMap(final ArrayList<Card> cards) {
         HashMap<Integer, Integer> valueFrequencyMap = new HashMap<>();
         ArrayList<Integer> valueList = getValueList(cards);
 
@@ -378,18 +378,18 @@ public class BestHand {
         return valueFrequencyMap;
     }
 
-    public static void removeSuitesExcept(CardSuite suite, ArrayList<Card> cards) {
+    private static void removeSuitesExcept(CardSuite suite, ArrayList<Card> cards) {
         cards.removeIf(card -> card.getSuite() != suite);
     }
 
-    public static void removeValuesInRange(ArrayList<Card> cards, int min, int max) {
+    private static void removeValuesInRange(ArrayList<Card> cards, int min, int max) {
         for (int value = min; value < max; value++) {
             int v = value;
             cards.removeIf(card -> Objects.equals(card.getIntValue(), v));
         }
     }
 
-    public static void removeDuplicateValueCards(ArrayList<Card> cards) {
+    private static void removeDuplicateValueCards(ArrayList<Card> cards) {
         for (int i = cards.size() - 2; i >= 0; i--) {
             if ( cards.get(i).getValue() == cards.get(i + 1).getValue()) {
                 cards.remove(i+1);
