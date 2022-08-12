@@ -17,6 +17,10 @@ public class Card implements Comparable<Card>{
         return value;
     }
 
+    public int getIntValue() {
+        return value.toInt();
+    }
+
     public CardSuite getSuite() {
         return suite;
     }

@@ -14,6 +14,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class BestHandTest {
 
     @org.junit.jupiter.api.Test
+    void checkPairEncoding() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.SPADES, CardValue.KING) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.FOUR) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.THREE) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.SEVEN) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.FOUR) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.SIX) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.QUEEN) );
+
+        String encodedHand = BestHand.encodePair(cards);
+        assertTrue(BestHand.isPair(cards));
+        assertEquals("144dc7", encodedHand);
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkThreeOfAKindEncoding() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.CLUBS, CardValue.EIGHT) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.CLUBS, CardValue.TEN) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.FIVE) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.SIX) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.TWO) );
+
+        String encodedHand = BestHand.encodeThreeOfAKind(cards);
+        assertTrue(BestHand.isThreeOfAKind(cards));
+        assertEquals("3222a8", encodedHand);
+    }
+
+    @org.junit.jupiter.api.Test
     void checkStraightFlush() {
         Hand cards = new Hand();
         cards.addCard( new Card(CardSuite.HEARTS, CardValue.TWO) );
@@ -223,7 +255,6 @@ class BestHandTest {
         assertEquals("44229", cards.getEncodedCards());
     }
 
-    // Fuck
     @org.junit.jupiter.api.Test
     void checkThreePairResultsInTwoPair() {
         Hand cards = new Hand();

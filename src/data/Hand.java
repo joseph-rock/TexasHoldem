@@ -82,7 +82,7 @@ public class Hand implements Comparable<Hand>{
 
     @Override
     public int compareTo(Hand o) {
-        int c = Integer.compare(this.getPokerHand().getScore(), o.getPokerHand().getScore());
+        int c = Integer.compare(this.getPokerHand().getRank(), o.getPokerHand().getRank());
         if (c == 0) {
             return this.getEncodedCards().compareTo(o.getEncodedCards());
         }

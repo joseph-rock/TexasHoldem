@@ -13,16 +13,16 @@ public enum PokerHand {
     HIGH_CARD       (0, "High Card"),
     INIT            (-1, "");
 
-    private final int score;
+    private final int rank;
     private final String displayString;
 
     PokerHand(int score, String displayString) {
-        this.score = score;
+        this.rank = score;
         this.displayString = displayString;
     }
 
-    public int getScore() {
-        return score;
+    public int getRank() {
+        return rank;
     }
 
     @Override
