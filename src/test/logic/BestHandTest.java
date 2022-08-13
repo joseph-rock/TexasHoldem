@@ -401,35 +401,55 @@ class BestHandTest {
         assertTrue(hp.compareTo(lp) > 0);
     }
 
-//    @org.junit.jupiter.api.Test
-//    void checkBug() {
-//        ArrayList<Card> cards = new ArrayList<>();
-//        cards.add( new Card(CardSuite.DIAMONDS, CardValue.FOUR) );
-//        cards.add( new Card(CardSuite.SPADES, CardValue.FIVE) );
-//        cards.add( new Card(CardSuite.SPADES, CardValue.SIX) );
-//        cards.add( new Card(CardSuite.SPADES, CardValue.FOUR) );
-//        cards.add( new Card(CardSuite.HEARTS, CardValue.FIVE) );
-//
-//        ArrayList<Card> p1 = new ArrayList<>();
-//        p1.add( new Card(CardSuite.CLUBS, CardValue.TWO) );
-//        p1.add( new Card(CardSuite.SPADES, CardValue.THREE) );
-//        p1.addList(cards);
-//        BestHand.encode(p1);
-//
-//        ArrayList<Card> p2 = new ArrayList<>();
-//        p2.add( new Card(CardSuite.SPADES, CardValue.ACE) );
-//        p2.add( new Card(CardSuite.CLUBS, CardValue.FOUR) );
-//        p2.addList(cards);
-//        BestHand.encode(p2);
-//
-//        ArrayList<Card> p3 = new ArrayList<>();
-//        p3.add( new Card(CardSuite.HEARTS, CardValue.FOUR) );
-//        p3.add( new Card(CardSuite.CLUBS, CardValue.SEVEN) );
-//        p3.addList(cards);
-//        BestHand.encode(p3);
-//
-//        assertTrue(p2.compareTo(p1) > 0);
-//        assertTrue(p3.compareTo(p1) > 0);
-//        assertEquals(0, p2.compareTo(p3));
-//    }
+    @org.junit.jupiter.api.Test
+    void checkBug() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.FOUR) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.FIVE) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.SIX) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.FOUR) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.FIVE) );
+
+        ArrayList<Card> p1 = new ArrayList<>(cards);
+        p1.add( new Card(CardSuite.CLUBS, CardValue.TWO) );
+        p1.add( new Card(CardSuite.SPADES, CardValue.THREE) );
+
+        ArrayList<Card> p2 = new ArrayList<>(cards);
+        p2.add( new Card(CardSuite.SPADES, CardValue.ACE) );
+        p2.add( new Card(CardSuite.CLUBS, CardValue.FOUR) );
+
+        ArrayList<Card> p3 = new ArrayList<>(cards);
+        p3.add( new Card(CardSuite.HEARTS, CardValue.FOUR) );
+        p3.add( new Card(CardSuite.CLUBS, CardValue.SEVEN) );
+
+        assertTrue(BestHand.encode(p2).compareTo(BestHand.encode(p1)) > 0);
+        assertTrue(BestHand.encode(p3).compareTo(BestHand.encode(p1)) > 0);
+        assertEquals(0, BestHand.encode(p2).compareTo(BestHand.encode(p3)));
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkBug2() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.HEARTS, CardValue.TEN) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.NINE) );
+        cards.add( new Card(CardSuite.CLUBS, CardValue.SEVEN) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.SIX) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.EIGHT) );
+
+        ArrayList<Card> p1 = new ArrayList<>(cards);
+        p1.add( new Card(CardSuite.DIAMONDS, CardValue.QUEEN) );
+        p1.add( new Card(CardSuite.DIAMONDS, CardValue.EIGHT) );
+
+        ArrayList<Card> p2 = new ArrayList<>(cards);
+        p2.add( new Card(CardSuite.SPADES, CardValue.QUEEN) );
+        p2.add( new Card(CardSuite.HEARTS, CardValue.ACE) );
+
+        ArrayList<Card> p3 = new ArrayList<>(cards);
+        p3.add( new Card(CardSuite.SPADES, CardValue.SEVEN) );
+        p3.add( new Card(CardSuite.CLUBS, CardValue.JACK) );
+
+        assertEquals(0, BestHand.encode(p2).compareTo(BestHand.encode(p1)));
+        assertTrue(BestHand.encode(p3).compareTo(BestHand.encode(p1)) > 0);
+        assertTrue(BestHand.encode(p3).compareTo(BestHand.encode(p2)) > 0);
+    }
 }
