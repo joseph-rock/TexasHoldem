@@ -3,7 +3,6 @@ package logic;
 import data.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class GameLogic {
 
@@ -70,7 +69,7 @@ public class GameLogic {
         String bestHand = "";
 
         for (Player player : this.players) {
-            String playerHand = player.getEncodedHand(this.getCommunityCards());
+            String playerHand = player.encodeHand(this.getCommunityCards());
             if (playerHand.compareTo(bestHand) > 0) {
                 bestHand = playerHand;
                 winners = new ArrayList<>();
@@ -85,10 +84,34 @@ public class GameLogic {
     }
 
     private void printPlayers() {
-        for(Player p : players) {
-            System.out.printf("%s - %s\n", p.getName(), p.getHandType(this.getCommunityCards()));
+        int rank = 0;
+        String previous = "";
+
+        for (Player p : rankPlayers()) {
+            String current = p.encodeHand(getCommunityCards());
+            if (!(current.compareTo(previous) == 0)) {
+                rank++;
+            }
+            System.out.printf("%d %s - %s - %s\n", rank, p.getName(), p.handType(getCommunityCards()), current);
+            previous = current;
         }
         System.out.println();
+    }
+
+    private ArrayList<Player> rankPlayers() {
+        ArrayList<Player> playersRanked = new ArrayList<>();
+        for(Player player : players) {
+            for(int i = 0; i < playersRanked.size(); i++) {
+                if(playersRanked.get(i).encodeHand(this.communityCards).compareTo(player.encodeHand(this.communityCards)) < 0
+                        && !playersRanked.contains(player)) {
+                    playersRanked.add(i, player);
+                }
+            }
+            if(!playersRanked.contains(player)) {
+                playersRanked.add(player);
+            }
+        }
+        return playersRanked;
     }
 
     /** Reset all player hands, reset community cards, create new deck. */
