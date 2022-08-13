@@ -9,9 +9,11 @@ import java.util.*;
 
 public class BestHand {
 
-    public static PokerHand getPokerHand(final ArrayList<Card> cards) {
+    public static PokerHand bestPokerHand(final ArrayList<Card> cards) {
 
-        if(isStraightFlush(cards)) {
+        if(isRoyalFlush(cards)) {
+            return PokerHand.ROYAL_FLUSH;
+        } else if(isStraightFlush(cards)) {
             return PokerHand.STRAIGHT_FLUSH;
         } else if (isFourOfAKind(cards)) {
             return PokerHand.FOUR_OF_A_KIND;
@@ -56,36 +58,35 @@ public class BestHand {
     }
 
     private static Boolean isPair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
-        return cvf.size() == 1 && cvf.containsValue(2);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
+        return fpv.size() == 1 && fpv.containsValue(2);
     }
 
     private static Boolean isTwoPair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
-        return cvf.size() > 1
-                && cvf.containsValue(2)
-                && !cvf.containsValue(3)
-                && !cvf.containsValue(4);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
+        return fpv.size() > 1
+                && fpv.containsValue(2)
+                && !fpv.containsValue(3)
+                && !fpv.containsValue(4);
     }
 
     private static Boolean isThreeOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
-        return cvf.size() == 1 && cvf.containsValue(3);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
+        return fpv.size() == 1 && fpv.containsValue(3);
     }
 
     private static Boolean isFourOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
-        return cvf.size() == 1 && cvf.containsValue(4);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
+        return fpv.size() == 1 && fpv.containsValue(4);
     }
 
     private static Boolean isFullHouse(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
-        return cvf.size() > 1 && cvf.containsValue(3) && !cvf.containsValue(4);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
+        return fpv.size() > 1 && fpv.containsValue(3) && !fpv.containsValue(4);
     }
 
     private static Boolean isFlush(final ArrayList<Card> cards) {
-        ArrayList<CardSuite> suiteList = getSuiteList(cards);
-
+        ArrayList<CardSuite> suiteList = suiteList(cards);
         for (CardSuite suite : CardSuite.values()) {
             if (Collections.frequency(suiteList, suite) >= 5) {
                 return true;
@@ -94,8 +95,9 @@ public class BestHand {
         return false;
     }
 
+    // TODO: Still pretty messy, would like to make logic more clear
     private static Boolean isStraight(final ArrayList<Card> cards) {
-        Set<Integer> valueSet = new HashSet<>(getValueList(cards));
+        Set<Integer> valueSet = new HashSet<>(valueList(cards));
         ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
         Collections.sort(uniqueValues);
 
@@ -117,202 +119,148 @@ public class BestHand {
     }
 
     private static Boolean isStraightFlush(final ArrayList<Card> cards) {
-        ArrayList<CardSuite> suiteList = getSuiteList(cards);
-
-        for (CardSuite suite : CardSuite.values()) {
-            if (Collections.frequency(suiteList, suite) >= 5) {
-                ArrayList<Card> bfc = bestFlushCards(cards);
-                return isStraight(bfc);
-            }
+        if ( isFlush(cards) ) {
+            return isStraight( bestFlushCards(cards) );
         }
         return false;
     }
 
+    private static Boolean isRoyalFlush(final ArrayList<Card> cards) {
+        return isStraightFlush(cards) && encodeStraightFlush(cards).equals("8edcba");
+    }
+
     private static String encodePair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
-            if ( encodedHand.length() < 2
-                    && cvf.getOrDefault(card.getIntValue(), 0) == 2 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-        for (Card card : cards) {
-            if (encodedHand.length() < 5
-                    && !String.valueOf(encodedHand).contains(Integer.toHexString(card.getIntValue()))) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 2
+                    && fpv.getOrDefault(card.getIntValue(), 0) == 2 ) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
-        return PokerHand.PAIR.getRank() + String.valueOf(encodedHand);
+        return PokerHand.PAIR.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeTwoPair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
-            if ( encodedHand.length() < 4
-                    && cvf.getOrDefault(card.getIntValue(), 0) == 2 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-        for (Card card : cards) {
-            if ( encodedHand.length() < 5
-                    && !String.valueOf(encodedHand).contains(Integer.toHexString(card.getIntValue()))) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 4
+                    && fpv.getOrDefault(card.getIntValue(), 0) == 2 ) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
-        return PokerHand.TWO_PAIR.getRank() + String.valueOf(encodedHand);
+        return PokerHand.TWO_PAIR.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeThreeOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
-            if ( encodedHand.length() < 3
-                    && cvf.getOrDefault(card.getIntValue(), 0) == 3 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 3
+                    && fpv.getOrDefault(card.getIntValue(), 0) == 3 ) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
-        for (Card card : cards) {
-            if ( encodedHand.length() < 5
-                    && !String.valueOf(encodedHand).contains(Integer.toHexString(card.getIntValue()))) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-
-        return PokerHand.THREE_OF_A_KIND.getRank() + String.valueOf(encodedHand);
+        return PokerHand.THREE_OF_A_KIND.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeFourOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
-            if ( encodedHand.length() < 4
-                    && cvf.getOrDefault(card.getIntValue(), 0) == 4 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 4
+                    && fpv.getOrDefault(card.getIntValue(), 0) == 4 ) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
-        for (Card card : cards) {
-            if ( encodedHand.length() < 5
-                    && !String.valueOf(encodedHand).contains(Integer.toHexString(card.getIntValue()))) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-
-        return PokerHand.FOUR_OF_A_KIND.getRank() + String.valueOf(encodedHand);
+        return PokerHand.FOUR_OF_A_KIND.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeFullHouse(final ArrayList<Card> cards) {
-        Map<Integer, Integer> cvf = getCardValueFrequencyMap(cards);
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
-            if ( encodedHand.length() < 3
-                    && cvf.getOrDefault(card.getIntValue(), 0) == 3 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 3
+                    && fpv.getOrDefault(card.getIntValue(), 0) == 3 ) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
         for (Card card : cards) {
-            if ( encodedHand.length() < 5
-                    && !String.valueOf(encodedHand.charAt(0)).equals(Integer.toHexString(card.getIntValue()))
-                    && cvf.containsKey(card.getIntValue())) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+            if ( encoding.length() < 5
+                    && !String.valueOf(encoding.charAt(0)).equals(Integer.toHexString(card.getIntValue()))
+                    && fpv.containsKey(card.getIntValue())) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
 
-        return PokerHand.FULL_HOUSE.getRank() + String.valueOf(encodedHand);
+        return PokerHand.FULL_HOUSE.getRank() + String.valueOf(encoding);
     }
 
     private static String encodeHighCard(final ArrayList<Card> cards) {
         cards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
-        for (Card card : cards) {
-            if ( encodedHand.length() < 5 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-
-        return PokerHand.HIGH_CARD.getRank() + String.valueOf(encodedHand);
+        return PokerHand.HIGH_CARD.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeStraight(final ArrayList<Card> cards) {
         ArrayList<Card> bsc = bestStraightCards(cards);
 
         bsc.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
-
-        for (Card card : bsc) {
-            if ( encodedHand.length() < 5 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-
-        String returnEncodedHand = String.valueOf(encodedHand);
+        String finalizedEncoding = finalizeEncoding(bsc, new StringBuilder());
 
         // Checks for A-5 straight, A becomes low card
-        if (returnEncodedHand.equals("e5432")) {
-            returnEncodedHand = "5432e";
+        if (finalizedEncoding.equals("e5432")) {
+            finalizedEncoding = "5432e";
         }
 
-        return PokerHand.STRAIGHT.getRank() + returnEncodedHand;
+        return PokerHand.STRAIGHT.getRank() + finalizedEncoding;
     }
 
     private static String encodeFlush(final ArrayList<Card> cards) {
         ArrayList<Card> bfc = bestFlushCards(cards);
 
         bfc.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
+        StringBuilder encoding = new StringBuilder();
 
-        for (Card card : bfc) {
-            if ( encodedHand.length() < 5 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
-            }
-        }
-
-        return PokerHand.FLUSH.getRank() + String.valueOf(encodedHand);
+        return PokerHand.FLUSH.getRank() + finalizeEncoding(bfc, encoding);
     }
 
     private static String encodeStraightFlush(final ArrayList<Card> cards) {
         ArrayList<Card> bfc = bestFlushCards(cards);
         ArrayList<Card> straightFlushCards = bestStraightCards(bfc);
+        String straightFlushEncoding = encodeStraight(straightFlushCards);
+        return PokerHand.STRAIGHT_FLUSH.getRank() + straightFlushEncoding.substring(1);
+    }
 
-        straightFlushCards.sort(Collections.reverseOrder());
-        StringBuilder encodedHand = new StringBuilder();
-
-        for (Card card : straightFlushCards) {
-            if ( encodedHand.length() < 5 ) {
-                encodedHand.append(Integer.toHexString(card.getIntValue()));
+    private static String finalizeEncoding(ArrayList<Card> cards, StringBuilder encoding) {
+        for (Card card : cards) {
+            if (encoding.length() < 5 && !String.valueOf(encoding).contains(Integer.toHexString(card.getIntValue()))) {
+                encoding.append(Integer.toHexString(card.getIntValue()));
             }
         }
-
-        String returnEncodedHand = String.valueOf(encodedHand);
-
-        // Checks for A-5 straight, A becomes low card
-        if (returnEncodedHand.equals("e5432")) {
-            returnEncodedHand = "5432e";
-        }
-
-        return PokerHand.STRAIGHT_FLUSH.getRank() + returnEncodedHand;
+        return String.valueOf(encoding);
     }
 
     private static ArrayList<Card> bestStraightCards(final ArrayList<Card> cards) {
-        ArrayList<Card> bsc = new ArrayList<>(cards);
-        Set<Integer> valueSet = new HashSet<>(getValueList(cards));
+        ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
+        Set<Integer> valueSet = new HashSet<>(valueList(cards));
         ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
         Collections.sort(uniqueValues);
 
@@ -321,27 +269,27 @@ public class BestHand {
                 && uniqueValues.contains(CardValue.THREE.toInt()) && uniqueValues.contains(CardValue.FOUR.toInt())
                 && uniqueValues.contains(CardValue.FIVE.toInt())) {
 
-            removeValuesInRange(bsc, 6, 14);
+            removeValuesInRange(bestStraightCards, 6, 14);
         } else {
             for (int i = uniqueValues.size() - 1; i >= 4; i--) {
                 if (uniqueValues.get(i) - uniqueValues.get(i - 4) == 4) {
-                    removeValuesInRange(bsc, uniqueValues.get(i) + 3, 15);
-                    removeValuesInRange(bsc, 2, uniqueValues.get(i - 4));
+                    removeValuesInRange(bestStraightCards, uniqueValues.get(i) + 3, 15);
+                    removeValuesInRange(bestStraightCards, 2, uniqueValues.get(i - 4));
                 }
             }
         }
 
-        removeDuplicateValueCards(bsc);
+        removeDuplicateValueCards(bestStraightCards);
 
-        return bsc;
+        return bestStraightCards;
     }
 
     private static ArrayList<Card> bestFlushCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestFlushCards = new ArrayList<>(cards);
-        ArrayList<CardSuite> suiteList = getSuiteList(cards);
+        ArrayList<CardSuite> sl = suiteList(cards);
 
         for (CardSuite suite : CardSuite.values()) {
-            if (Collections.frequency(suiteList, suite) >= 5) {
+            if (Collections.frequency(sl, suite) >= 5) {
                 removeSuitesExcept(suite, bestFlushCards);
             }
         }
@@ -349,7 +297,7 @@ public class BestHand {
         return bestFlushCards;
     }
 
-    private static ArrayList<CardSuite> getSuiteList(final ArrayList<Card> cards) {
+    private static ArrayList<CardSuite> suiteList(final ArrayList<Card> cards) {
         ArrayList<CardSuite> suiteList = new ArrayList<>();
         for (Card card : cards) {
             suiteList.add(card.getSuite());
@@ -357,7 +305,7 @@ public class BestHand {
         return suiteList;
     }
 
-    private static ArrayList<Integer> getValueList(final ArrayList<Card> cards) {
+    private static ArrayList<Integer> valueList(final ArrayList<Card> cards) {
         ArrayList<Integer> valueList = new ArrayList<>();
         for (Card card : cards) {
             valueList.add(card.getIntValue());
@@ -365,17 +313,17 @@ public class BestHand {
         return valueList;
     }
 
-    private static Map<Integer, Integer> getCardValueFrequencyMap(final ArrayList<Card> cards) {
-        HashMap<Integer, Integer> valueFrequencyMap = new HashMap<>();
-        ArrayList<Integer> valueList = getValueList(cards);
+    private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
+        HashMap<Integer, Integer> frequencyOfPairedValues = new HashMap<>();
+        ArrayList<Integer> vl = valueList(cards);
 
-        for (int value : valueList) {
-            int frequency = Collections.frequency(valueList, value);
+        for (int value : vl) {
+            int frequency = Collections.frequency(vl, value);
             if (frequency != 1) {
-                valueFrequencyMap.put(value, frequency);
+                frequencyOfPairedValues.put(value, frequency);
             }
         }
-        return valueFrequencyMap;
+        return frequencyOfPairedValues;
     }
 
     private static void removeSuitesExcept(CardSuite suite, ArrayList<Card> cards) {
