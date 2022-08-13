@@ -78,27 +78,28 @@ public class GameLogic {
                 winners.add(player);
             }
         }
-        printPlayers();
 
         return winners;
     }
 
-    private void printPlayers() {
+    public ArrayList<RankedPlayer> rankedPlayerList() {
         int rank = 0;
         String previous = "";
+        ArrayList<RankedPlayer> rp = new ArrayList<>();
 
-        for (Player p : rankPlayers()) {
+        for (Player p : sortPlayers()) {
             String current = p.encodeHand(getCommunityCards());
             if (!(current.compareTo(previous) == 0)) {
                 rank++;
             }
-            System.out.printf("%d %s - %s - %s\n", rank, p.getName(), p.handType(getCommunityCards()), current);
+            rp.add(new RankedPlayer(rank, p.getName(), p.handType(getCommunityCards()), current));
             previous = current;
         }
-        System.out.println();
+
+        return rp;
     }
 
-    private ArrayList<Player> rankPlayers() {
+    private ArrayList<Player> sortPlayers() {
         ArrayList<Player> playersRanked = new ArrayList<>();
         for(Player player : players) {
             for(int i = 0; i < playersRanked.size(); i++) {

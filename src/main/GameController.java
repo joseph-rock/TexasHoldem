@@ -22,6 +22,7 @@ public class GameController {
     private void initGameGUI() {
         this.gameGUI = new GameGUI();
         this.gameGUI.setPlayerPanels( this.game.getPlayers() );
+        this.gameGUI.preflopScoreboard( this.game.getPlayers() );
 
         this.gameGUI.getDealButton().addActionListener(e -> {
             cycleStreet();
@@ -57,16 +58,19 @@ public class GameController {
     public void flopBoard() {
         this.game.flop();
         this.gameGUI.updateCommunityCards( this.game.getCommunityCards() );
+        this.gameGUI.updateScoreboard(game.rankedPlayerList());
     }
 
     public void turnBoard() {
         this.game.turn();
         this.gameGUI.updateCommunityCards( this.game.getCommunityCards() );
+        this.gameGUI.updateScoreboard(game.rankedPlayerList());
     }
 
     public void riverBoard() {
         this.game.river();
         this.gameGUI.updateCommunityCards( this.game.getCommunityCards() );
+        this.gameGUI.updateScoreboard(game.rankedPlayerList());
     }
 
     public void endOfRoundBoard() {

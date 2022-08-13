@@ -118,12 +118,9 @@ public class GameGUI {
     }
 
     public void dealBoard(ArrayList<Player> players) {
-        //Player main = players.get(0);
-
         for (int i = 0; i < players.size(); i++) {
             getPlayerPanel(i).displayCards(players.get(i).getCards());
         }
-        //getPlayerPanel(0).displayCards(main.getCards());
     }
 
     public void showBotCards(ArrayList<Player> players) {
