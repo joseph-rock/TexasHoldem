@@ -95,15 +95,16 @@ public class BestHand {
         return false;
     }
 
-    // TODO: Still pretty messy, would like to make logic more clear
     private static Boolean isStraight(final ArrayList<Card> cards) {
         Set<Integer> valueSet = new HashSet<>(valueList(cards));
         ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
         Collections.sort(uniqueValues);
 
         // Manually check low straight
-        if (uniqueValues.contains(CardValue.ACE.toInt()) && uniqueValues.contains(CardValue.TWO.toInt())
-                && uniqueValues.contains(CardValue.THREE.toInt()) && uniqueValues.contains(CardValue.FOUR.toInt())
+        if (uniqueValues.contains(CardValue.ACE.toInt())
+                && uniqueValues.contains(CardValue.TWO.toInt())
+                && uniqueValues.contains(CardValue.THREE.toInt())
+                && uniqueValues.contains(CardValue.FOUR.toInt())
                 && uniqueValues.contains(CardValue.FIVE.toInt())) {
             return true;
         }
@@ -130,8 +131,8 @@ public class BestHand {
     }
 
     private static String encodePair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
@@ -145,8 +146,8 @@ public class BestHand {
     }
 
     private static String encodeTwoPair(final ArrayList<Card> cards) {
-        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
@@ -160,8 +161,8 @@ public class BestHand {
     }
 
     private static String encodeThreeOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
@@ -175,8 +176,8 @@ public class BestHand {
     }
 
     private static String encodeFourOfAKind(final ArrayList<Card> cards) {
-        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
@@ -190,8 +191,8 @@ public class BestHand {
     }
 
     private static String encodeFullHouse(final ArrayList<Card> cards) {
-        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         cards.sort(Collections.reverseOrder());
+        Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
         StringBuilder encoding = new StringBuilder();
 
         for ( Card card : cards ) {
@@ -215,19 +216,26 @@ public class BestHand {
     private static String encodeHighCard(final ArrayList<Card> cards) {
         cards.sort(Collections.reverseOrder());
         StringBuilder encoding = new StringBuilder();
-
         return PokerHand.HIGH_CARD.getRank() + finalizeEncoding(cards, encoding);
     }
 
     private static String encodeStraight(final ArrayList<Card> cards) {
         ArrayList<Card> bsc = bestStraightCards(cards);
-
         bsc.sort(Collections.reverseOrder());
         String finalizedEncoding = finalizeEncoding(bsc, new StringBuilder());
 
         // Checks for A-5 straight, A becomes low card
-        if (finalizedEncoding.equals("e5432")) {
-            finalizedEncoding = "5432e";
+        if (finalizedEncoding.equals(Integer.toHexString( CardValue.ACE.toInt())
+                + Integer.toHexString( CardValue.FIVE.toInt())
+                + Integer.toHexString( CardValue.FOUR.toInt())
+                + Integer.toHexString( CardValue.THREE.toInt())
+                + Integer.toHexString( CardValue.TWO.toInt())))
+        {
+            finalizedEncoding = Integer.toHexString( CardValue.FIVE.toInt())
+                    + Integer.toHexString( CardValue.FOUR.toInt())
+                    + Integer.toHexString( CardValue.THREE.toInt())
+                    + Integer.toHexString( CardValue.TWO.toInt())
+                    + Integer.toHexString( CardValue.ACE.toInt());
         }
 
         return PokerHand.STRAIGHT.getRank() + finalizedEncoding;
@@ -273,14 +281,14 @@ public class BestHand {
         } else {
             for (int i = uniqueValues.size() - 1; i >= 4; i--) {
                 if (uniqueValues.get(i) - uniqueValues.get(i - 4) == 4) {
-                    removeValuesInRange(bestStraightCards, uniqueValues.get(i) + 3, 15);
-                    removeValuesInRange(bestStraightCards, 2, uniqueValues.get(i - 4));
+                    removeValuesInRange(bestStraightCards, uniqueValues.get(i) + 1, 15);
+                    removeValuesInRange(bestStraightCards, 0, uniqueValues.get(i - 4));
+                    break;
                 }
             }
         }
 
         removeDuplicateValueCards(bestStraightCards);
-
         return bestStraightCards;
     }
 
@@ -298,19 +306,11 @@ public class BestHand {
     }
 
     private static ArrayList<CardSuite> suiteList(final ArrayList<Card> cards) {
-        ArrayList<CardSuite> suiteList = new ArrayList<>();
-        for (Card card : cards) {
-            suiteList.add(card.getSuite());
-        }
-        return suiteList;
+        return new ArrayList<>(cards.stream().map(Card::getSuite).toList());
     }
 
     private static ArrayList<Integer> valueList(final ArrayList<Card> cards) {
-        ArrayList<Integer> valueList = new ArrayList<>();
-        for (Card card : cards) {
-            valueList.add(card.getIntValue());
-        }
-        return valueList;
+        return new ArrayList<>(cards.stream().map(Card::getIntValue).toList());
     }
 
     private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
