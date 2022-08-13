@@ -2,10 +2,12 @@ package presentation;
 
 import data.Card;
 import data.Player;
+import data.RankedPlayer;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -29,6 +31,12 @@ public class GameGUI {
     private JPanel buttonPanel;
     private JSeparator separator;
     private JButton dealButton;
+    private JPanel rightPanel;
+    private JPanel scoreboardPanel;
+    private JScrollPane tableScrollPane;
+
+    private JTable scoreboard;
+    DefaultTableModel model;
 
     private ArrayList<PlayerPanel> playerPanels;
     private CommunityCardsPanel communityPanel;
@@ -55,6 +63,40 @@ public class GameGUI {
         bottomPanel.add( getPlayerPanelRoot(7) );
         bottomPanel.add( getPlayerPanelRoot(0) );
         bottomPanel.add( getPlayerPanelRoot(6) );
+
+        initScoreboard();
+    }
+
+    private void initScoreboard() {
+        scoreboardPanel = new JPanel();
+
+        model = new DefaultTableModel();
+        scoreboard = new JTable(model);
+
+        model.addColumn("Rank");
+        model.addColumn("Name");
+        model.addColumn("Hand");
+        model.addColumn("Encoding");
+
+        JScrollPane sp = new JScrollPane(scoreboard);
+        sp.setSize(new Dimension(100, 100));
+        sp.setOpaque(false);
+        scoreboardPanel.add(sp);
+    }
+
+    public void preflopScoreboard(ArrayList<Player> players) {
+        int rank = 1;
+        for(Player player : players) {
+            model.addRow(new Object[]{rank, player.getName(), "", ""});
+            rank++;
+        }
+    }
+
+    public void updateScoreboard(ArrayList<RankedPlayer> players) {
+        model.setRowCount(0);
+        for(RankedPlayer player : players) {
+            model.addRow(new Object[]{player.getRank(), player.getName(), player.getPokerHand(), player.getEncodedHand()});
+        }
     }
 
     private void initPanels() {
@@ -76,12 +118,12 @@ public class GameGUI {
     }
 
     public void dealBoard(ArrayList<Player> players) {
-        Player main = players.get(0);
+        //Player main = players.get(0);
 
         for (int i = 0; i < players.size(); i++) {
-            getPlayerPanel(i).displayCardBack();
+            getPlayerPanel(i).displayCards(players.get(i).getCards());
         }
-        getPlayerPanel(0).displayCards(main.getCards());
+        //getPlayerPanel(0).displayCards(main.getCards());
     }
 
     public void showBotCards(ArrayList<Player> players) {
