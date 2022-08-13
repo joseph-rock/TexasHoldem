@@ -72,6 +72,11 @@ public class GameGUI {
 
         model = new DefaultTableModel();
         scoreboard = new JTable(model);
+        scoreboard.setDefaultEditor(Object.class, null);
+        scoreboard.setFocusable(false);
+        scoreboard.setRowSelectionAllowed(false);
+        scoreboard.setFont(new Font("Arial", Font.PLAIN, 14));
+        scoreboard.setRowHeight(scoreboard.getRowHeight() + 10);
 
         model.addColumn("Rank");
         model.addColumn("Name");
