@@ -5,9 +5,11 @@ import data.Player;
 import data.RankedPlayer;
 import presentation.components.CommunityCardsPanel;
 import presentation.components.PlayerPanel;
+import presentation.components.Scoreboard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -35,7 +37,7 @@ public class GameGUI {
     private JPanel scoreboardPanel;
     private JScrollPane tableScrollPane;
 
-    private JTable scoreboard;
+    private Scoreboard scoreboard;
     DefaultTableModel model;
 
     private ArrayList<PlayerPanel> playerPanels;
@@ -69,27 +71,13 @@ public class GameGUI {
 
     private void initScoreboard() {
         scoreboardPanel = new JPanel();
-
-        model = new DefaultTableModel();
-        scoreboard = new JTable(model);
-        scoreboard.setDefaultEditor(Object.class, null);
-        scoreboard.setFocusable(false);
-        scoreboard.setRowSelectionAllowed(false);
-        scoreboard.setFont(new Font("Arial", Font.PLAIN, 14));
-        scoreboard.setRowHeight(scoreboard.getRowHeight() + 10);
-
-        model.addColumn("Rank");
-        model.addColumn("Name");
-        model.addColumn("Hand");
-        model.addColumn("Encoding");
-
+        scoreboard = new Scoreboard();
         JScrollPane sp = new JScrollPane(scoreboard);
-        sp.setSize(new Dimension(100, 100));
-        sp.setOpaque(false);
         scoreboardPanel.add(sp);
     }
 
-    public void preflopScoreboard(ArrayList<Player> players) {
+    public void defaultScoreboard(ArrayList<Player> players) {
+        DefaultTableModel model = (DefaultTableModel) scoreboard.getModel();
         int rank = 1;
         for(Player player : players) {
             model.addRow(new Object[]{rank, player.getName(), "", ""});
@@ -98,6 +86,7 @@ public class GameGUI {
     }
 
     public void updateScoreboard(ArrayList<RankedPlayer> players) {
+        DefaultTableModel model = (DefaultTableModel) scoreboard.getModel();
         model.setRowCount(0);
         for(RankedPlayer player : players) {
             model.addRow(new Object[]{player.getRank(), player.getName(), player.getPokerHand(), player.getEncodedHand()});

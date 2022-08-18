@@ -22,7 +22,7 @@ public class GameController {
     private void initGameGUI() {
         this.gameGUI = new GameGUI();
         this.gameGUI.setPlayerPanels( this.game.getPlayers() );
-        this.gameGUI.preflopScoreboard( this.game.getPlayers() );
+        this.gameGUI.defaultScoreboard( this.game.getPlayers() );
 
         this.gameGUI.getDealButton().addActionListener(e -> {
             cycleStreet();
