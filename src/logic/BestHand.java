@@ -35,7 +35,6 @@ public class BestHand {
     }
 
     public static String encode(final ArrayList<Card> cards) {
-
         if(isStraightFlush(cards)) {
             return encodeStraightFlush(cards);
         } else if (isFourOfAKind(cards)) {
@@ -96,8 +95,7 @@ public class BestHand {
     }
 
     private static Boolean isStraight(final ArrayList<Card> cards) {
-        Set<Integer> valueSet = new HashSet<>(valueList(cards));
-        ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
+        ArrayList<Integer> uniqueValues = uniqueValuesList(cards);
         Collections.sort(uniqueValues);
 
         // Manually check low straight
@@ -109,9 +107,9 @@ public class BestHand {
             return true;
         }
 
-        for (int i = uniqueValues.size() - 1; i >= 4; i--) {
-            if ( uniqueValues.get(i) - uniqueValues.get(i-4) == 4)
-            {
+        for (int val : uniqueValues) {
+            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
+            if(uniqueValues.containsAll(window)){
                 return true;
             }
         }
@@ -268,23 +266,25 @@ public class BestHand {
 
     private static ArrayList<Card> bestStraightCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
-        Set<Integer> valueSet = new HashSet<>(valueList(cards));
-        ArrayList<Integer> uniqueValues = new ArrayList<>(valueSet);
+        ArrayList<Integer> uniqueValues = uniqueValuesList(bestStraightCards);
         Collections.sort(uniqueValues);
 
         // Manually check low straight
-        if (uniqueValues.contains(CardValue.ACE.toInt()) && uniqueValues.contains(CardValue.TWO.toInt())
-                && uniqueValues.contains(CardValue.THREE.toInt()) && uniqueValues.contains(CardValue.FOUR.toInt())
+        if (uniqueValues.contains(CardValue.ACE.toInt())
+                && uniqueValues.contains(CardValue.TWO.toInt())
+                && uniqueValues.contains(CardValue.THREE.toInt())
+                && uniqueValues.contains(CardValue.FOUR.toInt())
                 && uniqueValues.contains(CardValue.FIVE.toInt())) {
-
             removeValuesInRange(bestStraightCards, 6, 14);
-        } else {
-            for (int i = uniqueValues.size() - 1; i >= 4; i--) {
-                if (uniqueValues.get(i) - uniqueValues.get(i - 4) == 4) {
-                    removeValuesInRange(bestStraightCards, uniqueValues.get(i) + 1, 15);
-                    removeValuesInRange(bestStraightCards, 0, uniqueValues.get(i - 4));
-                    break;
-                }
+        }
+
+        uniqueValues.sort(Collections.reverseOrder());
+        for (int val : uniqueValues) {
+            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
+            if(uniqueValues.containsAll(window)){
+                removeValuesInRange(bestStraightCards, val+3, 15);
+                removeValuesInRange(bestStraightCards, 0, val-2);
+                break;
             }
         }
 
@@ -298,7 +298,7 @@ public class BestHand {
 
         for (CardSuite suite : CardSuite.values()) {
             if (Collections.frequency(sl, suite) >= 5) {
-                removeSuitesExcept(suite, bestFlushCards);
+                cards.removeIf(card -> card.getSuite() != suite);
             }
         }
 
@@ -313,6 +313,11 @@ public class BestHand {
         return new ArrayList<>(cards.stream().map(Card::getIntValue).toList());
     }
 
+    private static ArrayList<Integer> uniqueValuesList(final ArrayList<Card> cards) {
+        Set<Integer> valueSet = new HashSet<>(valueList(cards));
+        return new ArrayList<>(valueSet);
+    }
+
     private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
         HashMap<Integer, Integer> frequencyOfPairedValues = new HashMap<>();
         ArrayList<Integer> vl = valueList(cards);
@@ -324,10 +329,6 @@ public class BestHand {
             }
         }
         return frequencyOfPairedValues;
-    }
-
-    private static void removeSuitesExcept(CardSuite suite, ArrayList<Card> cards) {
-        cards.removeIf(card -> card.getSuite() != suite);
     }
 
     private static void removeValuesInRange(ArrayList<Card> cards, int min, int max) {
