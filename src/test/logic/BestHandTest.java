@@ -28,6 +28,21 @@ class BestHandTest {
     }
 
     @org.junit.jupiter.api.Test
+    void checkStraightFlushWithHigherStraight() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.HEARTS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.THREE) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.FOUR) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.FIVE) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.SIX) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.SEVEN) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.EIGHT) );
+
+        assertEquals(PokerHand.STRAIGHT_FLUSH, BestHand.bestPokerHand(cards));
+        assertEquals("865432", BestHand.encode(cards));
+    }
+
+    @org.junit.jupiter.api.Test
     void checkStraightFlushWithTwoPair() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add( new Card(CardSuite.HEARTS, CardValue.TWO) );
