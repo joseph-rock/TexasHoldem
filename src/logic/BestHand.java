@@ -76,7 +76,7 @@ public class BestHand {
 
     private static Boolean isFourOfAKind(final ArrayList<Card> cards) {
         Map<Integer, Integer> fpv = frequencyOfPairedValues(cards);
-        return fpv.size() == 1 && fpv.containsValue(4);
+        return fpv.size() > 0 && fpv.containsValue(4);
     }
 
     private static Boolean isFullHouse(final ArrayList<Card> cards) {
