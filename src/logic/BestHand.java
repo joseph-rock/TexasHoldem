@@ -248,7 +248,7 @@ public class BestHand {
     private static ArrayList<Card> bestStraightCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
         List<Integer> window = straightWindow(cards).orElse(new ArrayList<>());
-        removeValuesExcept(bestStraightCards, window);
+        bestStraightCards.removeIf(card -> !window.contains(card.getIntValue()));
         removeDuplicateValueCards(bestStraightCards);
         return bestStraightCards;
     }
@@ -317,13 +317,9 @@ public class BestHand {
         return Optional.empty();
     }
 
-    private static void removeValuesExcept(ArrayList<Card> cards, List<Integer> window) {
-        cards.removeIf(card -> !window.contains(card.getIntValue()));
-    }
-
     private static void removeDuplicateValueCards(ArrayList<Card> cards) {
         for (int i = cards.size() - 2; i >= 0; i--) {
-            if ( cards.get(i).getValue() == cards.get(i + 1).getValue()) {
+            if ( cards.get(i).compareTo(cards.get(i + 1)) == 0 ) {
                 cards.remove(i+1);
             }
         }
