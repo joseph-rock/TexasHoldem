@@ -35,25 +35,19 @@ public class BestHand {
     }
 
     public static String encode(final ArrayList<Card> cards) {
-        if(isStraightFlush(cards)) {
-            return encodeStraightFlush(cards);
-        } else if (isFourOfAKind(cards)) {
-            return encodeFourOfAKind(cards);
-        } else if (isFullHouse(cards)) {
-            return encodeFullHouse(cards);
-        } else if (isFlush(cards)) {
-            return encodeFlush(cards);
-        } else if (isStraight(cards)) {
-            return encodeStraight(cards);
-        } else if (isThreeOfAKind(cards)) {
-            return encodeThreeOfAKind(cards);
-        } else if (isTwoPair(cards)) {
-            return encodeTwoPair(cards);
-        } else if (isPair(cards)) {
-            return encodePair(cards);
-        }
 
-        return encodeHighCard(cards);
+        return switch (bestPokerHand(cards)) {
+            case ROYAL_FLUSH, STRAIGHT_FLUSH -> encodeStraightFlush(cards);
+            case FOUR_OF_A_KIND -> encodeFourOfAKind(cards);
+            case FULL_HOUSE -> encodeFullHouse(cards);
+            case FLUSH -> encodeFlush(cards);
+            case STRAIGHT -> encodeStraight(cards);
+            case THREE_OF_A_KIND -> encodeThreeOfAKind(cards);
+            case TWO_PAIR -> encodeTwoPair(cards);
+            case PAIR -> encodePair(cards);
+            case HIGH_CARD -> encodeHighCard(cards);
+        };
+
     }
 
     private static Boolean isPair(final ArrayList<Card> cards) {
