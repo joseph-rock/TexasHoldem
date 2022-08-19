@@ -140,8 +140,8 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.QUEEN) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.JACK) );
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.TEN) );
-        cards.add( new Card(CardSuite.HEARTS, CardValue.TEN) );
-        cards.add( new Card(CardSuite.SPADES, CardValue.TEN) );
+        cards.add( new Card(CardSuite.CLUBS, CardValue.ACE) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.ACE) );
         
         assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
         assertEquals("4edcba", BestHand.encode(cards));
@@ -155,7 +155,7 @@ class BestHandTest {
         cards.add( new Card(CardSuite.DIAMONDS, CardValue.EIGHT) );
         cards.add( new Card(CardSuite.SPADES, CardValue.NINE) );
         cards.add( new Card(CardSuite.SPADES, CardValue.TEN) );
-        cards.add( new Card(CardSuite.HEARTS, CardValue.JACK) );
+        cards.add( new Card(CardSuite.HEARTS, CardValue.NINE) );
         cards.add( new Card(CardSuite.SPADES, CardValue.JACK) );
         
         assertEquals(PokerHand.STRAIGHT, BestHand.bestPokerHand(cards));
