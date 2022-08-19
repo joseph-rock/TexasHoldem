@@ -199,8 +199,7 @@ public class BestHand {
     private static String encodeHighCard(final ArrayList<Card> cards) {
         ArrayList<Card> copy = new ArrayList<>(cards);
         copy.sort(Collections.reverseOrder());
-        StringBuilder encoding = new StringBuilder();
-        return PokerHand.HIGH_CARD.getRank() + finalizeEncoding(copy, encoding);
+        return PokerHand.HIGH_CARD.getRank() + finalizeEncoding(copy, new StringBuilder());
     }
 
     private static String encodeStraight(final ArrayList<Card> cards) {
@@ -228,8 +227,7 @@ public class BestHand {
     private static String encodeFlush(final ArrayList<Card> cards) {
         ArrayList<Card> bfc = bestFlushCards(cards);
         bfc.sort(Collections.reverseOrder());
-        StringBuilder encoding = new StringBuilder();
-        return PokerHand.FLUSH.getRank() + finalizeEncoding(bfc, encoding);
+        return PokerHand.FLUSH.getRank() + finalizeEncoding(bfc, new StringBuilder());
     }
 
     private static String encodeStraightFlush(final ArrayList<Card> cards) {
