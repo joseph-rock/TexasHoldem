@@ -308,9 +308,9 @@ public class BestHand {
         }
 
         for (int val : uniqueValues) {
-            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
+            List<Integer> window = Arrays.asList(val-2, val-1, val, val+1, val+2);
             if(uniqueValues.containsAll(window)){
-                return Optional.of(Arrays.asList(val-2, val-1, val, val+1, val+2));
+                return Optional.of(window);
             }
         }
 
