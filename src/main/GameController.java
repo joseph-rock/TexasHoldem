@@ -1,6 +1,6 @@
 package main;
 
-import logic.GameLogic;
+import logic.Game;
 import presentation.GameGUI;
 
 import javax.swing.*;
@@ -10,11 +10,11 @@ public class GameController {
 
     private JFrame rootFrame;
     private GameGUI gameGUI;
-    private final GameLogic game;
+    private final Game game;
     private int stage;
 
     public GameController(int numBots) {
-        this.game = new GameLogic(numBots);
+        this.game = new Game(numBots);
         initGameGUI();
         initFrame();
     }

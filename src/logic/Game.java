@@ -4,13 +4,13 @@ import data.*;
 
 import java.util.ArrayList;
 
-public class GameLogic {
+public class Game {
 
     private final ArrayList<Player> players;
     private ArrayList<Card> communityCards;
     private Deck deck;
 
-    public GameLogic(int numBots) {
+    public Game(int numBots) {
         this.players = new ArrayList<>();
         this.communityCards = new ArrayList<>();
         this.deck = new Deck();
