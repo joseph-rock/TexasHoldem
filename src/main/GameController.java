@@ -31,7 +31,7 @@ public class GameController {
 
     private void initFrame() {
         this.rootFrame = new JFrame();
-        this.rootFrame.setMinimumSize(new Dimension(1280,1000));
+        this.rootFrame.setMinimumSize(new Dimension(1000,800));
         this.rootFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.rootFrame.setLocationRelativeTo(null);
         this.rootFrame.getContentPane().setBackground(Color.decode("#0f6e14"));
