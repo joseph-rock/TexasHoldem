@@ -69,7 +69,7 @@ public class Game {
         String bestHand = "";
 
         for (Player player : this.players) {
-            String playerHand = player.encodeHand(this.getCommunityCards());
+            String playerHand = player.encodedHand(this.getCommunityCards());
             if (playerHand.compareTo(bestHand) > 0) {
                 bestHand = playerHand;
                 winners = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Game {
         ArrayList<RankedPlayer> rp = new ArrayList<>();
 
         for (Player p : sortPlayers()) {
-            String current = p.encodeHand(getCommunityCards());
+            String current = p.encodedHand(getCommunityCards());
             if (!(current.compareTo(previous) == 0)) {
                 rank++;
             }
@@ -103,7 +103,7 @@ public class Game {
         ArrayList<Player> playersRanked = new ArrayList<>();
         for(Player player : players) {
             for(int i = 0; i < playersRanked.size(); i++) {
-                if(playersRanked.get(i).encodeHand(this.communityCards).compareTo(player.encodeHand(this.communityCards)) < 0
+                if(playersRanked.get(i).encodedHand(this.communityCards).compareTo(player.encodedHand(this.communityCards)) < 0
                         && !playersRanked.contains(player)) {
                     playersRanked.add(i, player);
                 }

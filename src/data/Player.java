@@ -28,7 +28,7 @@ public class Player{
         return cards;
     }
 
-    public String encodeHand(ArrayList<Card> communityCards) {
+    public String encodedHand(ArrayList<Card> communityCards) {
         ArrayList<Card> allCards = new ArrayList<>(this.cards);
         allCards.addAll(communityCards);
         return BestHand.encode(allCards);
