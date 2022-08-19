@@ -312,6 +312,21 @@ class BestHandTest {
     }
 
     @org.junit.jupiter.api.Test
+    void checkFourOfAKindWithThreeOfAKindPresent() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card(CardSuite.HEARTS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.TWO) );
+        cards.add( new Card(CardSuite.CLUBS, CardValue.TWO) );
+        cards.add( new Card(CardSuite.SPADES, CardValue.FIVE) );
+        cards.add( new Card(CardSuite.CLUBS, CardValue.FIVE) );
+        cards.add( new Card(CardSuite.DIAMONDS, CardValue.FIVE) );
+
+        assertEquals(PokerHand.FOUR_OF_A_KIND, BestHand.bestPokerHand(cards));
+        assertEquals("722225", BestHand.encode(cards));
+    }
+
+    @org.junit.jupiter.api.Test
     void checkHighCard() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add( new Card(CardSuite.HEARTS, CardValue.TWO) );
