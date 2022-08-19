@@ -95,26 +95,7 @@ public class BestHand {
     }
 
     private static Boolean isStraight(final ArrayList<Card> cards) {
-        ArrayList<Integer> uniqueValues = uniqueValuesList(cards);
-        Collections.sort(uniqueValues);
-
-        // Manually check low straight
-        if (uniqueValues.contains(CardValue.ACE.toInt())
-                && uniqueValues.contains(CardValue.TWO.toInt())
-                && uniqueValues.contains(CardValue.THREE.toInt())
-                && uniqueValues.contains(CardValue.FOUR.toInt())
-                && uniqueValues.contains(CardValue.FIVE.toInt())) {
-            return true;
-        }
-
-        for (int val : uniqueValues) {
-            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
-            if(uniqueValues.containsAll(window)){
-                return true;
-            }
-        }
-
-        return false;
+        return straightWindow(cards).isPresent();
     }
 
     private static Boolean isStraightFlush(final ArrayList<Card> cards) {
@@ -266,28 +247,8 @@ public class BestHand {
 
     private static ArrayList<Card> bestStraightCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
-        ArrayList<Integer> uniqueValues = uniqueValuesList(bestStraightCards);
-        Collections.sort(uniqueValues);
-
-        // Manually check low straight
-        if (uniqueValues.contains(CardValue.ACE.toInt())
-                && uniqueValues.contains(CardValue.TWO.toInt())
-                && uniqueValues.contains(CardValue.THREE.toInt())
-                && uniqueValues.contains(CardValue.FOUR.toInt())
-                && uniqueValues.contains(CardValue.FIVE.toInt())) {
-            removeValuesInRange(bestStraightCards, 6, 14);
-        }
-
-        uniqueValues.sort(Collections.reverseOrder());
-        for (int val : uniqueValues) {
-            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
-            if(uniqueValues.containsAll(window)){
-                removeValuesInRange(bestStraightCards, val+3, 15);
-                removeValuesInRange(bestStraightCards, 0, val-2);
-                break;
-            }
-        }
-
+        List<Integer> window = straightWindow(cards).orElse(new ArrayList<>());
+        removeValuesExcept(bestStraightCards, window);
         removeDuplicateValueCards(bestStraightCards);
         return bestStraightCards;
     }
@@ -313,11 +274,6 @@ public class BestHand {
         return new ArrayList<>(cards.stream().map(Card::getIntValue).toList());
     }
 
-    private static ArrayList<Integer> uniqueValuesList(final ArrayList<Card> cards) {
-        Set<Integer> valueSet = new HashSet<>(valueList(cards));
-        return new ArrayList<>(valueSet);
-    }
-
     private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
         HashMap<Integer, Integer> frequencyOfPairedValues = new HashMap<>();
         ArrayList<Integer> vl = valueList(cards);
@@ -331,11 +287,38 @@ public class BestHand {
         return frequencyOfPairedValues;
     }
 
-    private static void removeValuesInRange(ArrayList<Card> cards, int min, int max) {
-        for (int value = min; value < max; value++) {
-            int v = value;
-            cards.removeIf(card -> Objects.equals(card.getIntValue(), v));
+    private static ArrayList<Integer> uniqueValuesList(final ArrayList<Card> cards) {
+        Set<Integer> valueSet = new HashSet<>(valueList(cards));
+        return new ArrayList<>(valueSet);
+    }
+
+    private static Optional<List<Integer>> straightWindow(final ArrayList<Card> cards) {
+        ArrayList<Integer> uniqueValues = uniqueValuesList(cards);
+        uniqueValues.sort(Collections.reverseOrder());
+
+        List<Integer> lowStraight = Arrays.asList(
+                CardValue.ACE.toInt(),
+                CardValue.TWO.toInt(),
+                CardValue.THREE.toInt(),
+                CardValue.FOUR.toInt(),
+                CardValue.FIVE.toInt());
+
+        if (uniqueValues.containsAll(lowStraight)) {
+            return Optional.of(lowStraight);
         }
+
+        for (int val : uniqueValues) {
+            List<Integer> window = Arrays.asList(val-2, val-1, val+1, val+2);
+            if(uniqueValues.containsAll(window)){
+                return Optional.of(Arrays.asList(val-2, val-1, val, val+1, val+2));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private static void removeValuesExcept(ArrayList<Card> cards, List<Integer> window) {
+        cards.removeIf(card -> !window.contains(card.getIntValue()));
     }
 
     private static void removeDuplicateValueCards(ArrayList<Card> cards) {
