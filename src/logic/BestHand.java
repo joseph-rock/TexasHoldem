@@ -90,13 +90,7 @@ public class BestHand {
     }
 
     private static Boolean isFlush(final ArrayList<Card> cards) {
-        ArrayList<CardSuite> suiteList = suiteList(cards);
-        for (CardSuite suite : CardSuite.values()) {
-            if (Collections.frequency(suiteList, suite) >= 5) {
-                return true;
-            }
-        }
-        return false;
+        return flushSuite(cards).isPresent();
     }
 
     private static Boolean isStraight(final ArrayList<Card> cards) {
@@ -233,10 +227,8 @@ public class BestHand {
 
     private static String encodeFlush(final ArrayList<Card> cards) {
         ArrayList<Card> bfc = bestFlushCards(cards);
-
         bfc.sort(Collections.reverseOrder());
         StringBuilder encoding = new StringBuilder();
-
         return PokerHand.FLUSH.getRank() + finalizeEncoding(bfc, encoding);
     }
 
@@ -261,20 +253,13 @@ public class BestHand {
         ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
         List<Integer> window = straightWindow(cards).orElse(new ArrayList<>());
         bestStraightCards.removeIf(card -> !window.contains(card.getIntValue()));
-        removeDuplicateValueCards(bestStraightCards);
         return bestStraightCards;
     }
 
     private static ArrayList<Card> bestFlushCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestFlushCards = new ArrayList<>(cards);
-        ArrayList<CardSuite> sl = suiteList(cards);
-
-        for (CardSuite suite : CardSuite.values()) {
-            if (Collections.frequency(sl, suite) >= 5) {
-                bestFlushCards.removeIf(card -> card.getSuite() != suite);
-            }
-        }
-
+        Optional<CardSuite> suite = flushSuite(cards);
+        suite.ifPresent(cardSuite -> bestFlushCards.removeIf(card -> card.getSuite() != cardSuite));
         return bestFlushCards;
     }
 
@@ -304,6 +289,16 @@ public class BestHand {
         return new ArrayList<>(valueSet);
     }
 
+    private static Optional<CardSuite> flushSuite(final ArrayList<Card> cards) {
+        ArrayList<CardSuite> suiteList = suiteList(cards);
+        for (CardSuite suite : CardSuite.values()) {
+            if (Collections.frequency(suiteList, suite) >= 5) {
+                return Optional.of(suite);
+            }
+        }
+        return Optional.empty();
+    }
+
     private static Optional<List<Integer>> straightWindow(final ArrayList<Card> cards) {
         ArrayList<Integer> uniqueValues = uniqueValuesList(cards);
         uniqueValues.sort(Collections.reverseOrder());
@@ -327,13 +322,5 @@ public class BestHand {
         }
 
         return Optional.empty();
-    }
-
-    private static void removeDuplicateValueCards(ArrayList<Card> cards) {
-        for (int i = cards.size() - 2; i >= 0; i--) {
-            if ( cards.get(i).compareTo(cards.get(i + 1)) == 0 ) {
-                cards.remove(i+1);
-            }
-        }
     }
 }
