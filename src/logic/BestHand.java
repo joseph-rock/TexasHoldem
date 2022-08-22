@@ -88,7 +88,7 @@ public class BestHand {
     }
 
     private static Boolean isStraight(final ArrayList<Card> cards) {
-        return straightWindow(cards).isPresent();
+        return straightCards(cards).isPresent();
     }
 
     private static Boolean isStraightFlush(final ArrayList<Card> cards) {
@@ -243,7 +243,7 @@ public class BestHand {
 
     private static ArrayList<Card> bestStraightCards(final ArrayList<Card> cards) {
         ArrayList<Card> bestStraightCards = new ArrayList<>(cards);
-        List<Integer> window = straightWindow(cards).orElse(new ArrayList<>());
+        List<Integer> window = straightCards(cards).orElse(new ArrayList<>());
         bestStraightCards.removeIf(card -> !window.contains(card.getIntValue()));
         return bestStraightCards;
     }
@@ -256,11 +256,15 @@ public class BestHand {
     }
 
     private static ArrayList<CardSuite> suiteList(final ArrayList<Card> cards) {
-        return new ArrayList<>(cards.stream().map(Card::getSuite).toList());
+        return new ArrayList<>( cards.stream().map(Card::getSuite).toList() );
     }
 
     private static ArrayList<Integer> valueList(final ArrayList<Card> cards) {
-        return new ArrayList<>(cards.stream().map(Card::getIntValue).toList());
+        return new ArrayList<>( cards.stream().map(Card::getIntValue).toList() );
+    }
+
+    private static ArrayList<Integer> uniqueValuesList(final ArrayList<Card> cards) {
+        return new ArrayList<>( valueList(cards).stream().distinct().toList() );
     }
 
     private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
@@ -276,11 +280,6 @@ public class BestHand {
         return frequencyOfPairedValues;
     }
 
-    private static ArrayList<Integer> uniqueValuesList(final ArrayList<Card> cards) {
-        Set<Integer> valueSet = new HashSet<>(valueList(cards));
-        return new ArrayList<>(valueSet);
-    }
-
     private static Optional<CardSuite> flushSuite(final ArrayList<Card> cards) {
         ArrayList<CardSuite> suiteList = suiteList(cards);
         for (CardSuite suite : CardSuite.values()) {
@@ -291,7 +290,7 @@ public class BestHand {
         return Optional.empty();
     }
 
-    private static Optional<List<Integer>> straightWindow(final ArrayList<Card> cards) {
+    private static Optional<List<Integer>> straightCards(final ArrayList<Card> cards) {
         ArrayList<Integer> uniqueValues = uniqueValuesList(cards);
         uniqueValues.sort(Collections.reverseOrder());
 
