@@ -265,12 +265,12 @@ public class BestHand {
 
     private static Map<Integer, Integer> frequencyOfPairedValues(final ArrayList<Card> cards) {
         HashMap<Integer, Integer> frequencyOfPairedValues = new HashMap<>();
-        ArrayList<Integer> vl = valueList(cards);
+        ArrayList<Integer> values = valueList(cards);
 
-        for (int value : vl) {
-            int frequency = Collections.frequency(vl, value);
+        for (int cardValue : values) {
+            int frequency = Collections.frequency(values, cardValue);
             if (frequency != 1) {
-                frequencyOfPairedValues.put(value, frequency);
+                frequencyOfPairedValues.put(cardValue, frequency);
             }
         }
         return frequencyOfPairedValues;
