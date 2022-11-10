@@ -1,7 +1,6 @@
 package presentation.components;
 
 import data.Card;
-import presentation.components.CardLabel;
 
 import javax.swing.*;
 import java.awt.*;
