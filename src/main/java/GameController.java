@@ -1,5 +1,3 @@
-package main;
-
 import logic.Game;
 import presentation.GameGUI;
 

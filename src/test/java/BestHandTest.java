@@ -1,5 +1,3 @@
-package test.logic;
-
 import data.*;
 import enums.PokerHand;
 import enums.CardSuite;

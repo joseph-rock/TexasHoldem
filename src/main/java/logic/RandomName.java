@@ -9,8 +9,8 @@ public class RandomName {
     public static String getName() {
         String firstName = "";
         String lastName = "";
-        String firstNamePath = "src/logic/names/first-names.txt";
-        String lastNamePath = "src/logic/names/last-names.txt";
+        String firstNamePath = "src/main/java/logic/names/first-names.txt";
+        String lastNamePath = "src/main/java/logic/names/last-names.txt";
 
         File firstFile = new File(firstNamePath);
         File lastFile = new File(lastNamePath);

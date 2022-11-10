@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class CardLabel extends JLabel{
-    private static final String PATH_HEAD = "src/presentation/images/";
+    private static final String PATH_HEAD = "src/main/java/presentation/images/";
     private static final String NO_PLAYER_PATH = PATH_HEAD + "card_noplayer.png";
     private static final String PLACEHOLDER_PATH = PATH_HEAD + "card_placeholder.png";
     private static final String CARD_BACK_PATH = PATH_HEAD + "card_back.png";
